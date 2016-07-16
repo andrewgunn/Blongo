@@ -59,7 +59,7 @@
         "include": [
             "wwwroot",
             "Views",
-            "Areas/**/Views",
+            "Areas/**/*.cshtml",
             "config.json",
             "Web.config"
         ]
