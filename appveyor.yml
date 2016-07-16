@@ -57,5 +57,6 @@
   - ps: Add-Content "$Env:USERPROFILE\.git-credentials" "https://$($Env:GITHUB_ACCESS_TOKEN):x-oauth-basic@github.com`n"
   - git config --global user.email "%GIT_EMAIL_ADDRESS"
   - git config --global user.name "%GIT_USERNAME%"
+  - git remote add GitHub https://github.com/%APPVEYOR_REPO_NAME%.git
   - git tag %APPVEYOR_BUILD_VERSION% %APPVEYOR_REPO_COMMIT%
   - git push --tags --quiet
