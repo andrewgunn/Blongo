@@ -13,8 +13,6 @@
       
   skip_tags: true
   
-  shallow_clone: true
-  
   configuration: Release
   
   assembly_info:
