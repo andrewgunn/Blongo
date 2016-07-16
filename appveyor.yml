@@ -9,7 +9,7 @@
       
   init:
   - git config --global core.autocrlf input
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
       
   skip_tags: true
   
@@ -48,17 +48,17 @@
   - ps: .\dotnet-publish.ps1
   - '"C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:IisApp=''%APPVEYOR_BUILD_FOLDER%\artifacts\publish'' -dest:IisApp=''blongo'',ComputerName=''https://blongo.scm.azurewebsites.net/msdeploy.axd?site=blongo'',UserName=''%WEB_DEPLOY_USERNAME%'',Password=''%WEB_DEPLOY_PASSWORD%'',IncludeAcls=''False'',AuthType=''Basic'' -verb:sync -enablerule:AppOffline -retryAttempts:20'
 
+  on_success:
+  - git config --global user.email "%GIT_EMAIL_ADDRESS"
+  - git config --global user.name "%GIT_USERNAME%"
+  - git config --global credential.helper store
+  - ps: Add-Content "$Env:USERPROFILE\.git-credentials" "https://$($Env:GITHUB_ACCESS_TOKEN):x-oauth-basic@github.com`n"
+  - git remote add GitHub https://github.com/%APPVEYOR_REPO_NAME%.git
+  - git tag %APPVEYOR_BUILD_VERSION% %APPVEYOR_REPO_COMMIT%
+  - git push --tags --quiet
+
   on_failure:
   - ps: Update-AppveyorBuild -Version "$($Env:APPVEYOR_BUILD_VERSION).$($Env:APPVEYOR_BUILD_NUMBER)-fail"
 
   on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
-  on_success:
-  - git config --global credential.helper store
-  - ps: Add-Content "$Env:USERPROFILE\.git-credentials" "https://$($Env:GITHUB_ACCESS_TOKEN):x-oauth-basic@github.com`n"
-  - git config --global user.email "%GIT_EMAIL_ADDRESS"
-  - git config --global user.name "%GIT_USERNAME%"
-  - git remote add GitHub https://github.com/%APPVEYOR_REPO_NAME%.git
-  - git tag %APPVEYOR_BUILD_VERSION% %APPVEYOR_REPO_COMMIT%
-  - git push --tags --quiet
+  #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
