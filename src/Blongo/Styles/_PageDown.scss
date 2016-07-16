@@ -1,0 +1,170 @@
+﻿$pagedown-bg: #f5f7f8;
+
+@include media-breakpoint-up(sm) {
+    .wmd-button-bar {
+        background-color: $pagedown-bg;
+        border: 1px solid $input-border-color;
+        border-bottom: none;
+        border-top-left-radius: $input-border-radius;
+        border-top-right-radius: $input-border-radius;
+    }
+}
+
+.wmd-button-row {
+    @extend .btn-group, .list-inline;
+    display: none;
+}
+
+@include media-breakpoint-up(sm) {
+    .wmd-button-row {
+        display: inline-block;
+        margin: $spacer / 2 0;
+    }
+}
+
+.wmd-button {
+    @extend .list-inline-item;
+    cursor: pointer;
+    margin-right: 0 !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    position: static !important;
+}
+
+.wmd-button::before {
+    @extend .fa;
+}
+
+.wmd-spacer {
+    display: none;
+}
+
+.wmd-spacer + .wmd-button {
+    margin-left: -1px;
+}
+
+#wmd-bold-button {
+    @extend .fa-bold;
+}
+
+#wmd-italic-button {
+    @extend .fa-italic;
+}
+
+#wmd-link-button {
+    @extend .fa-link;
+}
+
+#wmd-quote-button {
+    @extend .fa-quote-left;
+}
+
+#wmd-code-button {
+    @extend .fa-code;
+}
+
+#wmd-image-button {
+    @extend .fa-image;
+}
+
+#wmd-olist-button {
+    @extend .fa-list-ol;
+}
+
+#wmd-ulist-button {
+    @extend .fa-list-ul;
+}
+
+#wmd-heading-button {
+    @extend .fa-header;
+}
+
+#wmd-hr-button {
+    display: none;
+}
+
+#wmd-undo-button {
+    @extend .fa-undo;
+}
+
+#wmd-redo-button {
+    @extend .fa-repeat;
+}
+
+.wmd-input {
+    @extend .form-control;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: $textarea-height !important;
+    margin-bottom: 15px;
+    outline: none;
+    overflow: auto;
+    resize: none;
+    width: 100%;
+}
+
+@include media-breakpoint-up(sm) {
+    .wmd-input {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
+.wmd-preview {
+    border: 1px dashed $input-border-color;
+    max-height: $textarea-height !important;
+    margin-bottom: 15px;
+    overflow-y: auto;
+
+    .prettyprint {
+        background-color: transparent;
+    }
+}
+
+.wmd-prompt-background {
+    background-color: #000;
+}
+
+.wmd-prompt-dialog {
+    @extend .modal-content;
+    margin-top: 0 !important;
+    top: 30px !important;
+    z-index: 1050 !important;
+
+    > div > p:nth-child(2n+1) {
+        @extend .modal-header;
+    }
+
+    > div > p:nth-child(2n+2) {
+        padding: 15px !important;
+    }
+}
+
+.wmd-prompt-dialog > form {
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 15px 15px !important;
+    text-align: left !important;
+    width: auto !important;
+
+    > input:nth-child(3n+1) {
+        @extend .form-control;
+        margin: 0 0 10px !important;
+        width: 100% !important;
+    }
+
+    > input:nth-child(3n+2) {
+        @extend .btn, .btn-secondary;
+        display: inline-block !important;
+        margin: 0 !important;
+        width: auto !important;
+    }
+
+    > input:nth-child(3n+3) {
+        @extend .btn, .btn-link;
+        display: inline-block !important;
+        margin: 0 !important;
+        width: auto !important;
+    }
+}

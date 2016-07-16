@@ -1,0 +1,75 @@
+﻿@using Blongo.Areas.Admin.Models.CreatePost
+@model CreatePostModel
+
+@{
+    ViewBag._Title = "Create Post";
+}
+
+<div class="container-fluid p-t-1">
+    <h1 class="m-b-2">
+        Create Post
+    </h1>
+
+    <form autocomplete="off" method="post">
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input type="text" asp-for="Title" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input type="text" asp-for="Description" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <div class="row">
+                    @for (var i = 0; i < 6; i++)
+                    {
+                        <div class="col-sm-2">
+                            <input type="text" asp-for="Tags[i]" class="form-control" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <markdownbuttonbar></markdownbuttonbar>
+
+            <markdowneditor asp-for="Body" placeholder="@Html.DisplayNameFor(m => m.Body)"></markdowneditor>
+
+            <markdownpreview></markdownpreview>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Styles" class="control-label"></label>
+                <textarea type="text" asp-for="Styles" class="form-control"></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Scripts" class="control-label"></label>
+                <textarea type="text" asp-for="Scripts" class="form-control"></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="PublishedAt" class="control-label"></label>
+                <input type="text" asp-for="PublishedAt" class="form-control" />
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <button name="@Html.NameFor(m => m.IsPublished)" type="submit" value="false" class="btn btn-secondary">Save</button>
+            <button name="@Html.NameFor(m => m.IsPublished)" type="submit" value="true" class="btn btn-primary btn-confirm">Publish</button>
+            <a asp-route="AdminListPosts" class="btn btn-link">Cancel</a>
+        </div>
+    </form>
+</div>

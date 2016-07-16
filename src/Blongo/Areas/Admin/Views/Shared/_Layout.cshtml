@@ -1,0 +1,31 @@
+﻿@using Blongo.ViewComponents;
+
+<!DOCTYPE html>
+<html class="no-js no-fa" lang="en">
+<head prefix="og: http://ogp.me/ns">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="@ViewBag._Description" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+
+    @await Component.InvokeAsync(nameof(Favicons))
+
+    <title>
+        @Html.Raw(string.Join(" &middot; ", new[] { @ViewBag._Title, "Blongo Admin" }.Where(s => !string.IsNullOrWhiteSpace(s))))
+    </title>
+
+    @Html.Partial("_Styles")
+
+    @RenderSection("Styles", false)
+</head>
+<body class="admin">
+    @Html.Partial("_TopNavbar")
+
+    @RenderBody()
+
+    @Html.Partial("_Scripts")
+
+    @RenderSection("Scripts", false)
+</body>
+</html>

@@ -1,0 +1,142 @@
+﻿@using Blongo.Areas.Admin.Models.ListComments
+@model ListCommentsViewModel
+
+@{
+    ViewBag._Title = "Comments";
+}
+
+<div class="container-fluid">
+    <h1 class="m-t-1 m-b-2">
+        Comments
+    </h1>
+
+    <section class="comments-container">
+        <p asp-visible="!Model.Comments.Any()" class="alert alert-info m-t-1" role="alert">
+            No comments found.
+        </p>
+
+        <div asp-visible="Model.Comments.Any()" class="row">
+            <div class="col-md-4">
+                <ol class="list-unstyled comment-list">
+                    @for (int i = 0; i < Model.Comments.Count; i++)
+                    {
+                        var comment = Model.Comments.ElementAt(i);
+
+                        <li class="comment-list-item @(Model.SelectedComment != null && Model.SelectedComment.Id == comment.Id ? "comment-list-item-active": "")" data-url-view="@Url.RouteUrl("AdminListComments", new { id = comment.Id })" data-url-edit="@Url.RouteUrl("AdminEditComment", new { id = comment.Id })">
+                            <img class="img-rounded pull-xs-left m-r-1 m-b-1" asp-gravatar-emailaddress="@comment.Commenter.EmailAddress" asp-gravatar-default="identicon" asp-gravatar-size="36" alt="Gravatar" />
+
+                            <h3>
+                                @comment.Commenter.Name
+                            </h3>
+
+                            <div class="clearfix">
+                            </div>
+
+                            <ul class="list-inline list-unstyled">
+                                <li class="list-inline-item">
+                                    <i class="fa fa-calendar-o"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    @comment.CreatedAt.ToString("MMM dd yyyy")
+                                </li>
+                                <li class="list-inline-item">
+                                    <span asp-visible="comment.IsAkismetSpam == null" class="label label-warning">
+                                        Akismet &nbsp;<i class="fa fa-question"></i>
+                                    </span>
+                                    <span asp-visible="comment.IsAkismetSpam != null && comment.IsAkismetSpam.Value" class="label label-danger">
+                                        Akismet &nbsp;<i class="fa fa-times"></i>
+                                    </span>
+                                    <span asp-visible="comment.IsAkismetSpam != null && !comment.IsAkismetSpam.Value" class="label label-success">
+                                        Akismet &nbsp;<i class="fa fa-check"></i>
+                                    </span>
+                                </li>
+                                <li asp-visible="comment.IsSpam" class="list-inline-item">
+                                    <span class="label label-warning">
+                                        Spam
+                                    </span>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                </ol>
+
+                <nav class="text-xs-center">
+                    <ul class="pagination pagination-sm">
+                        <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
+                            <a asp-route="AdminListPosts" asp-route-p="1" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
+                            <a asp-route="AdminListPosts" asp-route-p="@(Model.Paging.PageNumber - 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                        </li>
+                        @for (int pageNumber = 1; pageNumber <= Model.Paging.MaximumPageNumber; pageNumber++)
+                        {
+                            <li class="page-item @(pageNumber == Model.Paging.PageNumber ? "active" : "")">
+                                <a asp-route="AdminListPosts" asp-route-p="@pageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link">@pageNumber</a>
+                            </li>
+                        }
+                        <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
+                            <a asp-route="AdminListPosts" asp-route-p="@(Model.Paging.PageNumber + 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
+                            <a asp-route="AdminListPosts" asp-route-p="@Model.Paging.MaximumPageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-8 p-t-1 hidden-sm-down">
+                @if (Model.SelectedComment != null)
+                {
+                    <div class="text-xs-right">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a asp-route="ViewPost" asp-route-id="@Model.SelectedComment.PostId" asp-fragment="comment-@Model.SelectedComment.Id" class="dropdown-item">View</a>
+                                <div class="dropdown-divider"></div>
+                                <a asp-route="AdminEditComment" asp-route-id="@Model.SelectedComment.Id" class="dropdown-item">Edit</a>
+                                <form asp-visible="!Model.SelectedComment.IsSpam" asp-route="AdminSpamComment" asp-route-id="@Model.SelectedComment.Id" class="form-confirm">
+                                    <button class="dropdown-item text-warning">Mark as spam</button>
+                                </form>
+                                <form asp-visible="Model.SelectedComment.IsSpam" asp-route="AdminHamComment" asp-route-id="@Model.SelectedComment.Id" class="form-confirm">
+                                    <button class="dropdown-item text-success">Mark as ham</button>
+                                </form>
+                                <form asp-route="AdminDeleteComment" asp-route-id="@Model.SelectedComment.Id" class="form-confirm">
+                                    <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul asp-visible="@(!string.IsNullOrWhiteSpace(Model.SelectedComment.CommenterWebsiteUrl))" class="list-inline list-unstyled">
+                        <li class="list-inline-item">
+                            <i class="fa fa-bookmark"></i>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="@Model.SelectedComment.CommenterWebsiteUrl" target="_blank">@Model.SelectedComment.CommenterWebsiteUrl</a>
+                        </li>
+                    </ul>
+
+                    <div class="comment-body">
+                        @Html.Markdown(Model.SelectedComment.Body)
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts
+{
+    <script>
+        (function ($) {
+            $(document).on('click', '.comment-list-item', function (e) {
+                var $this = $(e.currentTarget);
+                var url = $('.comment-body').is(':visible') ? $this.data('url-view') : $this.data('url-edit');
+
+                if (!url) {
+                    return;
+                }
+
+                window.location = url;
+            });
+        })(window.jQuery);
+    </script>
+}

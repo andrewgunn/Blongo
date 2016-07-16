@@ -1,0 +1,51 @@
+﻿@using Blongo.Areas.Admin.Models.EditAuthor
+@model EditAuthorModel
+
+@{
+    ViewBag._Title = "Author";
+}
+
+<div class="container-fluid p-t-1">
+    <h1 class="m-b-2">
+        Author
+    </h1>
+
+    <form autocomplete="off" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input type="text" asp-for="Name" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EmailAddress" class="control-label"></label>
+                <input type="email" asp-for="EmailAddress" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="GitHubUsername" class="control-label"></label>
+                <input type="text" asp-for="GitHubUsername" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TwitterUsername" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">@@</span>
+                    <input type="text" asp-for="TwitterUsername" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="WebsiteUrl" class="control-label"></label>
+                <input type="text" asp-for="WebsiteUrl" class="form-control" />
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-route="AdminListPosts" class="btn btn-link">Cancel</a>
+        </div>
+    </form>
+</div>

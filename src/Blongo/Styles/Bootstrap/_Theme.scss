@@ -1,0 +1,54 @@
+﻿.dropdown-menu-inverse {
+    background-color: $navbar-inverse-bg;
+    border-color: $navbar-inverse-border;
+
+    & > li > a {
+        color: $navbar-inverse-brand-color;
+
+        &:hover,
+        &:focus {
+            background-color: transparent;
+            background-image: none;
+            color: $navbar-inverse-link-hover-color;
+            text-decoration: none;
+        }
+    }
+
+    & > .active {
+        & > a {
+            &,
+            &:hover,
+            &:focus {
+                background-color: darken($dropdown-link-hover-bg, 5%);
+                color: $dropdown-link-active-color;
+                @include gradient-vertical($start-color: $navbar-inverse-link-active-bg, $end-color: lighten($navbar-inverse-link-active-bg, 2.5%));
+            }
+        }
+    }
+
+    & > .disabled {
+        & > a {
+            &,
+            &:hover,
+            &:focus {
+                color: $navbar-inverse-link-disabled-color;
+            }
+        }
+    }
+
+    & > .divider {
+        background-color: $gray-dark;
+    }
+}
+
+@media (max-width: $grid-float-breakpoint-max) {
+    .navbar .navbar-nav .open .dropdown-menu > .active > a {
+        &,
+        &:hover,
+        &:focus {
+            background-color: darken($dropdown-link-hover-bg, 5%);
+            color: $dropdown-link-active-color;
+            @include gradient-vertical($start-color: $navbar-inverse-link-active-bg, $end-color: lighten($navbar-inverse-link-active-bg, 2.5%));
+        }
+    }
+}

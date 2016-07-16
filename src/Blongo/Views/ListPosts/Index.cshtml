@@ -1,0 +1,94 @@
+﻿@using Blongo.Models.ListPosts
+@using Blongo.ViewComponents;
+@model ListPostsViewModel
+
+<section class="m-b-2">
+    <p asp-visible="!Model.Posts.Any()" class="alert alert-info" role="alert">
+        No posts found.
+    </p>
+
+    @for (var i = 0; i < Model.Posts.Count; i++)
+    {
+        var post = Model.Posts.ElementAt(i);
+
+        <article class="m-b-3 post">
+            <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
+                <div class="dropdown">
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a asp-route="AdminListComments" asp-route-id="@post.Id" class="dropdown-item">Moderate Comments</a>
+                        <a asp-route="AdminEditPost" asp-route-id="@post.Id" asp-route-returnUrl="@Url.RouteUrl("ViewPost", new { id = post.Id })" class="dropdown-item">Edit</a>
+                        <form asp-route="AdminDeletePost" asp-route-id="@post.Id" asp-route-returnUrl="@Url.RouteUrl("ListPosts")" class="form-confirm">
+                            <button type="submit" class="dropdown-item text-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <h1>
+                <a asp-route="ViewPost" asp-route-id="@post.Id" asp-route-slug="@post.UrlSlug" title="View Post">@post.Title</a>
+            </h1>
+
+            <ul class="list-inline list-unstyled">
+                <li class="list-inline-item">
+                    <i class="fa fa-calendar-o"></i>
+                </li>
+                <li class="list-inline-item">
+                    <time datetime="@post.PublishedAt.ToString("yyyy-MMM-ddThh:mm")">
+                        @post.PublishedAt.ToString("MMM dd yyyy")
+                    </time>
+                </li>
+                <li class="list-inline-item">
+                    <i class="fa fa-comment"></i>
+                </li>
+                <li class="list-inline-item">
+                    <a asp-route="ViewPost" asp-route-id="@post.Id" asp-route-slug="@post.UrlSlug" asp-fragment="@(post.CommentCount == 0 ? "join-the-discussion" : "comments")" title="Comments">
+                        @post.CommentCount @(post.CommentCount == 1 ? "comment" : "comments")
+                    </a>
+                </li>
+                <li asp-visible="post.Tags.Any()" class="list-inline-item hidden-xs-down">
+                    <i class="fa fa-tags"></i>
+                </li>
+                @foreach (var tag in post.Tags)
+                {
+                    <li class="list-inline-item hidden-xs-down">
+                        <h4>
+                            <small>
+                                <a asp-route="ListPostsByTag" asp-route-slug="@tag.UrlSlug" class="label label-info" title="View Posts by Tag">@tag.Value</a>
+                            </small>
+                        </h4>
+                    </li>
+                }
+            </ul>
+
+            @Html.Markdown(post.Body)
+        </article>
+    }
+
+    <nav asp-visible="Model.Posts.Any()">
+        <ul class="pager">
+            <li class="pager-prev @(Model.Paging.PreviousPageNumber == null ? "disabled" : "")">
+                <a asp-route="ListPosts" asp-route-p="@Model.Paging.PreviousPageNumber" title="Go to the previous page"><i class="fa fa-arrow-left"></i> Previous</a>
+            </li>
+            <li class="pager-next @(Model.Paging.NextPageNumber == null ? "disabled" : "")">
+                <a asp-route="ListPosts" asp-route-p="@Model.Paging.NextPageNumber" title="Go to the nNext page">Next &nbsp;<i class="fa fa-arrow-right"></i></a>
+            </li>
+        </ul>
+    </nav>
+</section>
+
+@section Styles
+{
+    @foreach (var post in Model.Posts)
+    {
+        @await Component.InvokeAsync(nameof(PostStyles), post.Id)
+    }
+}
+
+@section Scripts
+{
+    @foreach (var post in Model.Posts)
+    {
+        @await Component.InvokeAsync(nameof(PostScripts), post.Id)
+    }
+}

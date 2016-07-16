@@ -1,0 +1,77 @@
+﻿@using Blongo.Models.ViewPost
+@using Blongo.ViewComponents;
+@model ViewPostViewModel
+
+@{
+    ViewBag._Title = Model.Post.Title;
+    ViewBag._Description = Model.Post.Description;
+}
+
+<article class="m-b-2">
+    <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
+        <div class="dropdown">
+            <button class="btn btn-secondary btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a asp-route="AdminListComments" asp-route-id="@Model.Post.Id" class="dropdown-item">Moderate Comments</a>
+                <a asp-route="AdminEditPost" asp-route-id="@Model.Post.Id" asp-route-returnUrl="@Url.RouteUrl("ViewPost", new { id = Model.Post.Id })" class="dropdown-item">Edit</a>
+                <form asp-route="AdminDeletePost" asp-route-id="@Model.Post.Id" asp-route-returnUrl="@Url.RouteUrl("ListPosts")" class="form-confirm">
+                    <button type="submit" class="dropdown-item text-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h1>
+        <a asp-route="ViewPost" asp-route-id="@Model.Post.Id" asp-route-slug="@(ViewContext.RouteData.Values["Slug"] ?? @Model.Post.UrlSlug)" title="View Post (@Model.Post.Title)">@Model.Post.Title</a>
+    </h1>
+
+    <ul class="list-inline list-unstyled">
+        <li class="list-inline-item">
+            <i class="fa fa-calendar-o"></i>
+        </li>
+        <li class="list-inline-item">
+            <time datetime="@Model.Post.PublishedAt.ToString("yyyy-MMM-ddThh:mm")">
+                @Model.Post.PublishedAt.ToString("MMM dd yyyy")
+            </time>
+        </li>
+        <li class="list-inline-item">
+            <i class="fa fa-comment"></i>
+        </li>
+        <li class="list-inline-item">
+            <a asp-route="ViewPost" asp-route-id="@Model.Post.Id" asp-route-slug="@Model.Post.UrlSlug" asp-fragment="@(Model.Post.CommentCount == 0 ? "join-the-discussion" : "comments")" title="Comments">
+                @Model.Post.CommentCount @(Model.Post.CommentCount == 1 ? "comment" : "comments")
+            </a>
+        </li>
+        <li asp-visible="Model.Post.Tags.Any()" class="list-inline-item hidden-xs-down">
+            <i class="fa fa-tags"></i>
+        </li>
+        @foreach (var tag in Model.Post.Tags)
+        {
+            <li class="list-inline-item hidden-xs-down">
+                <h4>
+                    <small>
+                        <a asp-route="ListPosts" asp-route-slug="@tag.UrlSlug" class="label label-info" title="View Posts by Tag">@tag.Value</a>
+                    </small>
+                </h4>
+            </li>
+        }
+    </ul>
+
+    <div class="post-body">
+        @Html.Markdown(Model.Post.Body)
+    </div>
+
+    @Html.Partial("_CreateComment", Model.CreateCommentModel)
+
+    @Html.Partial("_Comments", Model.Comments)
+</article>
+
+@section Styles
+{
+    @await Component.InvokeAsync(nameof(PostStyles), Model.Post.Id)
+}
+
+@section Scripts
+{
+    @await Component.InvokeAsync(nameof(PostScripts), Model.Post.Id)
+}

@@ -1,0 +1,11 @@
+﻿.admin-tags {
+    @extend .list-unstyled;
+}
+
+.admin-tag {
+    margin-bottom: 0;
+}
+
+.admin-tags > li:first-child .admin-tag {
+    margin-top: 0;
+}

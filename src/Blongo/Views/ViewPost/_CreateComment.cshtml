@@ -1,0 +1,44 @@
+﻿@using Blongo.Models.ViewPost;
+@model CreateCommentModel
+
+<section class="m-t-3">
+    <h3 id="join-the-discussion" class="create-comment-header">
+        Join the discussion...
+    </h3>
+
+    <div class="post-create-comment">
+        <form asp-route="CreateComment" autocomplete="off" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label asp-for="Name" class="sr-only"></label>
+                <span asp-validation-for="Name" class="alert alert-danger"></span>
+                <input type="text" asp-for="Name" class="form-control" placeholder="@Html.DisplayNameFor(m => m.Name)" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EmailAddress" class="sr-only"></label>
+                <span asp-validation-for="EmailAddress" class="alert alert-danger"></span>
+                <input type="text" asp-for="EmailAddress" class="form-control" placeholder="@Html.DisplayNameFor(m => m.EmailAddress)" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="WebsiteUrl" class="sr-only"></label>
+                <span asp-validation-for="WebsiteUrl" class="alert alert-danger"></span>
+                <input type="text" asp-for="WebsiteUrl" class="form-control" placeholder="@Html.DisplayNameFor(m => m.WebsiteUrl)" />
+            </div>
+
+            <span asp-validation-for="Body" class="alert alert-danger"></span>
+
+            <markdownbuttonbar></markdownbuttonbar>
+
+            <label asp-for="Body" class="sr-only"></label>
+            <markdowneditor asp-for="Body" placeholder="@Html.DisplayNameFor(m => m.Body)"></markdowneditor>
+
+            <markdownpreview></markdownpreview>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Comment</button>
+            </div>
+        </form>
+    </div>
+</section>

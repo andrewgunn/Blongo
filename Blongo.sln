@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E29C8AB7-9B86-43E7-8CC8-CF9EF5C1DEAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FD5A0D51-3293-48B5-B49E-578F45BDCD43}"
+	ProjectSection(SolutionItems) = preProject
+		.bowerrc = .bowerrc
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		bower.json = bower.json
+		dotnet-build.ps1 = dotnet-build.ps1
+		dotnet-pack.ps1 = dotnet-pack.ps1
+		dotnet-publish.ps1 = dotnet-publish.ps1
+		dotnet-restore.ps1 = dotnet-restore.ps1
+		dotnet-run.ps1 = dotnet-run.ps1
+		dotnet-test.ps1 = dotnet-test.ps1
+		global.json = global.json
+		gulpfile.config.js = gulpfile.config.js
+		gulpfile.js = gulpfile.js
+		package.json = package.json
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blongo", "src\Blongo\Blongo.xproj", "{BB3DD90B-95C7-4EEF-A7B1-BF9722D58483}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AkismetSdk", "src\AkismetSdk\AkismetSdk.xproj", "{4BCAC217-BEB2-4EB1-8278-DB50E843EF41}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RealFaviconGeneratorSdk", "src\RealFaviconGeneratorSdk\RealFaviconGeneratorSdk.xproj", "{DD4DBD35-B1DC-49A4-8336-7ACAAA45EBC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{045225FA-3E0B-4944-946E-FBC3CDEBB3D5}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blongo.Tests", "test\Blongo.Tests\Blongo.Tests.xproj", "{1EBDDECF-2EF2-4CBC-AF16-66F62B200923}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AkismetSdk.Tests", "test\AkismetSdk.Tests\AkismetSdk.Tests.xproj", "{71CB4E51-289C-4DB3-8924-A1E45325443A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB3DD90B-95C7-4EEF-A7B1-BF9722D58483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB3DD90B-95C7-4EEF-A7B1-BF9722D58483}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB3DD90B-95C7-4EEF-A7B1-BF9722D58483}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB3DD90B-95C7-4EEF-A7B1-BF9722D58483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BCAC217-BEB2-4EB1-8278-DB50E843EF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCAC217-BEB2-4EB1-8278-DB50E843EF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCAC217-BEB2-4EB1-8278-DB50E843EF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCAC217-BEB2-4EB1-8278-DB50E843EF41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD4DBD35-B1DC-49A4-8336-7ACAAA45EBC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD4DBD35-B1DC-49A4-8336-7ACAAA45EBC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD4DBD35-B1DC-49A4-8336-7ACAAA45EBC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD4DBD35-B1DC-49A4-8336-7ACAAA45EBC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EBDDECF-2EF2-4CBC-AF16-66F62B200923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EBDDECF-2EF2-4CBC-AF16-66F62B200923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EBDDECF-2EF2-4CBC-AF16-66F62B200923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EBDDECF-2EF2-4CBC-AF16-66F62B200923}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71CB4E51-289C-4DB3-8924-A1E45325443A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71CB4E51-289C-4DB3-8924-A1E45325443A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71CB4E51-289C-4DB3-8924-A1E45325443A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71CB4E51-289C-4DB3-8924-A1E45325443A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB3DD90B-95C7-4EEF-A7B1-BF9722D58483} = {E29C8AB7-9B86-43E7-8CC8-CF9EF5C1DEAC}
+		{4BCAC217-BEB2-4EB1-8278-DB50E843EF41} = {E29C8AB7-9B86-43E7-8CC8-CF9EF5C1DEAC}
+		{DD4DBD35-B1DC-49A4-8336-7ACAAA45EBC4} = {E29C8AB7-9B86-43E7-8CC8-CF9EF5C1DEAC}
+		{1EBDDECF-2EF2-4CBC-AF16-66F62B200923} = {045225FA-3E0B-4944-946E-FBC3CDEBB3D5}
+		{71CB4E51-289C-4DB3-8924-A1E45325443A} = {045225FA-3E0B-4944-946E-FBC3CDEBB3D5}
+	EndGlobalSection
+EndGlobal

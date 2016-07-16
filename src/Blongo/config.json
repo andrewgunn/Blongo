@@ -1,0 +1,10 @@
+﻿{
+    "ApplicationInsights": {
+        "InstrumentationKey": null
+    },
+
+    "Blongo": {
+        "ConnectionString": "mongodb://localhost",
+        "PasswordConstantSalt": "zyAMdM5!5~7eCfd#"
+    }
+}

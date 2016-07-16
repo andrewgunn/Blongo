@@ -1,0 +1,60 @@
+﻿<div asp-visible="User.Identity.IsAuthenticated">
+    <div id="navbar-collapsible" class="collapse">
+        <div class="container-fluid bg-faded p-a-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a asp-route="ListPosts">View Blog</a>
+                </li>
+                <li>
+                    <a asp-route="AdminListPosts">Posts</a>
+                </li>
+                <li>
+                    <a asp-route="AdminCreatePost">Create Post</a>
+                </li>
+                <li>
+                    <a asp-route="AdminListComments" asp-route-id="">Comments</a>
+                </li>
+                <li>
+                    <a asp-route="AdminCreateUser">Create User</a>
+                </li>
+                <li>
+                    <a asp-route="AdminListImages">Images</a>
+                </li>
+                <li>
+                    <a asp-route="AdminUploadImage">Upload Image</a>
+                </li>
+                <li>
+                    <a asp-route="AdminEditAuthor">Author</a>
+                </li>
+                <li>
+                    <a asp-route="AdminEditSettings">Settings</a>
+                </li>
+                <li>
+                    <a asp-route="AdminUploadFavicon">Upload Favicon</a>
+                </li>
+                <li asp-visible="User.Identity.IsAuthenticated">
+                    <form asp-route="AdminLogout" asp-route-returnUrl="@Url.RouteUrl(ViewContext.RouteData.Values)">
+                        <button type="submit" class="btn btn-link p-a-0">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-full navbar-static-top navbar-dark bg-primary" role="navigation">
+        
+        <a asp-route="AdminListPosts" class="navbar-brand">Blongo</a>
+        <ul class="nav navbar-nav pull-xs-right">
+            <li asp-visible="User.Identity.IsAuthenticated" class="nav-item">
+                <a class="nav-link" href="#">
+                    <img class="navbar-avatar" asp-gravatar-emailaddress="@ViewBag._UserEmailAddress" asp-gravatar-default="identicon" asp-gravatar-size="24" alt="Gravatar" /> <span class="hidden-xs-down">@ViewBag._UserEmailAddress</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapsible">
+                    &#9776;
+                </button>
+            </li>
+        </ul>
+    </nav>
+</div>

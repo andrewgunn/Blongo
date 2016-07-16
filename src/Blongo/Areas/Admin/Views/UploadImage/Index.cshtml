@@ -1,0 +1,77 @@
+﻿@using Blongo.Areas.Admin.Models.UploadImage
+@model UploadImageModel
+
+@{
+    ViewBag._Title = "Upload Image";
+}
+
+<div class="container-fluid p-t-1">
+    <h1 class="m-b-2">
+        Upload Image
+    </h1>
+
+    <form autocomplete="off" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+        <fieldset>
+            <div class="form-group">
+                <label class="btn btn-secondary-outline btn-block">
+                    Select an image from your computer <input type="file" asp-for="Image" accept="image/*" class="file-image" />
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FileName" class="control-label"></label>
+                <input type="text" asp-for="FileName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <div class="file-image-preview">
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Upload</button>
+            <a asp-route="AdminListPosts" class="btn btn-link">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Styles
+{
+    <style>
+        .file-image-preview img {
+            max-width: 250px;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <script>
+        (function () {
+            function renderImagePreview(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (event) {
+                        var fileName = input.files[0].name;
+                        $fileName.val(fileName);
+                        $imagePreview.html($('<img>').attr('src', event.target.result))
+                            .append($('<p>').addClass('m-t-1').html($('<code>').html(fileName)));
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            var $fileName = $('#FileName');
+            var $imagePreview = $('.file-image-preview');
+
+            $('.file-image').change(function () {
+                renderImagePreview(this);
+            });
+        })();
+    </script>
+}

@@ -1,0 +1,70 @@
+﻿@using Blongo.ViewComponents;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html class="no-js no-fa" lang="en">
+<head prefix="og: http://ogp.me/ns">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Blongo Error" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+
+    @await Component.InvokeAsync(nameof(Favicons))
+
+    <title>500 Error &middot; Blongo</title>
+
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            position: absolute;
+            top: 27.5%;
+            width: 100%;
+        }
+
+        @@media (min-width: 34em) {
+            .container {
+                top: 30%;
+            }
+        }
+
+        @@media (min-width: 48em) {
+            .container {
+                top: 32.5%;
+            }
+        }
+
+        .suggestions {
+            list-style: none;
+            padding-left: 0;
+        }
+
+            .suggestions > li {
+                display: inline-block;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            Ooops, something went wrong!
+        </h1>
+
+        <p>
+            We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing.
+        </p>
+
+        <a href="/">
+            Home
+        </a>
+    </div>
+</body>
+</html>

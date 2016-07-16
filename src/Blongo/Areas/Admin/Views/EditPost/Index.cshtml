@@ -1,0 +1,130 @@
+﻿@using Blongo.Areas.Admin.Models.EditPost
+@using Blongo.ViewComponents;
+@model EditPostModel
+
+@{
+    ViewBag._Title = "Edit Post";
+}
+
+<div class="container-fluid p-t-1">
+    <div class="pull-xs-right">
+        <div class="dropdown">
+            <button class="btn btn-secondary btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a asp-route="ViewPost" asp-route-id="@Model.Id" class="dropdown-item">View</a>
+                <div class="dropdown-divider"></div>
+                <a asp-route="AdminListComments" asp-route-postid="@Model.Id" class="dropdown-item">Moderate Comments</a>
+                <form asp-route="AdminDeletePost" asp-route-id="@Model.Id" class="form-confirm">
+                    <button type="submit" class="dropdown-item text-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="m-b-2">
+        Edit Post
+    </h1>
+
+    <form autocomplete="off" method="post">
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input type="text" asp-for="Title" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input type="text" asp-for="Description" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <div class="row">
+                    @for (var i = 0; i < 6; i++)
+                    {
+                        <div class="col-sm-2">
+                            <input type="text" asp-for="Tags" class="form-control" value="@(i < Model.Tags.Count() ? Model.Tags[i] : null)" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <markdownbuttonbar></markdownbuttonbar>
+
+            <markdowneditor asp-for="Body" placeholder="@Html.DisplayNameFor(m => m.Body)"></markdowneditor>
+
+            <markdownpreview></markdownpreview>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Styles" class="control-label"></label>
+                <textarea type="text" asp-for="Styles" class="form-control"></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Scripts" class="control-label"></label>
+                <textarea type="text" asp-for="Scripts" class="form-control"></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="PublishedAt" class="control-label"></label>
+                <input type="text" asp-for="PublishedAt" class="form-control" />
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <button name="@Html.NameFor(m => m.IsPublished)" type="submit" value="@Model.IsPublished.ToString().ToLowerInvariant()" class="btn btn-secondary">Save</button>
+            <button asp-visible="!Model.IsPublished" name="@Html.NameFor(m => m.IsPublished)" type="submit" value="true" class="btn btn-primary btn-confirm">Publish</button>
+            <button asp-visible="Model.IsPublished" name="@Html.NameFor(m => m.IsPublished)" type="submit" value="false" class="btn btn-danger btn-confirm">Unpublish</button>
+            <a asp-route="AdminListPosts" class="btn btn-link">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Styles
+{
+    @await Component.InvokeAsync(nameof(PostStyles), Model.Id)
+}
+
+@section Scripts
+{
+    @await Component.InvokeAsync(nameof(PostScripts), Model.Id)
+
+    <div class="scripts">
+    </div>
+
+    <script>
+        (function (document, $) {
+            var $styles = $('.styles');
+
+            $(document).on('keyup', '[name="@Html.NameFor(m => m.Styles)"]', function () {
+                var $this = $(this);
+
+                $styles.html($this.val());
+            });
+        })(document, window.jQuery);
+
+        (function (document, $) {
+            var $scripts = $('.scripts');
+            var timeout;
+
+            $(document).on('keyup', '[name="@Html.NameFor(m => m.Scripts)"]', function () {
+                var $this = $(this);
+
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    $scripts.append($this.val());
+                }, 2000);
+            });
+        })(document, window.jQuery);
+    </script>
+}

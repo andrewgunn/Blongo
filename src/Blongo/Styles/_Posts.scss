@@ -1,0 +1,37 @@
+﻿// Admin...
+
+.admin {
+    $list-border-color: #dfe1e3;
+
+    .posts-container,
+    .comments-container {
+        border-top: 1px solid $list-border-color;
+    }
+
+    .post-list-item,
+    .comment-list-item {
+        padding: $spacer 0;
+        border-bottom: $list-border-color 1px solid;
+        cursor: pointer;
+    }
+
+    @include media-breakpoint-up(md) {
+        .post-list-item,
+        .comment-list-item {
+            border-right: 1px solid $list-border-color;
+            padding-right: $spacer;
+            position: relative;
+        }
+
+        .post-list-item-active:before,
+        .comment-list-item-active:before {
+            border: 2px solid $list-border-color;
+            bottom: -1px;
+            content: " ";
+            position: absolute;
+            right: -5px;
+            top: -1px;
+            z-index: -1;
+        }
+    }
+}

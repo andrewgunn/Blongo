@@ -1,0 +1,75 @@
+﻿@using Blongo.Areas.Admin.Models.EditSettings
+@model EditSettingsModel
+
+@{
+    ViewBag._Title = "Settings";
+}
+
+<div class="container-fluid p-t-1">
+    <h1 class="m-b-2">
+        Settings
+    </h1>
+
+    <form autocomplete="off" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input type="text" asp-for="Name" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input type="text" asp-for="Description" class="form-control" />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="FeedUrl" class="control-label"></label>
+                <input type="text" asp-for="FeedUrl" class="form-control" />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="AzureStorageConnectionString" class="control-label"></label>
+                <input type="text" asp-for="AzureStorageConnectionString" class="form-control" />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="AkismetApiKey" class="control-label"></label>
+                <input type="text" asp-for="AkismetApiKey" class="form-control" />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="RealFaviconGeneratorApiKey" class="control-label"></label>
+                <input type="text" asp-for="RealFaviconGeneratorApiKey" class="form-control" />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Styles" class="control-label"></label>
+                <textarea asp-for="Styles" class="form-control"></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="Scripts" class="control-label"></label>
+                <textarea asp-for="Scripts" class="form-control"></textarea>
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-route="AdminListPosts" class="btn btn-link">Cancel</a>
+        </div>
+    </form>
+</div>

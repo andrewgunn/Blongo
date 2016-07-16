@@ -1,0 +1,13 @@
+﻿<footer class="footer">
+    <p class="text-xs-center">
+        <small class="text-muted">
+            Made with <i class="fa fa-heart text-danger"></i> by <a href="http://andrewgunn.co.uk" target="_blank" title="See more by Andrew Gunn">Andrew Gunn</a>
+        </small>
+    </p>
+
+    <p asp-visible="User.Identity.IsAuthenticated" class="text-xs-center">
+        <a asp-route="AdminListPosts" asp-route-id="" class="btn btn-link btn-sm p-a-0" title="Admin">
+            <i class="fa fa-lock"></i>
+        </a>
+    </p>
+</footer>

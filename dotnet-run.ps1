@@ -1,0 +1,1 @@
+Invoke-Expression "cmd /c start powershell -Command { cd src\Blongo; dotnet run --configuration Release }"

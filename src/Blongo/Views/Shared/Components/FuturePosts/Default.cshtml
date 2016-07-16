@@ -1,0 +1,52 @@
+﻿@using Blongo.Models.FuturePosts
+@model FuturePostsViewModel
+
+<div class="card m-b-3">
+    <div class="card-block">
+        <h6 class="card-title m-b-0">
+            Future Posts
+        </h6>
+
+        <p asp-visible="!Model.Posts.Any()" class="card-text m-t-1">
+            <small class="text-muted">
+                No future posts found.
+            </small>
+        </p>
+    </div>
+
+    <ol asp-visible="Model.Posts.Any()" class="list-group list-group-flush">
+        @foreach (var post in Model.Posts)
+        {
+            <li class="list-group-item">
+                <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
+                    <div class="dropdown">
+                        <button class="btn btn-link btn-sm p-a-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a asp-route="AdminEditPost" asp-route-id="@post.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path" class="dropdown-item">Edit</a>
+                            <form asp-route="AdminDeletePost" asp-route-id="@post.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path" class="form-confirm">
+                                <button type="submit" class="dropdown-item text-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <h5>
+                    @post.Title
+                </h5>
+
+                <ul class="list-unstyled list-inline">
+                    <li class="list-inline-item">
+                        <small>
+                            <i class="fa fa-calendar-o"></i>
+                        </small>
+                    </li>
+                    <li class="list-inline-item">
+                        <small>
+                            <time>@post.PublishedAt.ToString("MMM dd yyyy")</time>
+                        </small>
+                    </li>
+                </ul>
+            </li>
+        }
+    </ol>
+</div>

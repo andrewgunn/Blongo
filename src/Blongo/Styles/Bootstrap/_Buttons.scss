@@ -1,0 +1,13 @@
+﻿.btn-link {
+    &:focus {
+        outline: 0;
+    }
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.btn input[type="file"] {
+    display: none;
+}
