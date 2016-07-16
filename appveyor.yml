@@ -54,7 +54,7 @@
 
   on_success:
   - git config --global credential.helper store
-  - Add-Content "$env:USERPROFILE\.git-credentials" "https://%GITHUB_ACCESS_TOKEN%:x-oauth-basic@github.com`n"
+  - Add-Content "%USERPROFILE%\.git-credentials" "https://%GITHUB_ACCESS_TOKEN%:x-oauth-basic@github.com`n"
   - git config --global user.email "%GIT_EMAIL_ADDRESS"
   - git config --global user.name "%GIT_USERNAME%"
   - git tag %APPVEYOR_BUILD_VERSION% %APPVEYOR_REPO_COMMIT%
