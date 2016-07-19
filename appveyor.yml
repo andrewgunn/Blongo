@@ -3,7 +3,7 @@
     only:
     - master
   
-  version: 0.5.0
+  version: 0.6.0
   
   skip_tags: true
 
@@ -23,7 +23,7 @@
     patch: true
 
   before_build:
-  - ps: appveyor-retry .\dotnet-restore.ps1
+  - ps: .\dotnet-restore.ps1
 
   build:
     project: Blongo.sln
