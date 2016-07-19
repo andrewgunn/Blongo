@@ -48,7 +48,7 @@ namespace Blongo.Areas.Admin.Controllers
             if (totalCount > 0)
             {
                 posts = await collection.Find(filter)
-                    .Sort(Builders<Data.Post>.Sort.Descending(p => p.CreatedAt))
+                    .Sort(Builders<Data.Post>.Sort.Descending(p => p.Id))
                     .Skip((pageNumber - 1) * pageSize)
                     .Limit(pageSize)
                     .Project(p => new Post(p.Id, p.Title, p.PublishedAt, p.IsPublished))

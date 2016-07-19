@@ -16,8 +16,6 @@ namespace Blongo.Data
 
         public int CommentCount { get; set; }
 
-        public DateTime CreatedAt { get; set; }
-
         public string Description { get; set; }
 
         [BsonId]

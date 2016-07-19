@@ -10,8 +10,9 @@ namespace Blongo
             var host = new WebHostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseKestrel()
-                .UseIISIntegration()
+                .UseUrls("http://localhost:47328")
                 .UseStartup<Startup>()
+                .UseIISIntegration()
                 .Build();
 
             host.Run();

@@ -6,6 +6,5 @@ If (Test-Path $packPath)
 }
 
 New-Item -ItemType Directory -Force -Path $packPath
-dotnet pack (Resolve-Path src\AkismetSdk) --configuration Release --output (Resolve-Path $packPath)
-dotnet pack (Resolve-Path src\RealFaviconGeneratorSdk) --configuration Release --output (Resolve-Path $packPath)
-dotnet pack (Resolve-Path src\Blongo) --configuration Release --output (Resolve-Path $packPath)
+
+Get-ChildItem -Path "src" | ?{ $_.PSIsContainer } | % { dotnet pack (Resolve-Path $_.FullName) --configuration Release --output (Resolve-Path $packPath) }

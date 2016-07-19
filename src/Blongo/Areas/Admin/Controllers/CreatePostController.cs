@@ -57,7 +57,6 @@ namespace Blongo.Areas.Admin.Controllers
                 Styles = model.Styles,
                 PublishedAt = model.PublishedAt.Value,
                 UrlSlug = new UrlSlug(model.Title).Value,
-                CreatedAt = DateTime.UtcNow,
                 IsPublished = model.IsPublished
             };
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);

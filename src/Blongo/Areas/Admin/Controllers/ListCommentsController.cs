@@ -54,10 +54,10 @@ namespace Blongo.Areas.Admin.Controllers
             if (totalCount > 0)
             {
                 comments = await collection.Find(filter)
-                    .Sort(Builders<Data.Comment>.Sort.Descending(c => c.CreatedAt))
+                    .Sort(Builders<Data.Comment>.Sort.Descending(c => c.Id))
                     .Skip((pageNumber - 1) * pageSize)
                     .Limit(pageSize)
-                    .Project(c => new Comment(c.Id, c.PostId, c.Body, new Commenter(c.Commenter.Name, c.Commenter.EmailAddress, c.Commenter.WebsiteUrl), c.IsAkismetSpam, c.IsSpam, c.CreatedAt))
+                    .Project(c => new Comment(c.Id, c.PostId, c.Body, new Commenter(c.Commenter.Name, c.Commenter.EmailAddress, c.Commenter.WebsiteUrl), c.IsAkismetSpam, c.IsSpam, c.Id.CreationTime.ToUniversalTime()))
                     .ToListAsync();
 
                 var commentId = comments.Any(p => p.Id == id) ? id : comments.First().Id;

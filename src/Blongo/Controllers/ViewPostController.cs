@@ -31,7 +31,8 @@ namespace Blongo.Controllers
             var filter = Builders<Data.Post>.Filter.Where(p => p.Id == id && (User.Identity.IsAuthenticated || (p.IsPublished && p.PublishedAt <= DateTime.UtcNow)));
 
             var post = await postsCollection.Find(filter)
-                .Project(p => new Post(p.Id, p.Title, p.Description, p.Body, p.Tags.ToTagViewModels(), p.CommentCount, p.PublishedAt, p.UrlSlug, p.CreatedAt, p.IsPublished))
+                .Sort(Builders<Data.Post>.Sort.Descending(c => c.PublishedAt))
+                .Project(p => new Post(p.Id, p.Title, p.Description, p.Body, p.Tags.ToTagViewModels(), p.CommentCount, p.PublishedAt, p.UrlSlug, p.Id.CreationTime.ToUniversalTime(), p.IsPublished))
                 .SingleOrDefaultAsync();
 
             if (post == null)
@@ -42,8 +43,8 @@ namespace Blongo.Controllers
             var createCommentModel = new CreateCommentModel();
             var commentsCollection = database.GetCollection<Data.Comment>(Data.CollectionNames.Comments);
             var comments = await commentsCollection.Find(Builders<Data.Comment>.Filter.Where(c => c.PostId == id && !c.IsSpam))
-                .Sort(Builders<Data.Comment>.Sort.Descending(c => c.CreatedAt))
-                .Project(c => new Comment(c.Id, c.PostId, c.Body, new Commenter(c.Commenter.Name, c.Commenter.EmailAddress, c.Commenter.WebsiteUrl), c.CreatedAt))
+                .Sort(Builders<Data.Comment>.Sort.Descending(c => c.Id))
+                .Project(c => new Comment(c.Id, c.PostId, c.Body, new Commenter(c.Commenter.Name, c.Commenter.EmailAddress, c.Commenter.WebsiteUrl), c.Id.CreationTime.ToUniversalTime()))
                 .ToListAsync();
             var previousPost = await postsCollection.Find(p => p.PublishedAt <= DateTime.UtcNow && p.PublishedAt < post.PublishedAt)
                 .Sort(Builders<Data.Post>.Sort.Descending(p => p.PublishedAt))

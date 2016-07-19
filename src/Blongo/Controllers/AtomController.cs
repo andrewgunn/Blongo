@@ -61,7 +61,7 @@ namespace Blongo.Controllers
                     p.Body,
                     p.Tags,
                     Url = Url.RouteUrl("ViewPost", new { id = p.Id, slug = p.UrlSlug }, Request.Scheme, Request.Host.ToUriComponent()),
-                    p.CreatedAt,
+                    CreatedAt = p.Id.CreationTime.ToUniversalTime(),
                     p.LastUpdatedAt
                 })
                 .ToListAsync();

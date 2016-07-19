@@ -13,8 +13,6 @@ namespace Blongo.Data
 
         public string Body { get; set; }
 
-        public DateTime CreatedAt => Id.CreationTime;
-
         public Commenter Commenter { get; set; }
 
         [BsonId]

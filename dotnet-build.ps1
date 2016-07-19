@@ -1,3 +1,2 @@
-dotnet build (Resolve-Path src\AkismetSdk) --configuration Release
-dotnet build (Resolve-Path src\RealFaviconGeneratorSdk) --configuration Release
-dotnet build (Resolve-Path src\Blongo) --configuration Release
+Get-ChildItem -Path "src" | ?{ $_.PSIsContainer } | % { dotnet build $_.FullName --configuration Release }
+Get-ChildItem -Path "test" | ?{ $_.PSIsContainer } | % { dotnet build $_.FullName --configuration Release }

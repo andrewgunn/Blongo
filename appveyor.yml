@@ -3,7 +3,7 @@
     only:
     - master
   
-  version: 0.4.0
+  version: 0.5.0
   
   skip_tags: true
 
@@ -21,16 +21,9 @@
     assembly_informational_version: '{version}'
     file: AssemblyInfo.*
     patch: true
-  
-  install:
-  - appveyor-retry npm install npm -g
-  - appveyor-retry npm install -g bower
-  - appveyor-retry npm install -g gulp
 
   before_build:
-  - appveyor-retry npm install
-  - appveyor-retry bower install
-  - ps: .\dotnet-restore.ps1
+  - ps: appveyor-retry .\dotnet-restore.ps1
 
   build:
     project: Blongo.sln
