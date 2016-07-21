@@ -18,7 +18,7 @@
             <div class="post-comment">
                 <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
                     <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+                        <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a asp-route="AdminEditComment" asp-route-id="@comment.Id" asp-route-returnUrl="@Url.RouteUrl("ViewPost", new { id = comment.PostId }, null, null, $"comment-{comment.Id}")" class="dropdown-item">Edit</a>
                             <form asp-route="AdminSpamComment" asp-route-id="@comment.Id" asp-route-returnUrl="@Url.RouteUrl("ViewPost", new { id = comment.PostId }, null, null, "comments")" class="btn-group-form form-confirm">
@@ -54,7 +54,7 @@
                         <i class="fa fa-calendar-o"></i>
                     </li>
                     <li class="list-inline-item">
-                        @comment.CreatedAt.ToString("MMM dd yyyy ") &middot; @comment.CreatedAt.ToString("hh:mm")
+                        @comment.CreatedAt.ToString("MMM dd yyyy") &middot; @comment.CreatedAt.ToString("HH:mm")
                     </li>
                 </ul>
 

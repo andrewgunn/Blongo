@@ -52,7 +52,7 @@ namespace Blongo.Controllers
                     ),
                     sitemapUrl.LastModifiedAt == null ? null : new XElement(
                         xmlns + "lastmod",
-                        sitemapUrl.LastModifiedAt.Value.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:sszzz")
+                        sitemapUrl.LastModifiedAt.Value.ToString("yyyy-MM-ddTHH:mm:sszzz")
                     ),
                     sitemapUrl.ChangeFrequency == null ? null : new XElement(
                         xmlns + "changefreq",

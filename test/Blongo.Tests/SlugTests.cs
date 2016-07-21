@@ -7,11 +7,11 @@ namespace Blongo.Tests
     public class SlugTests
     {
         [TestCaseSource("UrlSlugTestData")]
-        public void UrlSlug_UrlSlug(string value, string expectedUrlSlug)
+        public void UrlSlug_Value(string input, string expected)
         {
-            var urlSlug = new UrlSlug(value);
+            var urlSlug = new UrlSlug(input);
 
-            urlSlug.Value.Should().Be(expectedUrlSlug);
+            urlSlug.Value.Should().Be(expected);
         }
 
         public static IEnumerable UrlSlugTestData

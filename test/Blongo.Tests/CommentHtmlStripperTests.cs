@@ -7,12 +7,12 @@ namespace Blongo.Tests
     public class CommentHtmlStripperTests
     {
         [TestCaseSource("HtmlStripperTestData")]
-        public void CommentHtmlStripper_StrippedHtml(string html, string expectedStrippedHtml)
+        public void CommentHtmlStripper_StrippedHtml(string input, string expected)
         {
-            var htmlStripper = new CommentHtmlStripper(html);
+            var htmlStripper = new CommentHtmlStripper(input);
             var strippedHtml = htmlStripper.StrippedHtml;
 
-            strippedHtml.Should().Be(expectedStrippedHtml);
+            strippedHtml.Should().Be(expected);
         }
 
         public static IEnumerable HtmlStripperTestData

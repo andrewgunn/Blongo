@@ -8,6 +8,8 @@ using Blongo.ModelBinding;
 using Blongo.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,6 +18,7 @@ using MongoDB.Driver;
 using RealFaviconGeneratorSdk;
 using Serilog;
 using System;
+using System.Globalization;
 using System.Net.Http;
 
 namespace Blongo
@@ -126,13 +129,12 @@ namespace Blongo
                 options.LowercaseUrls = true;
             });
 
-            services.AddSingleton<BlogDataFilter>();
-            services.AddSingleton<UserDataFilter>();
-
-            services.AddOptions();
-
-            services.AddSingleton<IHtmlEncoder, HtmlEncoder>();
-            services.AddTransient<HttpClient>();
+            services
+                .AddOptions()
+                .AddSingleton<BlogDataFilter>()
+                .AddSingleton<UserDataFilter>()
+                .AddSingleton<IHtmlEncoder, HtmlEncoder>()
+                .AddTransient<HttpClient>();
 
             var mongoConnectionString = Configuration.GetValue<string>("Blongo:ConnectionString");
 
@@ -141,6 +143,8 @@ namespace Blongo
             AddAkismet(services);
             AddAzureBlobStorage(services);
             AddRealFaviconGenerator(services);
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
         }
 
         public void Configure(IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
@@ -160,22 +164,34 @@ namespace Blongo
                 applicationBuilder.UseExceptionHandler("/500");
             }
 
-            applicationBuilder.UseStatusCodePagesWithReExecute("/{0}");
-
-            applicationBuilder.UseCookieAuthentication(new CookieAuthenticationOptions
+            var supportedCultures = new[]
             {
-                AutomaticChallenge = true,
-                AuthenticationScheme = "Cookies",
-                AutomaticAuthenticate = true,
-                ExpireTimeSpan = TimeSpan.FromMinutes(30),
-                LoginPath = "/admin/login",
-                ReturnUrlParameter = "returnUrl",
-                SlidingExpiration = true
-            });
-            applicationBuilder.UseMvc();
-            applicationBuilder.UseStaticFiles();
+                new CultureInfo("en-GB"),
+                new CultureInfo("en-US"),
+                new CultureInfo("es-MX")
+            };
 
-            applicationBuilder.UseApplicationInsightsExceptionTelemetry();
+            applicationBuilder
+                .UseStatusCodePagesWithReExecute("/{0}")
+                .UseCookieAuthentication(new CookieAuthenticationOptions
+                {
+                    AutomaticChallenge = true,
+                    AuthenticationScheme = "Cookies",
+                    AutomaticAuthenticate = true,
+                    ExpireTimeSpan = TimeSpan.FromMinutes(30),
+                    LoginPath = "/admin/login",
+                    ReturnUrlParameter = "returnUrl",
+                    SlidingExpiration = true
+                })
+                .UseMvc()
+                .UseRequestLocalization(new RequestLocalizationOptions
+                {
+                    DefaultRequestCulture = new RequestCulture(new CultureInfo("en-GB")),
+                    SupportedCultures = supportedCultures,
+                    SupportedUICultures = supportedCultures
+                })
+                .UseStaticFiles()
+                .UseApplicationInsightsExceptionTelemetry();
         }
 
         public IConfigurationRoot Configuration { get; }

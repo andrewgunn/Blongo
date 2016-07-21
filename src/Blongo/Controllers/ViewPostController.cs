@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@ namespace Blongo.Controllers
 
             var post = await postsCollection.Find(filter)
                 .Sort(Builders<Data.Post>.Sort.Descending(c => c.PublishedAt))
-                .Project(p => new Post(p.Id, p.Title, p.Description, p.Body, p.Tags.ToTagViewModels(), p.CommentCount, p.PublishedAt, p.UrlSlug, p.Id.CreationTime.ToUniversalTime(), p.IsPublished))
+                .Project(p => new Post(p.Id, p.Title, p.Description, p.Body, p.Tags.ToTagViewModels(), p.CommentCount, p.PublishedAt, p.UrlSlug, p.Id.CreationTime, p.IsPublished))
                 .SingleOrDefaultAsync();
 
             if (post == null)
@@ -44,7 +45,7 @@ namespace Blongo.Controllers
             var commentsCollection = database.GetCollection<Data.Comment>(Data.CollectionNames.Comments);
             var comments = await commentsCollection.Find(Builders<Data.Comment>.Filter.Where(c => c.PostId == id && !c.IsSpam))
                 .Sort(Builders<Data.Comment>.Sort.Descending(c => c.Id))
-                .Project(c => new Comment(c.Id, c.PostId, c.Body, new Commenter(c.Commenter.Name, c.Commenter.EmailAddress, c.Commenter.WebsiteUrl), c.Id.CreationTime.ToUniversalTime()))
+                .Project(c => new Comment(c.Id, c.PostId, c.Body, new Commenter(c.Commenter.Name, c.Commenter.EmailAddress, c.Commenter.WebsiteUrl), c.Id.CreationTime))
                 .ToListAsync();
             var previousPost = await postsCollection.Find(p => p.PublishedAt <= DateTime.UtcNow && p.PublishedAt < post.PublishedAt)
                 .Sort(Builders<Data.Post>.Sort.Descending(p => p.PublishedAt))

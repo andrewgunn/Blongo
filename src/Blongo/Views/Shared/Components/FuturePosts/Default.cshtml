@@ -20,7 +20,7 @@
             <li class="list-group-item">
                 <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
                     <div class="dropdown">
-                        <button class="btn btn-link btn-sm p-a-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+                        <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a asp-route="AdminEditPost" asp-route-id="@post.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path" class="dropdown-item">Edit</a>
                             <form asp-route="AdminDeletePost" asp-route-id="@post.Id" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path" class="form-confirm">

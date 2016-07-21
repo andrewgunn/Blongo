@@ -1,5 +1,6 @@
-﻿@using Blongo.Models.ViewPost
+﻿@using Blongo.Models.ViewPost;
 @using Blongo.ViewComponents;
+
 @model ViewPostViewModel
 
 @{
@@ -10,7 +11,7 @@
 <article class="m-b-2">
     <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
         <div class="dropdown">
-            <button class="btn btn-secondary btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+            <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
             <div class="dropdown-menu dropdown-menu-right">
                 <a asp-route="AdminListComments" asp-route-id="@Model.Post.Id" class="dropdown-item">Moderate Comments</a>
                 <a asp-route="AdminEditPost" asp-route-id="@Model.Post.Id" asp-route-returnUrl="@Url.RouteUrl("ViewPost", new { id = Model.Post.Id })" class="dropdown-item">Edit</a>
@@ -30,7 +31,7 @@
             <i class="fa fa-calendar-o"></i>
         </li>
         <li class="list-inline-item">
-            <time datetime="@Model.Post.PublishedAt.ToString("yyyy-MMM-ddThh:mm")">
+            <time datetime="@Model.Post.PublishedAt.ToString("yyyy-MM-dd")">
                 @Model.Post.PublishedAt.ToString("MMM dd yyyy")
             </time>
         </li>

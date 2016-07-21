@@ -54,7 +54,7 @@ namespace Blongo.Controllers
                     .Sort(Builders<Data.Post>.Sort.Descending(p => p.PublishedAt))
                     .Skip((pageNumber - 1) * pageSize)
                     .Limit(pageSize)
-                    .Project(p => new Post(p.Id, p.Title, p.Body, p.Tags.ToTagViewModels(), p.CommentCount, p.UrlSlug, p.Id.CreationTime.ToUniversalTime(), p.PublishedAt))
+                    .Project(p => new Post(p.Id, p.Title, p.Body, p.Tags.ToTagViewModels(), p.CommentCount, p.UrlSlug, p.Id.CreationTime, p.PublishedAt))
                     .ToListAsync();
             }
 

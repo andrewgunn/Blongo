@@ -5,9 +5,9 @@ namespace Blongo
 {
     public class UrlSlug
     {
-        public UrlSlug(string value)
+        public UrlSlug(string input)
         {
-            Value = ConvertToUrlSlug(value);
+            Value = ConvertToUrlSlug(input);
         }
 
         public static string ConvertToUrlSlug(string value)
