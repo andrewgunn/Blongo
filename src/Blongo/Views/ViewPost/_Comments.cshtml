@@ -1,4 +1,6 @@
-﻿@using Blongo.Models.ViewPost;
+﻿@using Blongo
+@using Blongo.Models.ViewPost
+
 @model IReadOnlyCollection<Comment>
 
 <section class="m-t-3">
@@ -54,14 +56,14 @@
                         <i class="fa fa-calendar-o"></i>
                     </li>
                     <li class="list-inline-item">
-                        @comment.CreatedAt.ToString("MMM dd yyyy") &middot; @comment.CreatedAt.ToString("HH:mm")
+                        @comment.CreatedAt.RelativeTo(DateTime.UtcNow)
                     </li>
                 </ul>
 
                 @Html.Markdown(comment.Body)
             </div>
 
-                <hr asp-visible="@i < Model.Count - 1" />
+            <hr asp-visible="@i < Model.Count - 1" />
         }
     </div>
 </section>

@@ -1,4 +1,6 @@
-﻿@using Blongo.Models.FuturePosts
+﻿@using Blongo
+@using Blongo.Models.FuturePosts
+
 @model FuturePostsViewModel
 
 <div class="card m-b-3">
@@ -42,7 +44,7 @@
                     </li>
                     <li class="list-inline-item">
                         <small>
-                            <time>@post.PublishedAt.ToString("MMM dd yyyy")</time>
+                            <time>@post.PublishedAt.RelativeTo(DateTime.UtcNow)</time>
                         </small>
                     </li>
                 </ul>

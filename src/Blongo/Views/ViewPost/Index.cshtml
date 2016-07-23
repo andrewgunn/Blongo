@@ -1,5 +1,6 @@
-﻿@using Blongo.Models.ViewPost;
-@using Blongo.ViewComponents;
+﻿@using Blongo
+@using Blongo.Models.ViewPost
+@using Blongo.ViewComponents
 
 @model ViewPostViewModel
 
@@ -32,7 +33,7 @@
         </li>
         <li class="list-inline-item">
             <time datetime="@Model.Post.PublishedAt.ToString("yyyy-MM-dd")">
-                @Model.Post.PublishedAt.ToString("MMM dd yyyy")
+                @Model.Post.PublishedAt.RelativeTo(DateTime.UtcNow)
             </time>
         </li>
         <li class="list-inline-item">

@@ -77,10 +77,10 @@ namespace Blongo.Areas.Admin.Controllers
                         UrlSlug = new UrlSlug(t).Value
                     })
                     .ToList())
-                .Set(p => p.PublishedAt, model.PublishedAt.Value)
+                .Set(p => p.PublishedAt, new DateTime(model.PublishedAt.Value.Year, model.PublishedAt.Value.Month, model.PublishedAt.Value.Day, model.PublishedAt.Value.Hour, model.PublishedAt.Value.Minute, model.PublishedAt.Value.Second, DateTimeKind.Utc))
+                .Set(p => p.IsPublished, model.IsPublished)
                 .Set(p => p.LastUpdatedAt, DateTime.UtcNow)
-                .Set(p => p.UrlSlug, new UrlSlug(model.Title).Value)
-                .Set(p => p.IsPublished, model.IsPublished);
+                .Set(p => p.UrlSlug, new UrlSlug(model.Title).Value);
 
             await collection.UpdateOneAsync(Builders<Data.Post>.Filter.Where(p => p.Id == id), update);
 

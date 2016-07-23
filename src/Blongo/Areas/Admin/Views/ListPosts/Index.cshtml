@@ -1,5 +1,7 @@
-﻿@using Blongo.Areas.Admin.Models.ListPosts
-@using Blongo.ViewComponents;
+﻿@using Blongo
+@using Blongo.Areas.Admin.Models.ListPosts
+@using Blongo.ViewComponents
+
 @model ListPostsViewModel
 
 @{
@@ -18,7 +20,7 @@
     </h1>
 
     <section class="posts-container">
-        <p asp-visible="!Model.Posts.Any()" class="alert alert-info m-t-1" role="alert">
+        <p asp-visible="!Model.Posts.Any()" class="alert alert-info m-t-2" role="alert">
             No posts found.
         </p>
 
@@ -39,7 +41,7 @@
                                     <i class="fa fa-calendar-o"></i>
                                 </li>
                                 <li class="list-inline-item">
-                                    @post.PublishedAt.ToString("MMM dd yyyy")
+                                    @post.PublishedAt.RelativeTo(DateTime.UtcNow)
                                 </li>
                                 <li asp-visible="post.IsPublished && post.PublishedAt <= DateTime.UtcNow" class="list-inline-item">
                                     <span class="label label-success">

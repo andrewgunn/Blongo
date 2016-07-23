@@ -1,4 +1,6 @@
-﻿@using Blongo.Areas.Admin.Models.ListComments
+﻿@using Blongo
+@using Blongo.Areas.Admin.Models.ListComments
+
 @model ListCommentsViewModel
 
 @{
@@ -11,7 +13,7 @@
     </h1>
 
     <section class="comments-container">
-        <p asp-visible="!Model.Comments.Any()" class="alert alert-info m-t-1" role="alert">
+        <p asp-visible="!Model.Comments.Any()" class="alert alert-info m-t-2" role="alert">
             No comments found.
         </p>
 
@@ -37,7 +39,7 @@
                                     <i class="fa fa-calendar-o"></i>
                                 </li>
                                 <li class="list-inline-item">
-                                    @comment.CreatedAt.ToString("MMM dd yyyy")
+                                    @comment.CreatedAt.RelativeTo(DateTime.UtcNow)
                                 </li>
                                 <li class="list-inline-item">
                                     <span asp-visible="comment.IsAkismetSpam == null" class="label label-warning">
