@@ -1,0 +1,6 @@
+﻿@using Blongo
+@using Blongo.Models.MetaDescription
+
+@model MetaDescriptionViewModel
+
+<meta name="description" content="@(((string)ViewBag._Description)?.AsNullIfEmptyOrWhiteSpace() ?? Model.Blog?.Description.AsNullIfEmptyOrWhiteSpace())" />

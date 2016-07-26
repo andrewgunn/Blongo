@@ -1,5 +1,4 @@
 ﻿using Blongo.Areas.Admin.Models.CreateUser;
-using Blongo.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -11,7 +10,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/users/create", Name = "AdminCreateUser")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class CreateUserController : Controller
     {
         public CreateUserController(MongoClient mongoClient)
@@ -49,6 +47,7 @@ namespace Blongo.Areas.Admin.Controllers
             var password = new Password(model.Password, passwordSalt);
             var user = new Data.User
             {
+                Name = model.Name,
                 EmailAddress = model.EmailAddress,
                 HashedPassword = password.HashedPassword,
                 PasswordSalt = passwordSalt,

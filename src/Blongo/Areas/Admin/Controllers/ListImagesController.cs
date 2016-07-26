@@ -1,5 +1,4 @@
 ﻿using Blongo.Areas.Admin.Models.ListImages;
-using Blongo.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +10,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/images/{fileName?}", Name = "AdminListImages")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class ListImagesController : Controller
     {
         public ListImagesController(AzureBlobStorage azureBlobStorage)

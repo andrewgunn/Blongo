@@ -1,8 +1,6 @@
 ﻿using Blongo.Areas.Admin.Models.CreatePost;
-using Blongo.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Linq;
@@ -13,7 +11,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/posts/create", Name = "AdminCreatePost")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class CreatePostController : Controller
     {
         public CreatePostController(MongoClient mongoClient)
@@ -55,7 +52,7 @@ namespace Blongo.Areas.Admin.Controllers
                 Body = model.Body,
                 Scripts = model.Scripts,
                 Styles = model.Styles,
-                PublishedAt = model.PublishedAt.Value,
+                PublishedAt = new DateTime(model.PublishedAt.Value.Year, model.PublishedAt.Value.Month, model.PublishedAt.Value.Day, model.PublishedAt.Value.Hour, model.PublishedAt.Value.Minute, model.PublishedAt.Value.Second, DateTimeKind.Utc),
                 UrlSlug = new UrlSlug(model.Title).Value,
                 IsPublished = model.IsPublished
             };

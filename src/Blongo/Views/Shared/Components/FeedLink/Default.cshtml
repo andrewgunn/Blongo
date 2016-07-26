@@ -1,0 +1,6 @@
+﻿@using Blongo
+@using Blongo.Models.FeedLink
+
+@model FeedLinkViewModel
+
+<link href="@(Model.Blog?.FeedUrl.AsNullIfEmptyOrWhiteSpace() ?? Url.RouteUrl("Atom"))" rel="alternate" title="@Html.Raw(Model.Blog?.Name)" type="application/atom+xml" />

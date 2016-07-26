@@ -1,5 +1,4 @@
-﻿using Blongo.Filters;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,7 +7,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/image/delete/{fileName}", Name = "AdminDeleteImage")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class UploadDeleteController : Controller
     {
         public UploadDeleteController(AzureBlobStorage azureBlobStorage)

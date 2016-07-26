@@ -1,5 +1,4 @@
 ﻿using Blongo.Areas.Admin.Models.EditAuthor;
-using Blongo.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -10,7 +9,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/author", Name = "AdminEditAuthor")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class EditAuthorController : Controller
     {
         public EditAuthorController(MongoClient mongoClient)

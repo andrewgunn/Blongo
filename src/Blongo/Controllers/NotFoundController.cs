@@ -1,5 +1,4 @@
-﻿using Blongo.Filters;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Blongo.Controllers
 {

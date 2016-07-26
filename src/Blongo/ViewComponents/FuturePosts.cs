@@ -19,7 +19,7 @@ namespace Blongo.ViewComponents
             var collection = database.GetCollection<Data.Post>(Data.CollectionNames.Posts);
             var posts = await collection.Find(Builders<Data.Post>
                 .Filter.Where(p => p.IsPublished && p.PublishedAt >= DateTime.UtcNow.Date.AddDays(1)))
-                .Sort(Builders<Data.Post>.Sort.Descending(p => p.PublishedAt))
+                .Sort(Builders<Data.Post>.Sort.Ascending(p => p.PublishedAt))
                 .Limit(5)
                 .Project(p => new Post(p.Id, p.Title, p.PublishedAt))
                 .ToListAsync();

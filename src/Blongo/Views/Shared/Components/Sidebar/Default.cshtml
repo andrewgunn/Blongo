@@ -1,0 +1,40 @@
+﻿@using Blongo.Models.Sidebar
+
+@model SidebarViewModel
+
+<section class="sidebar">
+    <div class="text-sm-center text-md-left">
+        <a asp-route="ListPosts">
+            <img class="sidebar-avatar" asp-gravatar-emailaddress="@Model.Blog?.Author?.EmailAddress" asp-gravatar-default="identicon" asp-gravatar-size="60" alt="@Model.Blog?.Name" title="@Model.Blog?.Name" />
+        </a>
+    </div>
+
+    <ul class="sidebar-list">
+        <li asp-visible="!string.IsNullOrWhiteSpace(Model.Blog?.FeedUrl)">
+            <a href="@Model.Blog?.FeedUrl" class="btn btn-raised btn-rss btn-sm" title="Feed"><i class="fa fa-rss fa-fw"></i> <span>Feed</span></a>
+        </li>
+        <li asp-visible="!string.IsNullOrWhiteSpace(Model.Blog?.Author.WebsiteUrl)">
+            <a href="@Model.Blog?.Author.WebsiteUrl" class="btn btn-raised btn-website btn-sm" title="Website"><i class="fa fa-bookmark fa-fw"></i> <span>Website</span></a>
+        </li>
+        <li asp-visible="!string.IsNullOrWhiteSpace(Model.Blog?.Author.EmailAddress)">
+            <a href="#" class="btn btn-raised btn-email btn-sm" data-emailaddress="@string.Join(",", Model.Blog?.Author.EmailAddress.ToCharArray())" title="Email"><i class="fa fa-envelope fa-fw"></i> <span>Email</span></a>
+        </li>
+        <li asp-visible="!string.IsNullOrWhiteSpace(Model.Blog?.Author.GitHubUsername)">
+            <a href="https://github.com/@Model.Blog?.Author.GitHubUsername" class="btn btn-raised btn-github btn-sm" title="Github"><i class="fa fa-github fa-fw"></i> <span>GitHub</span></a>
+        </li>
+        <li asp-visible="!string.IsNullOrWhiteSpace(Model.Blog?.Author.TwitterUsername)">
+            <a href="https://twitter.com/@Model.Blog?.Author.TwitterUsername" class="btn btn-raised btn-twitter btn-sm" title="Twitter"><i class="fa fa-twitter fa-fw"></i> <span>Twitter</span></a>
+        </li>
+    </ul>
+
+    <div class="clearfix">
+    </div>
+
+    <h1 class="sidebar-header">
+        <a asp-route="ListPosts">@Model.Blog?.Name</a>
+    </h1>
+
+    <h2 asp-visible="!string.IsNullOrWhiteSpace(Model.Blog?.Description)" class="sidebar-subheader">
+        @Model.Blog?.Description
+    </h2>
+</section>

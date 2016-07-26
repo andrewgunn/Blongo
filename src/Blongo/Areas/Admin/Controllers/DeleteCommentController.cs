@@ -1,5 +1,4 @@
-﻿using Blongo.Filters;
-using Blongo.ModelBinding;
+﻿using Blongo.ModelBinding;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -11,7 +10,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/comments/delete/{id:objectId}", Name = "AdminDeleteComment")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class DeleteCommentController : Controller
     {
         public DeleteCommentController(MongoClient mongoClient)

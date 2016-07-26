@@ -12,6 +12,8 @@ namespace Blongo.Data
 
         public string HashedPassword { get; set; }
 
+        public string Name { get; set; }
+
         public string PasswordSalt { get; set; }
 
         public UserRoles Role { get; set; }

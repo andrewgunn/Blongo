@@ -1,5 +1,4 @@
 ﻿using Blongo.Areas.Admin.Models.EditPost;
-using Blongo.Filters;
 using Blongo.ModelBinding;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/posts/edit/{id:objectId}", Name = "AdminEditPost")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class EditPostController : Controller
     {
         public EditPostController(MongoClient mongoClient)

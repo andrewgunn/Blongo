@@ -9,6 +9,10 @@ namespace Blongo.Areas.Admin.Models.CreateUser
         [Required(ErrorMessage = "Please enter the email address")]
         public string EmailAddress { get; set; }
 
+        [Display(Name = "Name")]
+        [Required(ErrorMessage = "Please enter a name")]
+        public string Name { get; set; }
+
         [Display(Name = "Password")]
         [Required(ErrorMessage = "Please enter the password")]
         public string Password { get; set; }

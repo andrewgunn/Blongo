@@ -1,5 +1,4 @@
 ﻿using Blongo.Areas.Admin.Models.ListComments;
-using Blongo.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -15,7 +14,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/comments/{id?}", Name = "AdminListComments")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class ListCommentsController : Controller
     {
         public ListCommentsController(MongoClient mongoClient)

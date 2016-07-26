@@ -1,5 +1,4 @@
 ﻿using Blongo.Areas.Admin.Models.ListPosts;
-using Blongo.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -15,7 +14,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/{id:objectid?}", Name = "AdminListPosts")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class ListPostsController : Controller
     {
         public ListPostsController(MongoClient mongoClient)

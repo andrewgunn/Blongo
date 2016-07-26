@@ -3,13 +3,11 @@ using AkismetSdk.Clients.CommentCheck;
 using AkismetSdk.Clients.SubmitHam;
 using AkismetSdk.Clients.SubmitSpam;
 using Blongo.Config;
-using Blongo.Filters;
 using Blongo.ModelBinding;
 using Blongo.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -131,8 +129,6 @@ namespace Blongo
 
             services
                 .AddOptions()
-                .AddSingleton<BlogDataFilter>()
-                .AddSingleton<UserDataFilter>()
                 .AddSingleton<IHtmlEncoder, HtmlEncoder>()
                 .AddTransient<HttpClient>();
 
@@ -164,12 +160,14 @@ namespace Blongo
                 applicationBuilder.UseExceptionHandler("/500");
             }
 
-            var supportedCultures = new[]
-            {
-                new CultureInfo("en-GB"),
-                new CultureInfo("en-US"),
-                new CultureInfo("es-MX")
-            };
+            applicationBuilder.Use(async (context, next) => {
+                if (context.User.Identity.IsAuthenticated)
+                {
+                    // TODO Logout if the user can't be found in the database.
+                }
+
+                await next();
+            });
 
             applicationBuilder
                 .UseStatusCodePagesWithReExecute("/{0}")
@@ -184,12 +182,6 @@ namespace Blongo
                     SlidingExpiration = true
                 })
                 .UseMvc()
-                .UseRequestLocalization(new RequestLocalizationOptions
-                {
-                    DefaultRequestCulture = new RequestCulture(new CultureInfo("en-GB")),
-                    SupportedCultures = supportedCultures,
-                    SupportedUICultures = supportedCultures
-                })
                 .UseStaticFiles()
                 .UseApplicationInsightsExceptionTelemetry();
         }

@@ -1,5 +1,4 @@
 ﻿using Blongo.Areas.Admin.Models.EditComment;
-using Blongo.Filters;
 using Blongo.ModelBinding;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +11,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/comments/edit/{id:objectId}", Name = "AdminEditComment")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class EditCommentController : Controller
     {
         public EditCommentController(MongoClient mongoClient)

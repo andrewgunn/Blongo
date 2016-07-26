@@ -23,6 +23,7 @@ namespace Blongo
             urlSlug = Regex.Replace(urlSlug, @"[^A-Za-z0-9-'.!()[\]*<>]", "", RegexOptions.Compiled);
             urlSlug = Regex.Replace(urlSlug, @"[-]{2,}", "-", RegexOptions.Compiled);
             urlSlug = urlSlug.Trim('-');
+            urlSlug = urlSlug.Replace("-.", ".");
             urlSlug = urlSlug.ToLowerInvariant();
 
             return urlSlug;

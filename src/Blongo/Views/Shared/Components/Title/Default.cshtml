@@ -1,0 +1,8 @@
+﻿@using Blongo
+@using Blongo.Models.Title
+
+@model TitleViewModel
+
+<title>
+    @Html.Raw(string.Join(" · ", new[] { @ViewBag._Title, Model.Blog?.Name }.Where(s => !string.IsNullOrWhiteSpace(s))))
+</title>

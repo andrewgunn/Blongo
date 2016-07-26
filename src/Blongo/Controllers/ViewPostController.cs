@@ -1,5 +1,4 @@
 ﻿using AkismetSdk.Clients.CommentCheck;
-using Blongo.Filters;
 using Blongo.ModelBinding;
 using Blongo.Models.ViewPost;
 using Microsoft.AspNetCore.Http.Features;
@@ -7,14 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Blongo.Controllers
 {
-    [ServiceFilter(typeof(BlogDataFilter))]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class ViewPostController : Controller
     {
         public ViewPostController(MongoClient mongoClient, CommentCheckClient commentCheckClient)

@@ -1,5 +1,4 @@
 ﻿using Blongo.Areas.Admin.Models.UploadImage;
-using Blongo.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
@@ -11,7 +10,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/image/upload", Name = "AdminUploadImage")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class UploadImageController : Controller
     {
         public UploadImageController(AzureBlobStorage azureBlobStorage)

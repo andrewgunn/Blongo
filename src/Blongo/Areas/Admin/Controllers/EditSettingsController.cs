@@ -1,5 +1,4 @@
 ﻿using Blongo.Areas.Admin.Models.EditSettings;
-using Blongo.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -10,7 +9,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/settings", Name = "AdminEditSettings")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class EditSettingsController : Controller
     {
         public EditSettingsController(MongoClient mongoClient)

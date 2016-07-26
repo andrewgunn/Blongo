@@ -1,6 +1,9 @@
 ﻿.create-first-user {
-    margin: 5rem auto $spacer;
+    margin: 0 auto;
     max-width: 450px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 
     .form-control {
         padding: $spacer;

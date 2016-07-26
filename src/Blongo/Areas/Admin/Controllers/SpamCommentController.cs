@@ -1,5 +1,4 @@
 ﻿using AkismetSdk.Clients.SubmitHam;
-using Blongo.Filters;
 using Blongo.ModelBinding;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,6 @@ namespace Blongo.Areas.Admin.Controllers
     [Area("admin")]
     [Authorize]
     [Route("admin/comments/spam/{id:objectId}", Name = "AdminSpamComment")]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class SpamCommentController : Controller
     {
         public SpamCommentController(MongoClient mongoClient, SubmitHamClient submitHamClient)

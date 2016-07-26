@@ -1,0 +1,130 @@
+﻿$email-color:          #075aaa;
+$github-color:         #999;
+$rss-color:            #e88845;
+$twitter-color:        #00aced;
+$website-color:        #ff0000;
+
+.btn-email {
+    background-color: $email-color;
+    color: #fff;
+}
+
+.btn-email:link,
+.btn-email:visited {
+    color: #fff;
+}
+
+.btn-email:active,
+.btn-email:hover {
+    background-color: darken($email-color, 10%);
+    color: #fff;
+}
+
+.text-email {
+    color: $email-color;
+
+
+.text-email:active,
+.text-email:hover {
+    color: darken($email-color, 10%);
+}
+
+.btn-github {
+    background-color: $github-color;
+    color: #fff;
+}
+
+.btn-github:link,
+.btn-github:visited {
+    color: #fff;
+}
+
+.btn-github:active,
+.btn-github:hover {
+    background-color: darken($github-color, 10%);
+    color: #fff;
+}
+
+.text-github {
+    color: $github-color;
+}
+
+.text-github:active,
+.text-github:hover {
+    color: darken($github-color, 10%);
+}
+
+.btn-rss {
+    background-color: $rss-color;
+    color: #fff;
+}
+
+.btn-rss:link,
+.btn-rss:visited {
+    color: #fff;
+}
+
+.btn-rss:active,
+.btn-rss:hover {
+    background-color: darken($rss-color, 10%);
+    color: #fff;
+}
+
+.text-rss {
+    color: $rss-color;
+}
+
+.text-rss:active,
+.text-rss:hover {
+    color: darken($rss-color, 10%);
+}
+
+.btn-twitter {
+    background-color: $twitter-color;
+    color: #fff;
+}
+
+.btn-twitter:link,
+.btn-twitter:visited {
+    color: #fff;
+}
+
+.btn-twitter:active,
+.btn-twitter:hover {
+    background-color: darken($twitter-color, 10%);
+    color: #fff;
+}
+
+.text-twitter {
+    color: $twitter-color;
+}
+
+.text-twitter:active,
+.text-twitter:hover {
+    color: darken($twitter-color, 10%);
+}
+
+.btn-website {
+    background-color: $website-color;
+    color: #fff;
+}
+
+.btn-website:link,
+.btn-website:visited {
+    color: #fff;
+}
+
+.btn-website:active,
+.btn-website:hover {
+    background-color: darken($website-color, 10%);
+    color: #fff;
+}
+
+.text-website {
+    color: $website-color;
+}
+
+.text-website:active,
+.text-website:hover {
+    color: darken($website-color, 10%);
+}

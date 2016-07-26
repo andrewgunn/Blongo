@@ -4,15 +4,12 @@ using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Blongo.Filters;
 using System.Linq;
 
 namespace Blongo.Controllers
 {
     [Route("", Name = "ListPosts")]
     [Route("tag/{slug}", Name = "ListPostsByTag")]
-    [ServiceFilter(typeof(BlogDataFilter))]
-    [ServiceFilter(typeof(UserDataFilter))]
     public class ListPostsController : Controller
     {
         public ListPostsController(MongoClient mongoClient)
