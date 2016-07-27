@@ -19,95 +19,99 @@
         Posts
     </h1>
 
-    <section class="posts-container">
+    <section class="m-t-2">
         <p asp-visible="!Model.Posts.Any()" class="alert alert-info m-t-2" role="alert">
             No posts found.
         </p>
 
-        <div asp-visible="Model.Posts.Any()" class="row">
-            <div class="col-md-4 col-xl-3">
-                <ol class="list-unstyled post-list">
-                    @for (int i = 0; i < Model.Posts.Count; i++)
+        <div asp-visible="Model.Posts.Any()">
+            <nav class="text-xs-center">
+                <ul class="pagination pagination-sm m-t-0">
+                    <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
+                        <a asp-route="AdminListPosts" asp-route-p="1" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
+                        <a asp-route="AdminListPosts" asp-route-p="@(Model.Paging.PageNumber - 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                    </li>
+                    @for (int pageNumber = 1; pageNumber <= Model.Paging.MaximumPageNumber; pageNumber++)
                     {
-                        var post = Model.Posts.ElementAt(i);
-
-                        <li class="post-list-item @(Model.SelectedPost != null && Model.SelectedPost.Id == post.Id ? "post-list-item-active": "")" data-url-view="@Url.RouteUrl("AdminListPosts", new { id = post.Id })" data-url-edit="@Url.RouteUrl("AdminEditPost", new { id = post.Id })">
-                            <h3>
-                                @post.Title
-                            </h3>
-
-                            <ul class="list-inline list-unstyled">
-                                <li class="list-inline-item">
-                                    <i class="fa fa-calendar-o"></i>
-                                </li>
-                                <li class="list-inline-item">
-                                    @post.PublishedAt.RelativeTo(DateTime.UtcNow)
-                                </li>
-                                <li asp-visible="post.IsPublished && post.PublishedAt <= DateTime.UtcNow" class="list-inline-item">
-                                    <span class="label label-success">
-                                        Published
-                                    </span>
-                                </li>
-                                <li asp-visible="post.IsPublished && post.PublishedAt > DateTime.UtcNow" class="list-inline-item">
-                                    <span class="label label-warning">
-                                        Published <i class="fa fa-clock-o"></i>
-                                    </span>
-                                </li>
-                                <li asp-visible="!post.IsPublished" class="list-inline-item">
-                                    <span class="label label-danger">
-                                        Draft
-                                    </span>
-                                </li>
-                            </ul>
+                        <li class="page-item @(pageNumber == Model.Paging.PageNumber ? "active" : "")">
+                            <a asp-route="AdminListPosts" asp-route-p="@pageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link">@pageNumber</a>
                         </li>
                     }
-                </ol>
-            </div>
-            <div class="col-md-8 col-xl-9 p-t-1 hidden-sm-down">
-                @if (Model.SelectedPost != null)
-                {
+                    <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
+                        <a asp-route="AdminListPosts" asp-route-p="@(Model.Paging.PageNumber + 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
+                        <a asp-route="AdminListPosts" asp-route-p="@Model.Paging.MaximumPageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                    </li>
+                </ul>
+            </nav>
 
-                    <nav class="text-xs-center">
-                        <ul class="pagination pagination-sm m-t-0">
-                            <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
-                                <a asp-route="AdminListPosts" asp-route-p="1" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
-                            </li>
-                            <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
-                                <a asp-route="AdminListPosts" asp-route-p="@(Model.Paging.PageNumber - 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                            </li>
-                            @for (int pageNumber = 1; pageNumber <= Model.Paging.MaximumPageNumber; pageNumber++)
+            <div class="posts-container">
+                <div class="row">
+                    <div class="col-md-4 col-xl-3">
+                        <ol class="list-unstyled post-list">
+                            @for (int i = 0; i < Model.Posts.Count; i++)
                             {
-                                <li class="page-item @(pageNumber == Model.Paging.PageNumber ? "active" : "")">
-                                    <a asp-route="AdminListPosts" asp-route-p="@pageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link">@pageNumber</a>
+                                var post = Model.Posts.ElementAt(i);
+
+                                <li class="post-list-item @(Model.SelectedPost != null && Model.SelectedPost.Id == post.Id ? "post-list-item-active": "")" data-url-view="@Url.RouteUrl("AdminListPosts", new { id = post.Id })" data-url-edit="@Url.RouteUrl("AdminEditPost", new { id = post.Id })">
+                                    <div class="pull-right">
+                                        <div class="dropdown">
+                                            <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a asp-route="ViewPost" asp-route-id="@Model.SelectedPost.Id" class="dropdown-item">View</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a asp-route="AdminListComments" asp-route-postid="@Model.SelectedPost.Id" class="dropdown-item">Moderate Comments</a>
+                                                <a asp-route="AdminEditPost" asp-route-id="@Model.SelectedPost.Id" class="dropdown-item">Edit</a>
+                                                <form asp-route="AdminDeletePost" asp-route-id="@Model.SelectedPost.Id" class="form-confirm">
+                                                    <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h3>
+                                        @post.Title
+                                    </h3>
+
+                                    <ul class="list-inline list-unstyled">
+                                        <li class="list-inline-item">
+                                            <i class="fa fa-calendar-o"></i>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            @post.PublishedAt.RelativeTo(DateTime.UtcNow)
+                                        </li>
+                                        <li asp-visible="post.IsPublished && post.PublishedAt <= DateTime.UtcNow" class="list-inline-item">
+                                            <span class="label label-success">
+                                                Published
+                                            </span>
+                                        </li>
+                                        <li asp-visible="post.IsPublished && post.PublishedAt > DateTime.UtcNow" class="list-inline-item">
+                                            <span class="label label-warning">
+                                                Published <i class="fa fa-clock-o"></i>
+                                            </span>
+                                        </li>
+                                        <li asp-visible="!post.IsPublished" class="list-inline-item">
+                                            <span class="label label-danger">
+                                                Draft
+                                            </span>
+                                        </li>
+                                    </ul>
                                 </li>
                             }
-                            <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
-                                <a asp-route="AdminListPosts" asp-route-p="@(Model.Paging.PageNumber + 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                            </li>
-                            <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
-                                <a asp-route="AdminListPosts" asp-route-p="@Model.Paging.MaximumPageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                            </li>
-                        </ul>
-                        <div class="pull-right">
-                            <div class="dropdown">
-                                <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a asp-route="ViewPost" asp-route-id="@Model.SelectedPost.Id" class="dropdown-item">View</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a asp-route="AdminListComments" asp-route-postid="@Model.SelectedPost.Id" class="dropdown-item">Moderate Comments</a>
-                                    <a asp-route="AdminEditPost" asp-route-id="@Model.SelectedPost.Id" class="dropdown-item">Edit</a>
-                                    <form asp-route="AdminDeletePost" asp-route-id="@Model.SelectedPost.Id" class="form-confirm">
-                                        <button type="submit" class="dropdown-item text-danger">Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </nav>
-
-                    <div class="post-body">
-                        @Html.Markdown(Model.SelectedPost.Body)
+                        </ol>
                     </div>
-                }
+                    <div class="col-md-8 col-xl-9 p-t-1 hidden-sm-down">
+                        @if (Model.SelectedPost != null)
+                        {
+                            <div class="post-body">
+                                @Html.Markdown(Model.SelectedPost.Body)
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </section>

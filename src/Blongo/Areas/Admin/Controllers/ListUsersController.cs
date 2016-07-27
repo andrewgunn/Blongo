@@ -47,7 +47,7 @@ namespace Blongo.Areas.Admin.Controllers
                     .Sort(Builders<Data.User>.Sort.Descending(p => p.Id))
                     .Skip((pageNumber - 1) * pageSize)
                     .Limit(pageSize)
-                    .Project(u => new User(u.Id, u.Role.ToString() /* // TODO Convert to a propert "string" */, u.Name, u.EmailAddress))
+                    .Project(u => new User(u.Id, u.Role, u.Name, u.EmailAddress))
                     .ToListAsync();
             }
 

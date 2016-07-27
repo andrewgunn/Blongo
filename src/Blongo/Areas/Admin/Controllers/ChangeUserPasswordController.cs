@@ -23,11 +23,9 @@ namespace Blongo.Areas.Admin.Controllers
         {
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
             var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var user = await collection.Find(Builders<Data.User>.Filter.Where(u => u.Id == id))
-                .Project(u => new { })
-                .SingleOrDefaultAsync();
+            var userCount = await collection.CountAsync(Builders<Data.User>.Filter.Where(u => u.Id == id));
 
-            if (user == null)
+            if (userCount == 0)
             {
                 return NotFound();
             }

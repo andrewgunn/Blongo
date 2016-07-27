@@ -20,7 +20,7 @@
                     <a asp-route="AdminListComments" asp-route-id="">Comments</a>
                 </li>
                 <li>
-                    <a asp-route="AdminListUsers" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path">Users</a>
+                    <a asp-route="AdminListUsers">Users</a>
                 </li>
                 <li asp-visible="@User.IsInRole(UserRoles.Administrator)">
                     <a asp-route="AdminCreateUser" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path">Create User</a>

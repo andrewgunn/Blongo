@@ -60,13 +60,15 @@ namespace Blongo.Areas.Admin.Controllers
 
             if (password.HashedPassword != user.HashedPassword)
             {
+                ModelState.AddModelError("__FORM", "Invalid credentials. Please try again.");
+
                 return View(model);
             }
 
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.EmailAddress),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, "local", ClaimTypes.Name, ClaimTypes.Role);

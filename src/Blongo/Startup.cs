@@ -7,7 +7,6 @@ using Blongo.ModelBinding;
 using Blongo.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,7 +15,6 @@ using MongoDB.Driver;
 using RealFaviconGeneratorSdk;
 using Serilog;
 using System;
-using System.Globalization;
 using System.Net.Http;
 
 namespace Blongo
@@ -160,15 +158,6 @@ namespace Blongo
                 applicationBuilder.UseExceptionHandler("/500");
             }
 
-            applicationBuilder.Use(async (context, next) => {
-                if (context.User.Identity.IsAuthenticated)
-                {
-                    // TODO Logout if the user can't be found in the database.
-                }
-
-                await next();
-            });
-
             applicationBuilder
                 .UseStatusCodePagesWithReExecute("/{0}")
                 .UseCookieAuthentication(new CookieAuthenticationOptions
@@ -180,6 +169,29 @@ namespace Blongo
                     LoginPath = "/admin/login",
                     ReturnUrlParameter = "returnUrl",
                     SlidingExpiration = true
+                })
+                .Use(async (context, next) =>
+                {
+                    if (context.User.Identity.IsAuthenticated)
+                    {
+                        var mongoClient = context.RequestServices.GetRequiredService<MongoClient>();
+                        var database = mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
+                        var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
+                        var userCount = await collection.CountAsync(Builders<Data.User>.Filter.Where(u => u.EmailAddress == context.User.Identity.Name));
+
+                        if (userCount == 0)
+                        {
+                            await context.Authentication.SignOutAsync("Cookies");
+
+                            var redirectUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}{context.Request.QueryString}";
+
+                            context.Response.Redirect(redirectUrl);
+
+                            return;
+                        }
+                    }
+
+                    await next();
                 })
                 .UseMvc()
                 .UseStaticFiles()
