@@ -1,4 +1,5 @@
-﻿@using Blongo.Areas.Admin.Models.EditPost
+﻿@using Blongo
+@using Blongo.Areas.Admin.Models.EditPost
 @using Blongo.ViewComponents
 
 @model EditPostModel
@@ -26,7 +27,7 @@
         Edit Post
     </h1>
 
-    <form autocomplete="off" method="post">
+    <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <fieldset>
@@ -86,7 +87,7 @@
             <button name="@Html.NameFor(m => m.IsPublished)" type="submit" value="@Model.IsPublished.ToString().ToLowerInvariant()" class="btn btn-secondary">Save</button>
             <button asp-visible="!Model.IsPublished" name="@Html.NameFor(m => m.IsPublished)" type="submit" value="true" class="btn btn-primary btn-confirm">Publish</button>
             <button asp-visible="Model.IsPublished" name="@Html.NameFor(m => m.IsPublished)" type="submit" value="false" class="btn btn-danger btn-confirm">Unpublish</button>
-            <a asp-route="AdminListPosts" class="btn btn-link">Cancel</a>
+            <a href="@(@ViewContext.HttpContext.Request.Query["returnUrl"].ToString().AsNullIfEmpty() ?? Url.RouteUrl("AdminListPosts"))" class="btn btn-link">Cancel</a>
         </div>
     </form>
 </div>

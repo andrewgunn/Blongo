@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace Blongo.Areas.Admin.Controllers
 {
     [Area("admin")]
-    [Authorize]
-    [Route("admin/posts/delete/{id:objectId}", Name = "AdminDeletePost")]
-    public class DeletePostController : Controller
+    [Authorize(Roles = UserRoles.Administrator)]
+    [Route("admin/users/delete/{id:objectId}", Name = "AdminDeleteUser")]
+    public class DeleteUserController : Controller
     {
-        public DeletePostController(MongoClient mongoClient)
+        public DeleteUserController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
         }
@@ -21,10 +21,14 @@ namespace Blongo.Areas.Admin.Controllers
         public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id, string returnUrl = null)
         {
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var postsCollection = database.GetCollection<Data.Post>(Data.CollectionNames.Posts);
-            await postsCollection.DeleteOneAsync(Builders<Data.Post>.Filter.Where(p => p.Id == id));
-            var commentsCollection = database.GetCollection<Data.Comment>(Data.CollectionNames.Comments);
-            await commentsCollection.DeleteManyAsync(Builders<Data.Comment>.Filter.Where(c => c.PostId == id));
+            var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
+
+            if (await collection.CountAsync(Builders<Data.User>.Filter.Empty) == 1)
+            {
+                return RedirectToLocal(returnUrl);
+            }
+
+            await collection.DeleteOneAsync(Builders<Data.User>.Filter.Where(u => u.Id == id && u.EmailAddress != User.Identity.Name));
 
             return RedirectToLocal(returnUrl);
         }
@@ -37,7 +41,7 @@ namespace Blongo.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToRoute("AdminListPosts", new { id = "" });
+                return RedirectToRoute("AdminListUsers", new { id = "" });
             }
         }
 

@@ -20,7 +20,7 @@
         var fileName = Convert.ToString(ViewContext.RouteData.Values["fileName"] ?? ViewContext.HttpContext.Request.Query["fileName"]);
     }
 
-    <form asp-route="AdminListImages" asp-route-fileName="" autocomplete="off" method="get" class="m-b-1">
+    <form asp-route="AdminListImages" asp-route-fileName="" method="get" class="m-b-1">
         <fieldset>
             <div class="input-group">
                 <input type="text" name="fileName" class="form-control" placeholder="File name" value="@fileName" />
@@ -32,67 +32,69 @@
         </fieldset>
     </form>
 
-    <p asp-visible="!Model.ImageUrls.Any()" class="alert alert-info m-t-2" role="alert">
-        No images found.
-    </p>
+    <section class="m-t-2">
+        <p asp-visible="!Model.ImageUrls.Any()" class="alert alert-info" role="alert">
+            No images found.
+        </p>
 
-    <div asp-visible="Model.ImageUrls.Any()">
-        <nav class="text-xs-center">
-            <ul class="pagination pagination-sm m-t-0">
-                <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
-                    <a asp-route="AdminListImages" asp-route-p="1" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
-                </li>
-                <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
-                    <a asp-route="AdminListImages" asp-route-p="@(Model.Paging.PageNumber - 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                </li>
-                @for (int pageNumber = 1; pageNumber <= Model.Paging.MaximumPageNumber; pageNumber++)
-            {
-                    <li class="page-item @(pageNumber == Model.Paging.PageNumber ? "active" : "")">
-                        <a asp-route="AdminListImages" asp-route-p="@pageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link">@pageNumber</a>
+        <div asp-visible="Model.ImageUrls.Any()">
+            <nav class="text-xs-center">
+                <ul class="pagination pagination-sm m-t-0">
+                    <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
+                        <a asp-route="AdminListImages" asp-route-p="1" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
                     </li>
-                }
-                <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
-                    <a asp-route="AdminListImages" asp-route-p="@(Model.Paging.PageNumber + 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                </li>
-                <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
-                    <a asp-route="AdminListImages" asp-route-p="@Model.Paging.MaximumPageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                </li>
-            </ul>
-        </nav>
+                    <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
+                        <a asp-route="AdminListImages" asp-route-p="@(Model.Paging.PageNumber - 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                    </li>
+                    @for (int pageNumber = 1; pageNumber <= Model.Paging.MaximumPageNumber; pageNumber++)
+            {
+                        <li class="page-item @(pageNumber == Model.Paging.PageNumber ? "active" : "")">
+                            <a asp-route="AdminListImages" asp-route-p="@pageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link">@pageNumber</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
+                        <a asp-route="AdminListImages" asp-route-p="@(Model.Paging.PageNumber + 1)" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="page-item @(Model.Paging.PageNumber >= Model.Paging.MaximumPageNumber ? "disabled" : "")">
+                        <a asp-route="AdminListImages" asp-route-p="@Model.Paging.MaximumPageNumber" asp-route-s="@Model.Paging.PageSize" class="page-link"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                    </li>
+                </ul>
+            </nav>
 
-        <div class="card-columns">
-            @for (int i = 0; i < Model.ImageUrls.Count; i++)
+            <div class="card-columns">
+                @for (int i = 0; i < Model.ImageUrls.Count; i++)
             {
                 var imageUrl = Model.ImageUrls.ElementAt(i);
                 var imageFileName = imageUrl.PathAndQuery.Split('/').Last();
 
-                <div class="card">
-                    <a href="@imageUrl" target="_blank">
-                        <img class="card-img-top" src="@imageUrl">
-                    </a>
-                    <div class="card-block">
-                        <div class="card-text">
-                            <code>
-                                @imageFileName
-                            </code>
-                            <ul class="list-unstyled list-inline m-t-1 m-b-0">
-                                <li class="list-inline-item">
-                                    <button class="btn btn-secondary-outline btn-sm" data-clipboard-text="@imageUrl" title="Copy link to clipboard">
-                                        <i class="fa fa-link"></i>
-                                    </button>
-                                </li>
-                                <li class="list-inline-item pull-xs-right">
-                                    <form asp-route="AdminDeleteImage" asp-route-fileName="@imageFileName" class="form-confirm">
-                                        <button type="submit" class="btn btn-danger-outline btn-sm" title="Delete">
-                                            <i class="fa fa-trash"></i>
+                    <div class="card">
+                        <a href="@imageUrl" target="_blank">
+                            <img class="card-img-top" src="@imageUrl">
+                        </a>
+                        <div class="card-block">
+                            <div class="card-text">
+                                <code>
+                                    @imageFileName
+                                </code>
+                                <ul class="list-unstyled list-inline m-t-1 m-b-0">
+                                    <li class="list-inline-item">
+                                        <button class="btn btn-secondary-outline btn-sm" data-clipboard-text="@imageUrl" title="Copy link to clipboard">
+                                            <i class="fa fa-link"></i>
                                         </button>
-                                    </form>
-                                </li>
-                            </ul>
+                                    </li>
+                                    <li class="list-inline-item pull-xs-right">
+                                        <form asp-route="AdminDeleteImage" asp-route-fileName="@imageFileName" class="form-confirm">
+                                            <button type="submit" class="btn btn-danger-outline btn-sm" title="Delete">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
-    </div>
+    </section>
 </div>

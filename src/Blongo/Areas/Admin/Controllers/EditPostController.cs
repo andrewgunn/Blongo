@@ -60,7 +60,6 @@ namespace Blongo.Areas.Admin.Controllers
 
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
             var collection = database.GetCollection<Data.Post>(Data.CollectionNames.Posts);
-
             var update = Builders<Data.Post>.Update
                 .Set(p => p.Title, model.Title)
                 .Set(p => p.Description, model.Description)
@@ -79,13 +78,12 @@ namespace Blongo.Areas.Admin.Controllers
                 .Set(p => p.IsPublished, model.IsPublished)
                 .Set(p => p.LastUpdatedAt, DateTime.UtcNow)
                 .Set(p => p.UrlSlug, new UrlSlug(model.Title).Value);
-
             await collection.UpdateOneAsync(Builders<Data.Post>.Filter.Where(p => p.Id == id), update);
 
-            return RedirectToLocal(id, returnUrl);
+            return RedirectToLocal(returnUrl, id);
         }
 
-        private IActionResult RedirectToLocal(ObjectId postId, string returnUrl)
+        private IActionResult RedirectToLocal(string returnUrl, ObjectId postId)
         {
             if (Url.IsLocalUrl(returnUrl))
             {

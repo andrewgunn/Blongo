@@ -1,4 +1,6 @@
-﻿@using Blongo.Areas.Admin.Models.CreatePost
+﻿@using Blongo
+@using Blongo.Areas.Admin.Models.CreatePost
+
 @model CreatePostModel
 
 @{
@@ -10,7 +12,7 @@
         Create Post
     </h1>
 
-    <form autocomplete="off" method="post">
+    <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <fieldset>
@@ -69,7 +71,7 @@
         <div class="form-group">
             <button name="@Html.NameFor(m => m.IsPublished)" type="submit" value="false" class="btn btn-secondary">Save</button>
             <button name="@Html.NameFor(m => m.IsPublished)" type="submit" value="true" class="btn btn-primary btn-confirm">Publish</button>
-            <a asp-route="AdminListPosts" class="btn btn-link">Cancel</a>
+            <a href="@(@ViewContext.HttpContext.Request.Query["returnUrl"].ToString().AsNullIfEmpty() ?? Url.RouteUrl("AdminListPosts"))" class="btn btn-link">Cancel</a>
         </div>
     </form>
 </div>

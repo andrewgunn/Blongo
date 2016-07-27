@@ -1,20 +1,18 @@
 ﻿@using Blongo
-@using Blongo.Areas.Admin.Models.EditComment
+@using Blongo.Areas.Admin.Models.EditUser
 
-@model EditCommentModel
+@model EditUserModel
 
 @{
-    ViewBag._Title = "Edit Comment";
+    ViewBag._Title = "Edit User";
 }
 
 <div class="container-fluid p-t-1">
-    <div class="pull-xs-right">
+    <div asp-visible="User.IsInRole(UserRoles.Administrator)" class="pull-xs-right">
         <div class="dropdown">
             <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
             <div class="dropdown-menu dropdown-menu-right">
-                <a asp-route="ViewPost" asp-route-id="@Model.PostId" asp-fragment="comment-@Model.Id" class="dropdown-item">View</a>
-                <div class="dropdown-divider"></div>
-                <form asp-route="AdminDeleteComment" asp-route-id="@Model.Id" class="form-confirm">
+                <form asp-route="AdminDeleteUser" asp-route-id="@Model.Id" class="form-confirm">
                     <button type="submit" class="dropdown-item text-danger">Delete</button>
                 </form>
             </div>
@@ -22,7 +20,7 @@
     </div>
 
     <h1 class="m-b-2">
-        Edit Comment
+        Edit User
     </h1>
 
     <form method="post">
@@ -38,19 +36,6 @@
                 <label asp-for="EmailAddress" class="control-label"></label>
                 <input type="text" asp-for="EmailAddress" class="form-control" />
             </div>
-
-            <div class="form-group">
-                <label asp-for="WebsiteUrl" class="control-label"></label>
-                <input type="text" asp-for="WebsiteUrl" class="form-control" />
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <markdownbuttonbar></markdownbuttonbar>
-
-            <markdowneditor asp-for="Body" placeholder="@Html.DisplayNameFor(m => m.Body)"></markdowneditor>
-            
-            <markdownpreview></markdownpreview>
         </fieldset>
 
         <div class="form-group">

@@ -77,10 +77,10 @@ namespace Blongo.Areas.Admin.Controllers
                 .Set(c => c.Body, model.Body);
             await commentsCollection.UpdateOneAsync(Builders<Data.Comment>.Filter.Where(c => c.Id == id), update);
 
-            return RedirectToLocal(id, returnUrl);
+            return RedirectToLocal(returnUrl);
         }
 
-        private IActionResult RedirectToLocal(ObjectId commentId, string returnUrl)
+        private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
             {
@@ -88,7 +88,7 @@ namespace Blongo.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToRoute("AdminListComments", new { id = commentId });
+                return RedirectToRoute("AdminListComments", new { id = "" });
             }
         }
 

@@ -1,5 +1,5 @@
-﻿@using Blongo.Areas.Admin.Models.CreateUser
-@using Blongo.Data
+﻿@using Blongo
+@using Blongo.Areas.Admin.Models.CreateUser
 
 @model CreateUserModel
 
@@ -12,19 +12,16 @@
         Create User
     </h1>
 
-    <form autocomplete="off" method="post">
+    <form method="post">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <fieldset>
             <div class="form-group">
                 <label asp-for="Role" class="control-label"></label>
                 <select asp-for="Role" class="form-control">
-                    @foreach (var userRole in Enum.GetValues(typeof(UserRoles)).Cast<UserRoles>().Where(ur => ur > 0))
-                    {
-                        <option selected="@(userRole == Model.Role)">
-                            @userRole
-                        </option>
-                    }
+                    <option selected="@(Model.Role == UserRoles.Administrator)">
+                        @UserRoles.Administrator
+                    </option>
                 </select>
             </div>
 
@@ -46,7 +43,7 @@
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Create</button>
-            <a asp-route="AdminListPosts" class="btn btn-link">Cancel</a>
+            <a href="@(@ViewContext.HttpContext.Request.Query["returnUrl"].ToString().AsNullIfEmpty() ?? Url.RouteUrl("AdminListUsers"))" class="btn btn-link">Cancel</a>
         </div>
     </form>
 </div>

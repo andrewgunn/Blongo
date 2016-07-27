@@ -33,8 +33,6 @@ namespace Blongo.Areas.Admin.Controllers
                 return new RedirectToRouteResult("AdminCreateFirstUser", new { returnUrl });
             }
 
-            ViewData["ReturnUrl"] = returnUrl;
-
             var model = new LoginModel();
 
             return View(model);
@@ -55,8 +53,6 @@ namespace Blongo.Areas.Admin.Controllers
 
             if (user == null)
             {
-                ViewData["ReturnUrl"] = returnUrl;
-
                 return View(model);
             }
 
@@ -64,8 +60,6 @@ namespace Blongo.Areas.Admin.Controllers
 
             if (password.HashedPassword != user.HashedPassword)
             {
-                ViewData["ReturnUrl"] = returnUrl;
-
                 return View(model);
             }
 

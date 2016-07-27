@@ -6,7 +6,7 @@ namespace Blongo.Areas.Admin.Models.CreateUser
     public class CreateUserModel
     {
         [Display(Name = "Email address")]
-        [Required(ErrorMessage = "Please enter the email address")]
+        [Required(ErrorMessage = "Please enter an email address")]
         public string EmailAddress { get; set; }
 
         [Display(Name = "Name")]
@@ -14,11 +14,11 @@ namespace Blongo.Areas.Admin.Models.CreateUser
         public string Name { get; set; }
 
         [Display(Name = "Password")]
-        [Required(ErrorMessage = "Please enter the password")]
+        [Required(ErrorMessage = "Please enter a password")]
         public string Password { get; set; }
 
         [Display(Name = "Role")]
-        [Required(ErrorMessage = "Please select the role")]
-        public UserRoles Role { get; set; }
+        [Required(ErrorMessage = "Please select a role")]
+        public string Role { get; set; }
     }
 }

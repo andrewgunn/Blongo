@@ -26,14 +26,13 @@ namespace Blongo.Areas.Admin.Controllers
         {
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
             var blogsCollection = database.GetCollection<Data.Blog>(Data.CollectionNames.Blogs);
-            var postsCollection = database.GetCollection<Data.Post>(Data.CollectionNames.Posts);
-            var commentsCollection = database.GetCollection<Data.Comment>(Data.CollectionNames.Comments);
 
+            var commentsCollection = database.GetCollection<Data.Comment>(Data.CollectionNames.Comments);
             var comment = await commentsCollection.Find(Builders<Data.Comment>.Filter.Where(c => c.Id == id))
                 .SingleOrDefaultAsync();
-
             await commentsCollection.UpdateOneAsync(Builders<Data.Comment>.Filter.Where(c => c.Id == id), Builders<Data.Comment>.Update.Set(p => p.IsSpam, false));
 
+            var postsCollection = database.GetCollection<Data.Post>(Data.CollectionNames.Posts);
             await postsCollection.UpdateOneAsync(Builders<Data.Post>.Filter.Where(p => p.Id == comment.PostId), Builders<Data.Post>.Update.Inc(p => p.CommentCount, 1));
 
             var blogUri = new Uri(Url.RouteUrl("ListPosts", null, Request.Scheme));

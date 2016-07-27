@@ -28,33 +28,32 @@ namespace Blongo.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(CreateUserModel model, string returnUrl = null)
         {
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.User>("users");
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var userExists = await collection.CountAsync(Builders<Data.User>.Filter.Where(u => u.EmailAddress == model.EmailAddress)) > 0;
+            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
+            var collection = database.GetCollection<Data.User>("users");
 
-            if (userExists)
+            if (await collection.CountAsync(Builders<Data.User>.Filter.Where(u => u.EmailAddress == model.EmailAddress)) > 0)
             {
+                ModelState.AddModelError(nameof(model.EmailAddress), "There is already a user with that email address");
+
                 return View(model);
             }
 
             var passwordSalt = Guid.NewGuid().ToString();
             var password = new Password(model.Password, passwordSalt);
-            var user = new Data.User
+
+            await collection.InsertOneAsync(new Data.User
             {
                 Name = model.Name,
                 EmailAddress = model.EmailAddress,
                 HashedPassword = password.HashedPassword,
                 PasswordSalt = passwordSalt,
                 Role = model.Role
-            };
-
-            await collection.InsertOneAsync(user);
+            });
 
             return RedirectToLocal(returnUrl);
         }
@@ -67,7 +66,7 @@ namespace Blongo.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToRoute("AdminListPosts");
+                return RedirectToRoute("AdminListUsers");
             }
         }
 

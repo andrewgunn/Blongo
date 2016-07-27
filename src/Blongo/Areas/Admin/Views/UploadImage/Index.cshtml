@@ -1,4 +1,6 @@
-﻿@using Blongo.Areas.Admin.Models.UploadImage
+﻿@using Blongo
+@using Blongo.Areas.Admin.Models.UploadImage
+
 @model UploadImageModel
 
 @{
@@ -10,7 +12,7 @@
         Upload Image
     </h1>
 
-    <form autocomplete="off" method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <fieldset>
@@ -33,7 +35,7 @@
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Upload</button>
-            <a asp-route="AdminListPosts" class="btn btn-link">Cancel</a>
+            <a href="@(@ViewContext.HttpContext.Request.Query["returnUrl"].ToString().AsNullIfEmpty() ?? Url.RouteUrl("AdminListPosts"))" class="btn btn-link">Cancel</a>
         </div>
     </form>
 </div>

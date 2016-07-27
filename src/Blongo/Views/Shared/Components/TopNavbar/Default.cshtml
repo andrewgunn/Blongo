@@ -1,4 +1,5 @@
-﻿@using Blongo.Models.TopNavbar
+﻿@using Blongo
+@using Blongo.Models.TopNavbar
 
 @model TopNavbarViewModel
 
@@ -13,28 +14,31 @@
                     <a asp-route="AdminListPosts">Posts</a>
                 </li>
                 <li>
-                    <a asp-route="AdminCreatePost">Create Post</a>
+                    <a asp-route="AdminCreatePost" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path">Create Post</a>
                 </li>
                 <li>
                     <a asp-route="AdminListComments" asp-route-id="">Comments</a>
                 </li>
                 <li>
-                    <a asp-route="AdminCreateUser">Create User</a>
+                    <a asp-route="AdminListUsers" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path">Users</a>
+                </li>
+                <li asp-visible="@User.IsInRole(UserRoles.Administrator)">
+                    <a asp-route="AdminCreateUser" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path">Create User</a>
                 </li>
                 <li>
-                    <a asp-route="AdminListImages">Images</a>
+                    <a asp-route="AdminListImages" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path">Images</a>
                 </li>
                 <li>
-                    <a asp-route="AdminUploadImage">Upload Image</a>
+                    <a asp-route="AdminUploadImage" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path">Upload Image</a>
                 </li>
                 <li>
                     <a asp-route="AdminEditAuthor">Author</a>
                 </li>
                 <li>
-                    <a asp-route="AdminEditSettings">Settings</a>
+                    <a asp-route="AdminEditSettings" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path">Settings</a>
                 </li>
                 <li>
-                    <a asp-route="AdminUploadFavicon">Upload Favicon</a>
+                    <a asp-route="AdminUploadFavicon" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path">Upload Favicon</a>
                 </li>
                 <li>
                     <form asp-route="AdminLogout" asp-route-returnUrl="@Url.RouteUrl(ViewContext.RouteData.Values)">

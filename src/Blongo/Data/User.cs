@@ -16,6 +16,6 @@ namespace Blongo.Data
 
         public string PasswordSalt { get; set; }
 
-        public UserRoles Role { get; set; }
+        public string Role { get; set; }
     }
 }
