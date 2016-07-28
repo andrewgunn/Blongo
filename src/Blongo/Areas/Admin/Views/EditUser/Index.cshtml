@@ -27,7 +27,7 @@
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <fieldset>
-            <div class="form-group">
+            <div asp-visible="!string.IsNullOrWhiteSpace(Model.Role)" class="form-group">
                 <label asp-for="Role" class="control-label"></label>
                 <select asp-for="Role" class="form-control">
                     <option selected="@(Model.Role == UserRoles.Administrator)">

@@ -5,15 +5,17 @@ namespace Blongo.Areas.Admin.Models.EditUser
 {
     public class EditUserModel
     {
-        [Required]
+        [Display(Name = "Email address")]
+        [Required(ErrorMessage = "Please enter an email address")]
         public string EmailAddress { get; set; }
 
         public ObjectId Id { get; set; }
 
-        [Required]
+        [Display(Name = "Name")]
+        [Required(ErrorMessage = "Please enter a name")]
         public string Name { get; set; }
 
-        [Required]
+        [Display(Name = "Role")]
         public string Role { get; set; }
     }
 }
