@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -30,6 +29,7 @@ namespace Blongo.Areas.Admin.Controllers
                 .Project(u => new EditUserModel
                 {
                     Id = u.Id,
+                    Role = u.Role,
                     Name = u.Name,
                     EmailAddress = u.EmailAddress,
                 })
@@ -56,9 +56,19 @@ namespace Blongo.Areas.Admin.Controllers
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
             var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
             var update = Builders<Data.User>.Update
+                .Set(u => u.Role, model.Role)
                 .Set(u => u.Name, model.Name)
                 .Set(u => u.EmailAddress, model.EmailAddress);
             await collection.UpdateOneAsync(Builders<Data.User>.Filter.Where(u => u.Id == id), update);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, model.EmailAddress),
+                new Claim(ClaimTypes.Role, model.Role)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, "local", ClaimTypes.Name, ClaimTypes.Role);
+            await HttpContext.Authentication.SignInAsync("Cookies", new ClaimsPrincipal(claimsIdentity));
 
             return RedirectToLocal(returnUrl);
         }

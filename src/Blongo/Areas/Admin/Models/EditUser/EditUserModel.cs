@@ -12,5 +12,8 @@ namespace Blongo.Areas.Admin.Models.EditUser
 
         [Required]
         public string Name { get; set; }
+
+        [Required]
+        public string Role { get; set; }
     }
 }
