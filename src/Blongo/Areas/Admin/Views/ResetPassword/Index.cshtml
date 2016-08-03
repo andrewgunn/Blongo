@@ -1,8 +1,8 @@
-﻿@using Blongo.Areas.Admin.Models.Login
-@model LoginModel
+﻿@using Blongo.Areas.Admin.Models.ResetPassword
+@model ResetPasswordModel
 
 @{
-    ViewBag._Title = "Login";
+    ViewBag._Title = "Reset Your Password";
 }
 
 <div class="container-fluid">
@@ -12,19 +12,12 @@
                 <form method="post" class="login-form">
                     <div class="modal-body m-a-2">
                         <h1 class="text-xs-center m-b-3">
-                            Login
+                            Reset Your Password
                         </h1>
 
                         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
                         <fieldset>
-                            <div class="form-group">
-                                <label asp-for="EmailAddress" class="sr-only"></label>
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-icon"><i class="fa fa-envelope"></i></span>
-                                    <input type="email" asp-for="EmailAddress" class="form-control form-control-lg" placeholder="@Html.DisplayNameFor(m => m.EmailAddress)" />
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label asp-for="Password" class="sr-only"></label>
                                 <div class="input-group">
@@ -33,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <a asp-route="AdminSendResetPasswordEmail">Forgotten your password?</a>
+                                <a asp-route="AdminLogin">Know your password?</a>
                             </div>
                         </fieldset>
                     </div>

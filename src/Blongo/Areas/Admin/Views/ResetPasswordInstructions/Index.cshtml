@@ -1,0 +1,40 @@
+﻿@using Blongo
+@using Blongo.Areas.Admin.Models.ResetPasswordInstructions
+@model ResetPasswordInstructionsViewModel
+
+@{
+    ViewBag._Title = "Resetting Your Password...";
+}
+
+<div class="container-fluid">
+    <div class="modal modal-inline">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body m-a-2">
+                    <h1 class="text-xs-center m-b-3">
+                        Resetting Your Password
+                    </h1>
+                    
+                    <p>
+                        We've just sent you an email containing a link to reset your password. Check your inbox, but if you haven't recieved anything, please <a asp-route="AdminSendResetPasswordEmail">try again</a>.
+                    </p>
+
+                    <p class="alert alert-warning m-t-3">
+                        The link will expire <strong>@Model.ExpiresAt.RelativeTo(DateTime.UtcNow)</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles
+{
+    <style>
+        .container-fluid {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+}

@@ -16,6 +16,8 @@ namespace Blongo.Data
 
         public string PasswordSalt { get; set; }
 
+        public IReadOnlyCollection<ResetPasswordLink> ResetPasswordLinks { get; set; }
+
         public string Role { get; set; }
     }
 }

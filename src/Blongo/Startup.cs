@@ -3,6 +3,7 @@ using AkismetSdk.Clients.CommentCheck;
 using AkismetSdk.Clients.SubmitHam;
 using AkismetSdk.Clients.SubmitSpam;
 using Blongo.Config;
+using Blongo.Data;
 using Blongo.ModelBinding;
 using Blongo.Routing;
 using Microsoft.AspNetCore.Builder;
@@ -128,7 +129,8 @@ namespace Blongo
             services
                 .AddOptions()
                 .AddSingleton<IHtmlEncoder, HtmlEncoder>()
-                .AddTransient<HttpClient>();
+                .AddTransient<HttpClient>()
+                .Configure<SendGridConfig>(Configuration.GetSection("SendGrid"));
 
             var mongoConnectionString = Configuration.GetValue<string>("Blongo:ConnectionString");
 

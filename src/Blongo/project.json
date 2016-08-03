@@ -25,6 +25,7 @@
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
         "MongoDB.Driver": "2.2.4",
         "RealFaviconGeneratorSdk": "0.1.0",
+        "SendGrid.Net40": "5.1.0",
         "Serilog.Extensions.Logging": "1.0.0",
         "Serilog.Sinks.ApplicationInsights": "2.0.56",
         "WindowsAzure.Storage": "7.1.2"

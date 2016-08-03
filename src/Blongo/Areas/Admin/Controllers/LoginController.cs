@@ -60,7 +60,7 @@ namespace Blongo.Areas.Admin.Controllers
 
             if (password.HashedPassword != user.HashedPassword)
             {
-                ModelState.AddModelError("__FORM", "Invalid credentials. Please try again.");
+                ModelState.AddModelError("__FORM", "Email address or password are incorrect");
 
                 return View(model);
             }

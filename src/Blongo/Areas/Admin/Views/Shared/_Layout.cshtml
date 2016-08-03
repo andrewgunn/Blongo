@@ -24,16 +24,6 @@
 
     @RenderBody()
 
-    @{ var i = User.Identity as System.Security.Claims.ClaimsIdentity; }
-
-    @foreach (var c in i.Claims)
-    {
-        <div>
-            @c.Type : @c.Value
-        </div>
-
-    }
-
     @Html.Partial("_Scripts")
 
     @RenderSection("Scripts", false)

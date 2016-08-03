@@ -1,8 +1,8 @@
-﻿@using Blongo.Areas.Admin.Models.Login
-@model LoginModel
+﻿@using Blongo.Areas.Admin.Models.SendResetPasswordEmail
+@model SendResetPasswordEmailModel
 
 @{
-    ViewBag._Title = "Login";
+    ViewBag._Title = "Forgotten Your Password?";
 }
 
 <div class="container-fluid">
@@ -12,11 +12,14 @@
                 <form method="post" class="login-form">
                     <div class="modal-body m-a-2">
                         <h1 class="text-xs-center m-b-3">
-                            Login
+                            Forgotten Your Password?
                         </h1>
 
                         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
+                        <div class="form-group">
+                            Please enter your email address so we can send you an email to reset your password.
+                        </div>
                         <fieldset>
                             <div class="form-group">
                                 <label asp-for="EmailAddress" class="sr-only"></label>
@@ -26,14 +29,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Password" class="sr-only"></label>
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-icon"><i class="fa fa-lock"></i></span>
-                                    <input type="password" asp-for="Password" class="form-control form-control-lg" placeholder="@Html.DisplayNameFor(m => m.Password)" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <a asp-route="AdminSendResetPasswordEmail">Forgotten your password?</a>
+                                <a asp-route="AdminLogin">Know your password?</a>
                             </div>
                         </fieldset>
                     </div>

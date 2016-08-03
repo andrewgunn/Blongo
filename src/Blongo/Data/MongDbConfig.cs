@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
 
-namespace Blongo.Config
+namespace Blongo.Data
 {
     public static class MongoDbConfig
     {
