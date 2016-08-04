@@ -121,7 +121,7 @@
 {
     @if (Model.SelectedPost != null)
     {
-        @await Component.InvokeAsync(nameof(PostStyles), Model.SelectedPost.Id)
+        @await Component.InvokeAsync(nameof(PostStyles), new { postId = Model.SelectedPost.Id })
     }
 }
 
@@ -129,7 +129,7 @@
 {
     @if (Model.SelectedPost != null)
     {
-        @await Component.InvokeAsync(nameof(PostScripts), Model.SelectedPost.Id)
+        @await Component.InvokeAsync(nameof(PostScripts), new { postId = Model.SelectedPost.Id })
     }
 
     <script>

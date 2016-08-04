@@ -9,6 +9,7 @@
     ViewBag._Description = Model.Post.Description;
 }
 
+
 <article class="m-b-2">
     <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
         <div class="dropdown">
@@ -70,10 +71,10 @@
 
 @section Styles
 {
-    @await Component.InvokeAsync(nameof(PostStyles), Model.Post.Id)
+    @await Component.InvokeAsync(nameof(PostStyles), new { postId = Model.Post.Id })
 }
 
 @section Scripts
 {
-    @await Component.InvokeAsync(nameof(PostScripts), Model.Post.Id)
+    @await Component.InvokeAsync(nameof(PostScripts), new { postId = Model.Post.Id })
 }

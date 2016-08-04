@@ -83,7 +83,7 @@
 {
     @foreach (var post in Model.Posts)
     {
-        @await Component.InvokeAsync(nameof(PostStyles), post.Id)
+        @await Component.InvokeAsync(nameof(PostStyles), new { postId = post.Id })
     }
 }
 
@@ -91,6 +91,6 @@
 {
     @foreach (var post in Model.Posts)
     {
-        @await Component.InvokeAsync(nameof(PostScripts), post.Id)
+        @await Component.InvokeAsync(nameof(PostScripts), new { postId = post.Id })
     }
 }
