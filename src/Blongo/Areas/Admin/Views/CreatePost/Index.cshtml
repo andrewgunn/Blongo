@@ -1,5 +1,6 @@
 ﻿@using Blongo
 @using Blongo.Areas.Admin.Models.CreatePost
+@using Blongo.ViewComponents
 
 @model CreatePostModel
 
@@ -75,3 +76,48 @@
         </div>
     </form>
 </div>
+
+@section Styles
+{
+    <div class="styles">
+        @await Component.InvokeAsync(nameof(PostStyles), new { postId = Model.Id })
+    </div>
+}
+
+@section Scripts
+{
+    <div class="scripts">
+        @await Component.InvokeAsync(nameof(PostScripts), new { postId = Model.Id })
+    </div>
+
+    <script>
+        (function (document, $) {
+            var $styles = $('.styles');
+            var timeout;
+
+            $(document).on('keyup', '[name="@Html.NameFor(m => m.Styles)"]', function () {
+                var $this = $(this);
+
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    $styles.html($this.val());
+                }, 1000);
+
+            });
+        })(document, window.jQuery);
+
+        (function (document, $) {
+            var $scripts = $('.scripts');
+            var timeout;
+
+            $(document).on('keyup', '[name="@Html.NameFor(m => m.Scripts)"]', function () {
+                var $this = $(this);
+
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    $scripts.html($this.val());
+                }, 1000);
+            });
+        })(document, window.jQuery);
+    </script>
+}

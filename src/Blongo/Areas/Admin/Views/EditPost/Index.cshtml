@@ -94,24 +94,30 @@
 
 @section Styles
 {
-    @await Component.InvokeAsync(nameof(PostStyles), new { postId = Model.Id })
+    <div class="styles">
+        @await Component.InvokeAsync(nameof(PostStyles), new { postId = Model.Id })
+    </div>
 }
 
 @section Scripts
 {
-    @await Component.InvokeAsync(nameof(PostScripts), new { postId = Model.Id })
-
     <div class="scripts">
+        @await Component.InvokeAsync(nameof(PostScripts), new { postId = Model.Id })
     </div>
 
     <script>
         (function (document, $) {
             var $styles = $('.styles');
+            var timeout;
 
             $(document).on('keyup', '[name="@Html.NameFor(m => m.Styles)"]', function () {
                 var $this = $(this);
 
-                $styles.html($this.val());
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    $styles.html($this.val());
+                }, 1000);
+
             });
         })(document, window.jQuery);
 
@@ -124,8 +130,8 @@
 
                 clearTimeout(timeout);
                 timeout = setTimeout(function () {
-                    $scripts.append($this.val());
-                }, 2000);
+                    $scripts.html($this.val());
+                }, 1000);
             });
         })(document, window.jQuery);
     </script>
