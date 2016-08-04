@@ -74,7 +74,7 @@ namespace Blongo.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToRoute("AdminListUsers", new { id = postId });
+                return RedirectToRoute("AdminListPosts", new { id = postId });
             }
         }
 
