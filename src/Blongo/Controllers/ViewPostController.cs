@@ -25,9 +25,7 @@ namespace Blongo.Controllers
         {
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
             var postsCollection = database.GetCollection<Data.Post>(Data.CollectionNames.Posts);
-            var filter = Builders<Data.Post>.Filter.Where(p => p.Id == id && (User.Identity.IsAuthenticated || (p.IsPublished && p.PublishedAt <= DateTime.UtcNow)));
-
-            var post = await postsCollection.Find(filter)
+            var post = await postsCollection.Find(Builders<Data.Post>.Filter.Where(p => p.Id == id))
                 .Sort(Builders<Data.Post>.Sort.Descending(c => c.PublishedAt))
                 .Project(p => new Post(p.Id, p.Title, p.Description, p.Body, p.Tags.ToTagViewModels(), p.CommentCount, p.PublishedAt, p.UrlSlug, p.Id.CreationTime, p.IsPublished))
                 .SingleOrDefaultAsync();
@@ -35,6 +33,11 @@ namespace Blongo.Controllers
             if (post == null)
             {
                 return NotFound();
+            }
+
+            if (!User.Identity.IsAuthenticated && (!post.IsPublished || post.PublishedAt > DateTime.UtcNow))
+            {
+                return Unauthorized();
             }
 
             var createCommentModel = new CreateCommentModel();
