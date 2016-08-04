@@ -80,14 +80,12 @@
 @section Styles
 {
     <div class="styles">
-        @await Component.InvokeAsync(nameof(PostStyles), new { postId = Model.Id })
     </div>
 }
 
 @section Scripts
 {
     <div class="scripts">
-        @await Component.InvokeAsync(nameof(PostScripts), new { postId = Model.Id })
     </div>
 
     <script>
