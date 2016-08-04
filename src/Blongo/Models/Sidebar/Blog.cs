@@ -5,6 +5,8 @@
         public Blog(string name, string description, string feedUrl, Author author)
         {
             Name = name;
+            Description = description;
+            FeedUrl = feedUrl;
             Author = author;
         }
 
