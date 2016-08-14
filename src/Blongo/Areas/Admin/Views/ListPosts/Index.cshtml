@@ -20,11 +20,11 @@
     </h1>
 
     <section class="m-t-2">
-        <p asp-visible="!Model.Posts.Any()" class="alert alert-info m-t-2" role="alert">
+        <p asp-if="!Model.Posts.Any()" class="alert alert-info m-t-2" role="alert">
             No posts found.
         </p>
 
-        <div asp-visible="Model.Posts.Any()">
+        <div asp-if="Model.Posts.Any()">
             <nav class="text-xs-center">
                 <ul class="pagination pagination-sm m-t-0">
                     <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
@@ -56,16 +56,16 @@
                             {
                                 var post = Model.Posts.ElementAt(i);
 
-                                <li class="post-list-item @(Model.SelectedPost != null && Model.SelectedPost.Id == post.Id ? "post-list-item-active": "")" data-url-view="@Url.RouteUrl("AdminListPosts", new { id = post.Id })" data-url-edit="@Url.RouteUrl("AdminEditPost", new { id = post.Id })">
+                                <li class="post-list-item @(Model.SelectedPost != null && Model.SelectedPost.Id == post.Id ? "post-list-item-active": "")" data-url="@Url.RouteUrl("AdminListPosts", new { id = post.Id })">
                                     <div class="pull-right">
                                         <div class="dropdown">
                                             <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a asp-route="ViewPost" asp-route-id="@Model.SelectedPost.Id" class="dropdown-item">View</a>
+                                                <a asp-route="ViewPost" asp-route-id="@post.Id" class="dropdown-item">View</a>
                                                 <div class="dropdown-divider"></div>
-                                                <a asp-route="AdminListComments" asp-route-postid="@Model.SelectedPost.Id" class="dropdown-item">Moderate Comments</a>
-                                                <a asp-route="AdminEditPost" asp-route-id="@Model.SelectedPost.Id" class="dropdown-item">Edit</a>
-                                                <form asp-route="AdminDeletePost" asp-route-id="@Model.SelectedPost.Id" class="form-confirm">
+                                                <a asp-route="AdminListComments" asp-route-postid="@post.Id" class="dropdown-item">Moderate Comments</a>
+                                                <a asp-route="AdminEditPost" asp-route-id="@post.Id" class="dropdown-item">Edit</a>
+                                                <form asp-route="AdminDeletePost" asp-route-id="@post.Id" class="form-confirm">
                                                     <button type="submit" class="dropdown-item text-danger">Delete</button>
                                                 </form>
                                             </div>
@@ -83,17 +83,17 @@
                                         <li class="list-inline-item">
                                             @post.PublishedAt.RelativeTo(DateTime.UtcNow)
                                         </li>
-                                        <li asp-visible="post.IsPublished && post.PublishedAt <= DateTime.UtcNow" class="list-inline-item">
+                                        <li asp-if="post.IsPublished && post.PublishedAt <= DateTime.UtcNow" class="list-inline-item">
                                             <span class="label label-success">
                                                 Published
                                             </span>
                                         </li>
-                                        <li asp-visible="post.IsPublished && post.PublishedAt > DateTime.UtcNow" class="list-inline-item">
+                                        <li asp-if="post.IsPublished && post.PublishedAt > DateTime.UtcNow" class="list-inline-item">
                                             <span class="label label-warning">
                                                 Published <i class="fa fa-clock-o"></i>
                                             </span>
                                         </li>
-                                        <li asp-visible="!post.IsPublished" class="list-inline-item">
+                                        <li asp-if="!post.IsPublished" class="list-inline-item">
                                             <span class="label label-danger">
                                                 Draft
                                             </span>
@@ -136,7 +136,7 @@
         (function ($) {
             $(document).on('click', '.post-list-item', function (e) {
                 var $this = $(e.currentTarget);
-                var url = $('.post-body').is(':visible') ? $this.data('url-view') : $this.data('url-edit');
+                var url = $this.data('url');
 
                 if (!url) {
                     return;

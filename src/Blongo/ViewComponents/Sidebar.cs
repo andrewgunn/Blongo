@@ -17,7 +17,7 @@ namespace Blongo.ViewComponents
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
             var collection = database.GetCollection<Data.Blog>(Data.CollectionNames.Blogs);
             var blog = await collection.Find(Builders<Data.Blog>.Filter.Empty)
-                .Project(b => new Blog(b.Name, b.Description, b.FeedUrl, new Author(b.Author.Name, b.Author.WebsiteUrl, b.Author.EmailAddress, b.Author.GitHubUsername, b.Author.TwitterUsername)))
+                .Project(b => new Blog(b.Name, b.Description, b.Company == null ? null : new Company(b.Company.Name, b.Company.WebsiteUrl), b.FeedUrl, b.Author == null ? null : new Author(b.Author.Name, b.Author.WebsiteUrl, b.Author.EmailAddress, b.Author.GitHubUsername, b.Author.TwitterUsername)))
                 .SingleOrDefaultAsync();
 
             var viewModel = new SidebarViewModel(blog);

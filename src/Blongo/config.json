@@ -6,11 +6,5 @@
     "Blongo": {
         "ConnectionString": "mongodb://localhost",
         "PasswordConstantSalt": "zyAMdM5!5~7eCfd#"
-    },
-
-    "SendGrid": {
-        "From": "hello@andrewgunn.co.uk",
-        "Username": "azure_51ee4f942bb6eb574f9fd2f61be670d9@azure.com",
-        "Password": "SendGrid123"
     }
 }

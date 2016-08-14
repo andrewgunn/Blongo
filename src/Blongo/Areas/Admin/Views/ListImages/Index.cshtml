@@ -34,11 +34,11 @@
     </form>
 
     <section class="m-t-2">
-        <p asp-visible="!Model.ImageUrls.Any()" class="alert alert-info" role="alert">
+        <p asp-if="!Model.ImageUrls.Any()" class="alert alert-info" role="alert">
             No images found.
         </p>
 
-        <div asp-visible="Model.ImageUrls.Any()">
+        <div asp-if="Model.ImageUrls.Any()">
             <nav class="text-xs-center">
                 <ul class="pagination pagination-sm m-t-0">
                     <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">

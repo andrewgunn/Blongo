@@ -1,6 +1,6 @@
 {
     "name": "blongo",
-    "description": "ASP.NET MVC + MongoDB = Blongo",
+    "description": "ASP.NET MVC Blog + MongoDB = Blongo",
     "version": "0.1.0",
     "dependencies": {
         "anchor-js": "^3.0.0",

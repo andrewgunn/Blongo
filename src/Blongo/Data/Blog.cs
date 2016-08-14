@@ -5,16 +5,13 @@ namespace Blongo.Data
 {
     public class Blog
     {
-        public Blog()
-        {
-            Author = new Author();
-        }
-
         public string AkismetApiKey { get; set; }
 
         public Author Author { get; set; }
 
         public string AzureStorageConnectionString { get; set; }
+
+        public Company Company { get; set; }
 
         public string Description { get; set; }
 
@@ -30,6 +27,8 @@ namespace Blongo.Data
         public string RealFaviconGeneratorApiKey { get; set; }
 
         public string Scripts { get; set; }
+
+        public SendGridSettings SendGridSettings { get; set; }
 
         public string Styles { get; set; }
     }

@@ -20,6 +20,11 @@ namespace Blongo.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToRoute("AdminListPosts");
+            }
+
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
             var collection = database.GetCollection<Data.ResetPasswordLink>(Data.CollectionNames.ResetPasswordLinks);
 

@@ -1,4 +1,6 @@
-﻿namespace Blongo.Data
+﻿using System;
+
+namespace Blongo.Data
 {
     public class Author
     {
@@ -10,6 +12,6 @@
 
         public string TwitterUsername { get; set; }
 
-        public string WebsiteUrl { get; set; }
+        public Uri WebsiteUrl { get; set; }
     }
 }

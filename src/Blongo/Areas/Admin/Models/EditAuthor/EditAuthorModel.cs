@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Blongo.Areas.Admin.Models.EditAuthor
 {
@@ -17,6 +18,6 @@ namespace Blongo.Areas.Admin.Models.EditAuthor
         public string TwitterUsername { get; set; }
 
         [Display(Name = "Website URL")]
-        public string WebsiteUrl { get; set; }
+        public Uri WebsiteUrl { get; set; }
     }
 }

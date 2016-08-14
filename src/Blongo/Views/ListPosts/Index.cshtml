@@ -5,7 +5,7 @@
 @model ListPostsViewModel
 
 <section class="m-b-2">
-    <p asp-visible="!Model.Posts.Any()" class="alert alert-info" role="alert">
+    <p asp-if="!Model.Posts.Any()" class="alert alert-info" role="alert">
         No posts found.
     </p>
 
@@ -14,7 +14,7 @@
         var post = Model.Posts.ElementAt(i);
 
         <article class="m-b-3 post">
-            <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
+            <div asp-if="User.Identity.IsAuthenticated" class="pull-xs-right">
                 <div class="dropdown">
                     <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -48,7 +48,7 @@
                         @post.CommentCount @(post.CommentCount == 1 ? "comment" : "comments")
                     </a>
                 </li>
-                <li asp-visible="post.Tags.Any()" class="list-inline-item hidden-xs-down">
+                <li asp-if="post.Tags.Any()" class="list-inline-item hidden-xs-down">
                     <i class="fa fa-tags"></i>
                 </li>
                 @foreach (var tag in post.Tags)
@@ -67,7 +67,7 @@
         </article>
     }
 
-    <nav asp-visible="Model.Posts.Any()">
+    <nav asp-if="Model.Posts.Any()">
         <ul class="pager">
             <li class="pager-prev @(Model.Paging.PreviousPageNumber == null ? "disabled" : "")">
                 <a asp-route="ListPosts" asp-route-p="@Model.Paging.PreviousPageNumber" title="Go to the previous page"><i class="fa fa-arrow-left"></i> Previous</a>

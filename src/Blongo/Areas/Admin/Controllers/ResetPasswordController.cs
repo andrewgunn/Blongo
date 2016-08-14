@@ -39,11 +39,10 @@ namespace Blongo.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id, ResetPasswordModel model)
+        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id, ResetPasswordModel model, string returnUrl = null)
         {
             var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
             var resetPasswordLinksCollection = database.GetCollection<Data.ResetPasswordLink>(Data.CollectionNames.ResetPasswordLinks);
-
             var resetPasswordLink = await resetPasswordLinksCollection.Find(Builders<Data.ResetPasswordLink>.Filter.Where(rpl => rpl.Id == id))
                 .SingleOrDefaultAsync();
 
@@ -73,6 +72,8 @@ namespace Blongo.Areas.Admin.Controllers
                 .Set(u => u.HashedPassword, password.HashedPassword);
             await usersCollection.UpdateOneAsync(Builders<Data.User>.Filter.Where(u => u.Id == id), update);
 
+            await resetPasswordLinksCollection.DeleteOneAsync(Builders<Data.ResetPasswordLink>.Filter.Where(rpl => rpl.Id == resetPasswordLink.Id));
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.EmailAddress),
@@ -82,7 +83,19 @@ namespace Blongo.Areas.Admin.Controllers
             var claimsIdentity = new ClaimsIdentity(claims, "local", ClaimTypes.Name, ClaimTypes.Role);
             await HttpContext.Authentication.SignInAsync("Cookies", new ClaimsPrincipal(claimsIdentity));
 
-            return RedirectToRoute("AdminListPosts");
+            return RedirectToLocal(returnUrl);
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToRoute("AdminListPosts", new { id = "" });
+            }
         }
 
         private readonly MongoClient _mongoClient;

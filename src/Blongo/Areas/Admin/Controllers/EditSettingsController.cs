@@ -26,8 +26,13 @@ namespace Blongo.Areas.Admin.Controllers
                 {
                     Name = b.Name,
                     Description = b.Description,
+                    CompanyName = b.Company == null ? null : b.Company.Name,
+                    CompanyWebsiteUrl = b.Company == null ? null : b.Company.WebsiteUrl,
                     FeedUrl = b.FeedUrl,
                     AzureStorageConnectionString = b.AzureStorageConnectionString,
+                    SendGridFromEmailAddress = b.SendGridSettings == null ? null : b.SendGridSettings.FromEmailAddress,
+                    SendGridUsername = b.SendGridSettings == null ? null : b.SendGridSettings.Username,
+                    SendGridPassword = b.SendGridSettings == null ? null : b.SendGridSettings.Password,
                     AkismetApiKey = b.AkismetApiKey,
                     RealFaviconGeneratorApiKey = b.RealFaviconGeneratorApiKey,
                     Styles = b.Styles,
@@ -51,8 +56,19 @@ namespace Blongo.Areas.Admin.Controllers
             var update = Builders<Data.Blog>.Update
                 .Set(b => b.Name, model.Name)
                 .Set(b => b.Description, model.Description)
+                .Set(b => b.Company, new Data.Company
+                {
+                    Name = model.CompanyName,
+                    WebsiteUrl = model.CompanyWebsiteUrl
+                })
                 .Set(b => b.FeedUrl, model.FeedUrl)
                 .Set(b => b.AzureStorageConnectionString, model.AzureStorageConnectionString)
+                .Set(b => b.SendGridSettings, new Data.SendGridSettings
+                {
+                    FromEmailAddress = model.SendGridFromEmailAddress,
+                    Username = model.SendGridUsername,
+                    Password = model.SendGridPassword,
+                })
                 .Set(b => b.AkismetApiKey, model.AkismetApiKey)
                 .Set(b => b.RealFaviconGeneratorApiKey, model.RealFaviconGeneratorApiKey)
                 .Set(b => b.Styles, model.Styles)

@@ -13,11 +13,11 @@
     </h1>
 
     <section class="m-t-2">
-        <p asp-visible="!Model.Comments.Any()" class="alert alert-info m-t-2" role="alert">
+        <p asp-if="!Model.Comments.Any()" class="alert alert-info m-t-2" role="alert">
             No comments found.
         </p>
 
-        <div asp-visible="Model.Comments.Any()">
+        <div asp-if="Model.Comments.Any()">
             <nav class="text-xs-center">
                 <ul class="pagination pagination-sm">
                     <li class="page-item @(Model.Paging.PageNumber <= 1 ? "disabled" : "")">
@@ -59,10 +59,10 @@
                                                 <a asp-route="ViewPost" asp-route-id="@Model.SelectedComment.PostId" asp-fragment="comment-@Model.SelectedComment.Id" class="dropdown-item">View</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a asp-route="AdminEditComment" asp-route-id="@Model.SelectedComment.Id" class="dropdown-item">Edit</a>
-                                                <form asp-visible="!Model.SelectedComment.IsSpam" asp-route="AdminSpamComment" asp-route-id="@Model.SelectedComment.Id" class="form-confirm">
+                                                <form asp-if="!Model.SelectedComment.IsSpam" asp-route="AdminSpamComment" asp-route-id="@Model.SelectedComment.Id" class="form-confirm">
                                                     <button class="dropdown-item text-warning">Mark as spam</button>
                                                 </form>
-                                                <form asp-visible="Model.SelectedComment.IsSpam" asp-route="AdminHamComment" asp-route-id="@Model.SelectedComment.Id" class="form-confirm">
+                                                <form asp-if="Model.SelectedComment.IsSpam" asp-route="AdminHamComment" asp-route-id="@Model.SelectedComment.Id" class="form-confirm">
                                                     <button class="dropdown-item text-success">Mark as ham</button>
                                                 </form>
                                                 <form asp-route="AdminDeleteComment" asp-route-id="@Model.SelectedComment.Id" class="form-confirm">
@@ -87,17 +87,17 @@
                                             @comment.CreatedAt.RelativeTo(DateTime.UtcNow)
                                         </li>
                                         <li class="list-inline-item">
-                                            <span asp-visible="comment.IsAkismetSpam == null" class="label label-warning">
+                                            <span asp-if="comment.IsAkismetSpam == null" class="label label-warning">
                                                 Akismet &nbsp;<i class="fa fa-question-circle"></i>
                                             </span>
-                                            <span asp-visible="comment.IsAkismetSpam != null && comment.IsAkismetSpam.Value" class="label label-danger">
+                                            <span asp-if="comment.IsAkismetSpam != null && comment.IsAkismetSpam.Value" class="label label-danger">
                                                 Akismet &nbsp;<i class="fa fa-times"></i>
                                             </span>
-                                            <span asp-visible="comment.IsAkismetSpam != null && !comment.IsAkismetSpam.Value" class="label label-success">
+                                            <span asp-if="comment.IsAkismetSpam != null && !comment.IsAkismetSpam.Value" class="label label-success">
                                                 Akismet &nbsp;<i class="fa fa-check"></i>
                                             </span>
                                         </li>
-                                        <li asp-visible="comment.IsSpam" class="list-inline-item">
+                                        <li asp-if="comment.IsSpam" class="list-inline-item">
                                             <span class="label label-warning">
                                                 Spam
                                             </span>
@@ -110,7 +110,7 @@
                     <div class="col-md-8 p-t-1 hidden-sm-down">
                         @if (Model.SelectedComment != null)
                         {
-                            <ul asp-visible="@(!string.IsNullOrWhiteSpace(Model.SelectedComment.CommenterWebsiteUrl))" class="list-inline list-unstyled">
+                            <ul asp-if="@(!string.IsNullOrWhiteSpace(Model.SelectedComment.CommenterWebsiteUrl))" class="list-inline list-unstyled">
                                 <li class="list-inline-item">
                                     <i class="fa fa-bookmark"></i>
                                 </li>

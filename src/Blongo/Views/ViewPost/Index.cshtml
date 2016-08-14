@@ -11,7 +11,7 @@
 
 
 <article class="m-b-2">
-    <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
+    <div asp-if="User.Identity.IsAuthenticated" class="pull-xs-right">
         <div class="dropdown">
             <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
             <div class="dropdown-menu dropdown-menu-right">
@@ -45,7 +45,7 @@
                 @Model.Post.CommentCount @(Model.Post.CommentCount == 1 ? "comment" : "comments")
             </a>
         </li>
-        <li asp-visible="Model.Post.Tags.Any()" class="list-inline-item hidden-xs-down">
+        <li asp-if="Model.Post.Tags.Any()" class="list-inline-item hidden-xs-down">
             <i class="fa fa-tags"></i>
         </li>
         @foreach (var tag in Model.Post.Tags)

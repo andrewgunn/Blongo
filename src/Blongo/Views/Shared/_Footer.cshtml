@@ -11,7 +11,7 @@
         </small>
     </p>
 
-    <p asp-visible="User.Identity.IsAuthenticated" class="text-xs-center">
+    <p asp-if="User.Identity.IsAuthenticated" class="text-xs-center">
         <a asp-route="AdminListPosts" asp-route-id="" class="btn btn-link btn-sm p-a-0" title="Admin">
             <i class="fa fa-lock"></i>
         </a>

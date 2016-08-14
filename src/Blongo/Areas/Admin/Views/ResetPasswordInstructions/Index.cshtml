@@ -4,7 +4,7 @@
 @model ResetPasswordInstructionsViewModel
 
 @{
-    ViewBag._Title = "Resetting Your Password...";
+    ViewBag._Title = "Please Check Your Inbox";
 }
 
 <div class="container-fluid">
@@ -13,15 +13,15 @@
             <div class="modal-content">
                 <div class="modal-body m-a-2">
                     <h1 class="text-xs-center m-b-3">
-                        Resetting Your Password
+                        Please Check Your Inbox
                     </h1>
                     
                     <p>
                         We've just sent you an email containing a link to reset your password. Check your inbox, but if you haven't recieved anything, please <a asp-route="AdminSendResetPasswordEmail">try again</a>.
                     </p>
 
-                    <p class="alert alert-warning m-t-3">
-                        The link will expire <strong>@Model.ExpiresAt.RelativeTo(DateTime.UtcNow)</strong>.
+                    <p class="alert alert-warning text-xs-center m-t-3">
+                        <i class="fa fa-clock-o"></i> The link will expire <strong>@Model.ExpiresAt.RelativeTo(DateTime.UtcNow)</strong>.
                     </p>
                 </div>
             </div>

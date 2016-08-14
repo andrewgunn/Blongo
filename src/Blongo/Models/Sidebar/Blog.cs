@@ -2,15 +2,18 @@
 {
     public class Blog
     {
-        public Blog(string name, string description, string feedUrl, Author author)
+        public Blog(string name, string description, Company company, string feedUrl, Author author)
         {
             Name = name;
             Description = description;
+            Company = company;
             FeedUrl = feedUrl;
             Author = author;
         }
 
         public Author Author { get; }
+
+        public Company Company { get; }
 
         public string Description { get; }
 

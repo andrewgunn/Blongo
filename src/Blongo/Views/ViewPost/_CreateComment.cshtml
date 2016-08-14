@@ -33,7 +33,7 @@
             <markdownbuttonbar></markdownbuttonbar>
 
             <label asp-for="Body" class="sr-only"></label>
-            <markdowneditor asp-for="Body" placeholder="@Html.DisplayNameFor(m => m.Body)"></markdowneditor>
+            <markdowneditor asp-for="Body" placeholder="@Html.DisplayNameFor(m => m.Body)" data-sanitize="true"></markdowneditor>
 
             <markdownpreview></markdownpreview>
 

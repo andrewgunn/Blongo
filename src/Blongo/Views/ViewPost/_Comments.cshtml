@@ -9,7 +9,7 @@
     </h3>
 
     <div class="post-comments">
-        <p asp-visible="!Model.Any()" class="alert alert-info" role="alert">
+        <p asp-if="!Model.Any()" class="alert alert-info" role="alert">
             No comments found.
         </p>
 
@@ -18,7 +18,7 @@
             var comment = Model.ElementAt(i);
 
             <div class="post-comment">
-                <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
+                <div asp-if="User.Identity.IsAuthenticated" class="pull-xs-right">
                     <div class="dropdown">
                         <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -42,7 +42,7 @@
                 <div class="clearfix">
                 </div>
 
-                <ul asp-visible="@(!string.IsNullOrWhiteSpace(comment.Commenter.WebsiteUrl))" class="list-inline list-unstyled">
+                <ul asp-if="@(!string.IsNullOrWhiteSpace(comment.Commenter.WebsiteUrl))" class="list-inline list-unstyled">
                     <li class="list-inline-item">
                         <i class="fa fa-bookmark"></i>
                     </li>
@@ -63,7 +63,7 @@
                 @Html.Markdown(comment.Body)
             </div>
 
-            <hr asp-visible="@i < Model.Count - 1" />
+            <hr asp-if="@i < Model.Count - 1" />
         }
     </div>
 </section>

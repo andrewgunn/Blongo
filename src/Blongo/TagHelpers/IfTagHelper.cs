@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Blongo.TagHelpers
 {
     [HtmlTargetElement(Attributes = ConditionAttributeName)]
-    public class VisibleTagHelper : TagHelper
+    public class IfTagHelper : TagHelper
     {
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -17,6 +16,6 @@ namespace Blongo.TagHelpers
         [HtmlAttributeName(ConditionAttributeName)]
         public bool Condition { get; set; }
 
-        private const string ConditionAttributeName = "asp-visible";
+        private const string ConditionAttributeName = "asp-if";
     }
 }

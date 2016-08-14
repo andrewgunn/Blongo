@@ -129,6 +129,7 @@ gulp.task('scripts:vendor', function () {
         config.paths.bower.highlightjs + '/highlight.pack.js',
         config.paths.bower.pagedown + '/Markdown.Converter.js',
         config.paths.bower.pagedown + '/Markdown.Editor.js',
+        config.paths.bower.pagedown + '/Markdown.Sanitizer.js',
         config.paths.bower.jQueryValidate + '/dist/jquery.validate.js',
         config.paths.bower.jQueryValidateUnobtrusive + '/jquery.validate.unobtrusive.js'
     ])

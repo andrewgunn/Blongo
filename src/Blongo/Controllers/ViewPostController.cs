@@ -74,7 +74,7 @@ namespace Blongo.Controllers
 
             var comment = new Data.Comment
             {
-                Body = new CommentHtmlStripper(model.Body).StrippedHtml,
+                Body = new HtmlSanitizer(model.Body).SanitizedHtml,
                 Commenter = new Data.Commenter
                 {
                     Name = model.Name,

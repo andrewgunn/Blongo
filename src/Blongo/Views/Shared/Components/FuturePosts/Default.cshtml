@@ -9,18 +9,18 @@
             Future Posts
         </h6>
 
-        <p asp-visible="!Model.Posts.Any()" class="card-text m-t-1">
+        <p asp-if="!Model.Posts.Any()" class="card-text m-t-1">
             <small class="text-muted">
                 No future posts found.
             </small>
         </p>
     </div>
 
-    <ol asp-visible="Model.Posts.Any()" class="list-group list-group-flush">
+    <ol asp-if="Model.Posts.Any()" class="list-group list-group-flush">
         @foreach (var post in Model.Posts)
         {
             <li class="list-group-item">
-                <div asp-visible="User.Identity.IsAuthenticated" class="pull-xs-right">
+                <div asp-if="User.Identity.IsAuthenticated" class="pull-xs-right">
                     <div class="dropdown">
                         <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                         <div class="dropdown-menu dropdown-menu-right">

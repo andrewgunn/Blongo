@@ -2,7 +2,6 @@
 using AkismetSdk.Clients.CommentCheck;
 using AkismetSdk.Clients.SubmitHam;
 using AkismetSdk.Clients.SubmitSpam;
-using Blongo.Config;
 using Blongo.Data;
 using Blongo.ModelBinding;
 using Blongo.Routing;
@@ -51,16 +50,18 @@ namespace Blongo
             services.AddTransient(serviceProvider =>
             {
                 var mongoClient = serviceProvider.GetRequiredService<MongoClient>();
-                var database = mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-                var blogsCollection = database.GetCollection<Data.Blog>(Data.CollectionNames.Blogs);
+                var database = mongoClient.GetDatabase(DatabaseNames.Blongo);
+                var blogsCollection = database.GetCollection<Blog>(CollectionNames.Blogs);
 
-                var blog = blogsCollection.Find(Builders<Data.Blog>.Filter.Empty)
+                var blog = blogsCollection.Find(Builders<Blog>.Filter.Empty)
                     .Project(b => new
                     {
                         b.AkismetApiKey
                     })
                     .SingleOrDefaultAsync()
-                    .Result;
+                    .ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult();
 
                 return new AkismetSettings(blog?.AkismetApiKey);
             });
@@ -74,16 +75,18 @@ namespace Blongo
             services.AddTransient(serviceProvider =>
             {
                 var mongoClient = serviceProvider.GetRequiredService<MongoClient>();
-                var database = mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-                var blogsCollection = database.GetCollection<Data.Blog>(Data.CollectionNames.Blogs);
+                var database = mongoClient.GetDatabase(DatabaseNames.Blongo);
+                var blogsCollection = database.GetCollection<Blog>(CollectionNames.Blogs);
 
-                var blog = blogsCollection.Find(Builders<Data.Blog>.Filter.Empty)
+                var blog = blogsCollection.Find(Builders<Blog>.Filter.Empty)
                     .Project(b => new
                     {
                         b.AzureStorageConnectionString
                     })
                     .SingleOrDefaultAsync()
-                    .Result;
+                    .ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult();
 
                 return new AzureBlobStorage(blog?.AzureStorageConnectionString);
             });
@@ -94,20 +97,51 @@ namespace Blongo
             services.AddTransient(serviceProvider =>
             {
                 var mongoClient = serviceProvider.GetRequiredService<MongoClient>();
-                var database = mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-                var blogsCollection = database.GetCollection<Data.Blog>(Data.CollectionNames.Blogs);
+                var database = mongoClient.GetDatabase(DatabaseNames.Blongo);
+                var blogsCollection = database.GetCollection<Blog>(CollectionNames.Blogs);
 
-                var blog = blogsCollection.Find(Builders<Data.Blog>.Filter.Empty)
+                var blog = blogsCollection.Find(Builders<Blog>.Filter.Empty)
                     .Project(b => new
                     {
                         b.RealFaviconGeneratorApiKey
                     })
                     .SingleOrDefaultAsync()
-                    .Result;
+                    .ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult();
 
                 return new RealFaviconGeneratorSettings(blog?.RealFaviconGeneratorApiKey);
             });
             services.AddSingleton<RealFaviconGenerator>();
+        }
+
+        private void AddMongoDb(IServiceCollection services)
+        {
+            var mongoConnectionString = Configuration.GetValue<string>("Blongo:ConnectionString");
+
+            services.AddTransient(serviceProvider => new MongoClient(mongoConnectionString));
+        }
+
+        private void AddSendGrid(IServiceCollection services)
+        {
+            services.AddTransient(serviceProvider =>
+            {
+                var mongoClient = serviceProvider.GetRequiredService<MongoClient>();
+                var database = mongoClient.GetDatabase(DatabaseNames.Blongo);
+                var blogsCollection = database.GetCollection<Blog>(CollectionNames.Blogs);
+
+                var blog = blogsCollection.Find(Builders<Blog>.Filter.Empty)
+                    .Project(b => new
+                    {
+                        b.SendGridSettings,
+                    })
+                    .SingleOrDefaultAsync()
+                    .ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult();
+
+                return new SendGridSettings(blog?.SendGridSettings?.Username, blog?.SendGridSettings?.Password, blog?.SendGridSettings?.FromEmailAddress);
+            });
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -119,28 +153,21 @@ namespace Blongo
                 options.ModelBinderProviders.Add(new ObjectIdModelBinderProvider());
             });
 
-            services.AddRouting(options =>
-            {
-                options.AppendTrailingSlash = false;
-                options.ConstraintMap.Add("ObjectId", typeof(ObjectIdRouteConstraint));
-                options.LowercaseUrls = true;
-            });
-
-            services
-                .AddOptions()
+            services.AddOptions()
+                .AddRouting(options =>
+                {
+                    options.AppendTrailingSlash = false;
+                    options.ConstraintMap.Add("ObjectId", typeof(ObjectIdRouteConstraint));
+                    options.LowercaseUrls = true;
+                })
                 .AddSingleton<IHtmlEncoder, HtmlEncoder>()
-                .AddTransient<HttpClient>()
-                .Configure<SendGridConfig>(Configuration.GetSection("SendGrid"));
-
-            var mongoConnectionString = Configuration.GetValue<string>("Blongo:ConnectionString");
-
-            services.AddTransient(serviceProvider => new MongoClient(mongoConnectionString));
+                .AddTransient<HttpClient>();
 
             AddAkismet(services);
             AddAzureBlobStorage(services);
             AddRealFaviconGenerator(services);
-
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            AddMongoDb(services);
+            AddSendGrid(services);
         }
 
         public void Configure(IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
@@ -177,9 +204,9 @@ namespace Blongo
                     if (context.User.Identity.IsAuthenticated)
                     {
                         var mongoClient = context.RequestServices.GetRequiredService<MongoClient>();
-                        var database = mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-                        var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-                        var userCount = await collection.CountAsync(Builders<Data.User>.Filter.Where(u => u.EmailAddress == context.User.Identity.Name));
+                        var database = mongoClient.GetDatabase(DatabaseNames.Blongo);
+                        var collection = database.GetCollection<User>(CollectionNames.Users);
+                        var userCount = await collection.CountAsync(Builders<User>.Filter.Where(u => u.EmailAddress == context.User.Identity.Name));
 
                         if (userCount == 0)
                         {

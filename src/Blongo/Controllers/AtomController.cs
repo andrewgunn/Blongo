@@ -79,9 +79,9 @@ namespace Blongo.Controllers
                         Copyright = new TextSyndicationContent($"Copyright © {DateTime.UtcNow.Year} {blog?.Author?.Name}"),
                     };
 
-                    syndicationItem.Authors.Add(new SyndicationPerson(blog?.Author.EmailAddress, blog?.Author.Name, blog?.Author.WebsiteUrl));
+                    syndicationItem.Authors.Add(new SyndicationPerson(blog?.Author?.EmailAddress, blog?.Author?.Name, blog?.Author.WebsiteUrl?.AbsoluteUri));
 
-                    syndicationItem.Contributors.Add(new SyndicationPerson(blog?.Author.EmailAddress, blog?.Author.Name, blog?.Author.WebsiteUrl));
+                    syndicationItem.Contributors.Add(new SyndicationPerson(blog?.Author?.EmailAddress, blog?.Author?.Name, blog?.Author?.WebsiteUrl?.AbsoluteUri));
 
                     foreach (var tag in post.Tags)
                     {

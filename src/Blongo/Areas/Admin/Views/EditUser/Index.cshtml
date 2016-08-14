@@ -8,7 +8,7 @@
 }
 
 <div class="container-fluid p-t-1">
-    <div asp-visible="User.IsInRole(UserRoles.Administrator)" class="pull-xs-right">
+    <div asp-if="User.IsInRole(UserRoles.Administrator)" class="pull-xs-right">
         <div class="dropdown">
             <button class="btn btn-link btn-sm p-r-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
             <div class="dropdown-menu dropdown-menu-right">
@@ -27,7 +27,7 @@
         <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
         <fieldset>
-            <div asp-visible="!string.IsNullOrWhiteSpace(Model.Role)" class="form-group">
+            <div asp-if="!string.IsNullOrWhiteSpace(Model.Role)" class="form-group">
                 <label asp-for="Role" class="control-label"></label>
                 <select asp-for="Role" class="form-control">
                     <option selected="@(Model.Role == UserRoles.Administrator)">

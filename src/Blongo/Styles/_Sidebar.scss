@@ -4,17 +4,20 @@
     padding: $spacer;
 }
 
-.sidebar-avatar {
-    @extend .img-circle, .img-fluid;
+.sidebar-imgs {
+    @extend .text-sm-center, .text-md-left;
     float: left;
+}
+
+.sidebar-img {
+    @extend .img-fluid;
     margin-bottom: 15px;
+    width: 60px;
 }
 
 .sidebar-list {
     @extend .list-unstyled;
     float: right;
-    margin-top: 15px;
-    margin-bottom: 15px;
 
     > li {
         display: inline-block;
@@ -27,8 +30,7 @@
 }
 
 @include media-breakpoint-up(sm) {
-    .sidebar-avatar {
-        display: inline-block;
+    .sidebar-imgs {
         float: none;
     }
 
@@ -36,7 +38,6 @@
         bottom: 0;
         float: none;
         left: 0;
-        margin-top: 0;
         position: absolute;
         text-align: center;
         width: 100%;
@@ -60,10 +61,6 @@
 }
 
 @include media-breakpoint-up(md) {
-    .sidebar-avatar {
-        text-align: left;
-    }
-
     .sidebar-header {
         font-size: $font-size-h1 / 2;
         font-size: 2vw;

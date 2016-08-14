@@ -7,14 +7,14 @@
         <h6 class="card-title m-b-0">
             Tags
         </h6>
-        <p asp-visible="!Model.Tags.Any()" class="card-text m-t-1">
+        <p asp-if="!Model.Tags.Any()" class="card-text m-t-1">
             <small class="text-muted">
                 No tags found.
             </small>
         </p>
     </div>
 
-    <div asp-visible="Model.Tags.Any()" class="list-group list-group-flush">
+    <div asp-if="Model.Tags.Any()" class="list-group list-group-flush">
         @foreach (var tag in Model.Tags)
         {
             <a asp-route="ListPostsByTag" asp-route-slug="@tag.UrlSlug" class="list-group-item" title="View Posts by Tag">@tag.Value <span class="label label-default label-pill pull-xs-right">@tag.Count</span></a>

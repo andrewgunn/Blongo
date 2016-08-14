@@ -85,8 +85,8 @@
 
         <div class="form-group">
             <button name="@Html.NameFor(m => m.IsPublished)" type="submit" value="@Model.IsPublished.ToString().ToLowerInvariant()" class="btn btn-secondary">Save</button>
-            <button asp-visible="!Model.IsPublished" name="@Html.NameFor(m => m.IsPublished)" type="submit" value="true" class="btn btn-primary btn-confirm">Publish</button>
-            <button asp-visible="Model.IsPublished" name="@Html.NameFor(m => m.IsPublished)" type="submit" value="false" class="btn btn-danger btn-confirm">Unpublish</button>
+            <button asp-if="!Model.IsPublished" name="@Html.NameFor(m => m.IsPublished)" type="submit" value="true" class="btn btn-primary btn-confirm">Publish</button>
+            <button asp-if="Model.IsPublished" name="@Html.NameFor(m => m.IsPublished)" type="submit" value="false" class="btn btn-danger btn-confirm">Unpublish</button>
             <a href="@(@ViewContext.HttpContext.Request.Query["returnUrl"].ToString().AsNullIfEmpty() ?? Url.RouteUrl("AdminListPosts"))" class="btn btn-link">Cancel</a>
         </div>
     </form>

@@ -29,6 +29,18 @@
 
         <fieldset>
             <div class="form-group">
+                <label asp-for="CompanyName" class="control-label"></label>
+                <input type="text" asp-for="CompanyName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CompanyWebsiteUrl" class="control-label"></label>
+                <input type="text" asp-for="CompanyWebsiteUrl" class="form-control" />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
                 <label asp-for="FeedUrl" class="control-label"></label>
                 <input type="text" asp-for="FeedUrl" class="form-control" />
             </div>
@@ -38,6 +50,23 @@
             <div class="form-group">
                 <label asp-for="AzureStorageConnectionString" class="control-label"></label>
                 <input type="text" asp-for="AzureStorageConnectionString" class="form-control" />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label asp-for="SendGridFromEmailAddress" class="control-label"></label>
+                <input asp-for="SendGridFromEmailAddress" class="form-control" type="text" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SendGridUsername" class="control-label"></label>
+                <input asp-for="SendGridUsername" class="form-control" type="text" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SendGridPassword" class="control-label"></label>
+                <input asp-for="SendGridPassword" class="form-control" type="text" />
             </div>
         </fieldset>
 
