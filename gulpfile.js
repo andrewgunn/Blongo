@@ -127,11 +127,12 @@ gulp.task('scripts:vendor', function () {
         config.paths.bower.bootstrap + '/js/dist/util.js',
         config.paths.bower.clipboard + '/dist/clipboard.js',
         config.paths.bower.highlightjs + '/highlight.pack.js',
+        config.paths.bower.jQueryValidate + '/dist/jquery.validate.js',
+        config.paths.bower.jQueryValidateUnobtrusive + '/jquery.validate.unobtrusive.js',
+        config.paths.bower.konamiJs + '/konami.js',
         config.paths.bower.pagedown + '/Markdown.Converter.js',
         config.paths.bower.pagedown + '/Markdown.Editor.js',
-        config.paths.bower.pagedown + '/Markdown.Sanitizer.js',
-        config.paths.bower.jQueryValidate + '/dist/jquery.validate.js',
-        config.paths.bower.jQueryValidateUnobtrusive + '/jquery.validate.unobtrusive.js'
+        config.paths.bower.pagedown + '/Markdown.Sanitizer.js'
     ])
         .pipe($.sourcemaps.init({ loadMaps: true }))
         .pipe($.concat('vendor.js'))

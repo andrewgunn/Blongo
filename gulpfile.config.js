@@ -27,11 +27,12 @@ module.exports = function () {
     config.paths.bower.highlightjs = config.paths.bower.root + '/highlightjs';
     config.paths.bower.html5shiv = config.paths.bower.root + '/html5shiv';
     config.paths.bower.jquery = config.paths.bower.root + '/jquery';
+    config.paths.bower.jQueryValidate = config.paths.bower.root + '/jquery-validation';
+    config.paths.bower.jQueryValidateUnobtrusive = config.paths.bower.root + '/jquery-validation-unobtrusive';
+    config.paths.bower.konamiJs = config.paths.bower.root + '/konami-js';
     config.paths.bower.pagedown = config.paths.bower.root + '/pagedown';
     config.paths.bower.respond = config.paths.bower.root + '/respond';
     config.paths.bower.tether = config.paths.bower.root + '/tether';
-    config.paths.bower.jQueryValidate = config.paths.bower.root + '/jquery-validation';
-    config.paths.bower.jQueryValidateUnobtrusive = config.paths.bower.root + '/jquery-validation-unobtrusive';
 
     config.paths.src.fonts = config.paths.src.root + '/Fonts';
     config.paths.src.icons = config.paths.src.root + '/Icons';
