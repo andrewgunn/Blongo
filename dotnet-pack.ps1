@@ -7,4 +7,4 @@ If (Test-Path $packPath)
 
 New-Item -ItemType Directory -Force -Path $packPath
 
-Get-ChildItem -Path "$PSScriptRoot\src" | ?{ $_.PSIsContainer } | % { dotnet pack (Resolve-Path $_.FullName) --configuration Release --output (Resolve-Path $packPath) }
+Get-ChildItem -Path "$PSScriptRoot\src" | ?{ $_.PSIsContainer } | % { dotnet pack (Resolve-Path $_.FullName) --configuration Release --output $packPath }

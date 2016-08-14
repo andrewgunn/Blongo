@@ -8,4 +8,4 @@ If (Test-Path $publishPath)
 }
 
 New-Item -ItemType Directory -Force -Path $publishPath
-dotnet publish (Resolve-Path "$PSScriptRoot\src\Blongo") --configuration Release --output (Resolve-Path $publishPath)
+dotnet publish "$PSScriptRoot\src\Blongo" --configuration Release --output $publishPath
