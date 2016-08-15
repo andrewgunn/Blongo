@@ -1,5 +1,11 @@
 ﻿@using Blongo.ViewComponents
 
+<cache expires-after="@TimeSpan.FromDays(1)">
+<!--
+@await Component.InvokeAsync(nameof(AsciiArt))
+-->
+</cache>
+
 <!DOCTYPE html>
 <html class="no-js no-fa" lang="en">
 <head prefix="og: http://ogp.me/ns">
