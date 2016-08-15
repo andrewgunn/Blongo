@@ -178,14 +178,15 @@ namespace Blongo
 
             applicationBuilder.UseApplicationInsightsRequestTelemetry();
 
-            if (hostingEnvironment.IsDevelopment())
-            {
-                applicationBuilder.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                applicationBuilder.UseExceptionHandler("/500");
-            }
+            applicationBuilder.UseDeveloperExceptionPage();
+            //if (hostingEnvironment.IsDevelopment())
+            //{
+            //    applicationBuilder.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    applicationBuilder.UseExceptionHandler("/500");
+            //}
 
             applicationBuilder
                 .UseStatusCodePagesWithReExecute("/{0}")

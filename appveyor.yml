@@ -3,7 +3,7 @@
     only:
     - master
   
-  version: 0.28.0
+  version: 0.29.0
   
   skip_tags: true
 
@@ -33,11 +33,11 @@
   - ps: .\dotnet-test.ps1
   - ps: >
       $webClient = New-Object 'System.Net.WebClient';
-      Get-ChildItem artifacts\test -include TestResult.xml -recurse | % { $webClient.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($Env:APPVEYOR_JOB_ID)", $_.FullName) }
+      Get-ChildItem $PSScriptRoot\artifacts\test -include TestResult.xml -recurse | % { $webClient.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($Env:APPVEYOR_JOB_ID)", $_.FullName) }
   
   deploy_script:
   - ps: .\dotnet-publish.ps1
-  - '"C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:IisApp=''%APPVEYOR_BUILD_FOLDER%\artifacts\publish'' -dest:IisApp=''blongo'',ComputerName=''https://blongo.scm.azurewebsites.net/msdeploy.axd?site=blongo'',UserName=''%WEB_DEPLOY_USERNAME%'',Password=''%WEB_DEPLOY_PASSWORD%'',IncludeAcls=''False'',AuthType=''Basic'' -verb:sync -enablerule:AppOffline -retryAttempts:20'
+  - '"C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:IisApp=''%APPVEYOR_BUILD_FOLDER%\artifacts\publish'' -dest:IisApp=''blongo'',ComputerName=''https://blongo.scm.azurewebsites.net/msdeploy.axd?site=blongo'',UserName=''%WEB_DEPLOY_USERNAME%'',Password=''%WEB_DEPLOY_PASSWORD%'',IncludeAcls=''False'',AuthType=''Basic'' -verb:sync -enableRule:AppOffline -retryAttempts:20'
 
   on_success:
   - git config --global user.email "%GIT_EMAIL_ADDRESS"
