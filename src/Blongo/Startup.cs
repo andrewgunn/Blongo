@@ -25,8 +25,8 @@ namespace Blongo
         {
             var configurationBuilder = new ConfigurationBuilder()
                 .SetBasePath(hostingEnvironment.ContentRootPath)
-                .AddJsonFile("config.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"config.{hostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
             configurationBuilder.AddApplicationInsightsSettings(developerMode: hostingEnvironment.IsDevelopment());
 
