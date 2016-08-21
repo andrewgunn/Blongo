@@ -3,7 +3,7 @@
     only:
     - master
   
-  version: 0.29.0
+  version: 0.30.0
   
   skip_tags: true
 
@@ -11,7 +11,7 @@
       
   init:
   - git config --global core.autocrlf input
-  #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   
   configuration: Release
   
@@ -52,4 +52,4 @@
   - ps: Update-AppveyorBuild -Version "$($Env:APPVEYOR_BUILD_VERSION).$($Env:APPVEYOR_BUILD_NUMBER)-fail"
 
   on_finish:
-  #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
