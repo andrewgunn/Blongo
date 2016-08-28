@@ -1,16 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
-using System.Text;
-
-namespace Blongo.TagHelpers
+﻿namespace Blongo.TagHelpers
 {
+    using System;
+    using System.Security.Cryptography;
+    using System.Text;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Microsoft.AspNetCore.Razor.TagHelpers;
+
     [HtmlTargetElement("img", Attributes = DefaultAttributeName)]
     [HtmlTargetElement("img", Attributes = EmailAddressAttributeName)]
     [HtmlTargetElement("img", Attributes = SizeAttributeName)]
     public class GravatarTagHelper : TagHelper
     {
+        private const string DefaultAttributeName = "asp-gravatar-default";
+        private const string EmailAddressAttributeName = "asp-gravatar-emailaddress";
+        private const string SizeAttributeName = "asp-gravatar-size";
+
+        [HtmlAttributeName(DefaultAttributeName)]
+        public string Default { get; set; }
+
+        [HtmlAttributeName(EmailAddressAttributeName)]
+        public string EmailAddress { get; set; }
+
+        [HtmlAttributeName(SizeAttributeName)]
+        public string Size { get; set; }
+
+        [HtmlAttributeNotBound]
+        [ViewContext]
+        public ViewContext ViewContext { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var md5Hash = GenerateMd5Hash(EmailAddress);
@@ -31,34 +49,17 @@ namespace Blongo.TagHelpers
                 return null;
             }
 
-            var md5 = System.Security.Cryptography.MD5.Create();
+            var md5 = MD5.Create();
             var inputBytes = Encoding.ASCII.GetBytes(value.Trim());
             var hash = md5.ComputeHash(inputBytes);
             var stringBuilder = new StringBuilder();
 
-            for (int i = 0; i < hash.Length; i++)
+            for (var i = 0; i < hash.Length; i++)
             {
                 stringBuilder.Append(hash[i].ToString("X2"));
             }
 
             return stringBuilder.ToString().ToLowerInvariant();
         }
-
-        [HtmlAttributeName(DefaultAttributeName)]
-        public string Default { get; set; }
-
-        [HtmlAttributeName(EmailAddressAttributeName)]
-        public string EmailAddress { get; set; }
-
-        [HtmlAttributeName(SizeAttributeName)]
-        public string Size { get; set; }
-
-        [HtmlAttributeNotBound]
-        [ViewContext]
-        public ViewContext ViewContext { get; set; }
-
-        private const string DefaultAttributeName = "asp-gravatar-default";
-        private const string EmailAddressAttributeName = "asp-gravatar-emailaddress";
-        private const string SizeAttributeName = "asp-gravatar-size";
     }
 }

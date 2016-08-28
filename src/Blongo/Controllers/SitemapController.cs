@@ -1,18 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace Blongo.Controllers
+﻿namespace Blongo.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Xml.Linq;
+    using Data;
+    using Microsoft.AspNetCore.Mvc;
+    using MongoDB.Driver;
+
     [ResponseCache(Duration = 86400)]
     [Route("sitemap.xml", Name = "Sitemap")]
     public class SitemapController : Controller
     {
+        private readonly MongoClient _mongoClient;
+
         public SitemapController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
@@ -20,13 +23,13 @@ namespace Blongo.Controllers
 
         public async Task<ContentResult> Index()
         {
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.Post>(Data.CollectionNames.Posts);
-            var filter = Builders<Data.Post>.Filter.Where(p => p.IsPublished && p.PublishedAt <= DateTime.UtcNow);
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<Post>(CollectionNames.Posts);
+            var filter = Builders<Post>.Filter.Where(p => p.IsPublished && p.PublishedAt <= DateTime.UtcNow);
             var blog = await collection.Find(filter)
-                .Sort(Builders<Data.Post>.Sort.Descending(p => p.PublishedAt))
+                .Sort(Builders<Post>.Sort.Descending(p => p.PublishedAt))
                 .Limit(1)
-                .Project(p => new { LastUpdatedAt = p.LastUpdatedAt })
+                .Project(p => new {p.LastUpdatedAt})
                 .SingleOrDefaultAsync();
 
             XNamespace xmlns = "http://www.sitemaps.org/schemas/sitemap/0.9";
@@ -34,7 +37,7 @@ namespace Blongo.Controllers
 
             var sitemapUrls = new List<SitemapUrl>();
             sitemapUrls.Add(
-                new SitemapUrl()
+                new SitemapUrl
                 {
                     Url = Url.RouteUrl("ListPosts", null, Request.Scheme),
                     LastModifiedAt = blog == null ? null : blog.LastUpdatedAt,
@@ -49,20 +52,26 @@ namespace Blongo.Controllers
                     new XElement(
                         xmlns + "loc",
                         Uri.EscapeUriString(sitemapUrl.Url)
-                    ),
-                    sitemapUrl.LastModifiedAt == null ? null : new XElement(
-                        xmlns + "lastmod",
-                        sitemapUrl.LastModifiedAt.Value.ToString("yyyy-MM-ddTHH:mm:sszzz")
-                    ),
-                    sitemapUrl.ChangeFrequency == null ? null : new XElement(
-                        xmlns + "changefreq",
-                        sitemapUrl.ChangeFrequency.Value.ToString().ToLowerInvariant()
-                    ),
-                    sitemapUrl.Priority == null ? null : new XElement(
-                        xmlns + "priority",
-                        sitemapUrl.Priority.Value.ToString("F1", CultureInfo.InvariantCulture)
-                    )
-                );
+                        ),
+                    sitemapUrl.LastModifiedAt == null
+                        ? null
+                        : new XElement(
+                            xmlns + "lastmod",
+                            sitemapUrl.LastModifiedAt.Value.ToString("yyyy-MM-ddTHH:mm:sszzz")
+                            ),
+                    sitemapUrl.ChangeFrequency == null
+                        ? null
+                        : new XElement(
+                            xmlns + "changefreq",
+                            sitemapUrl.ChangeFrequency.Value.ToString().ToLowerInvariant()
+                            ),
+                    sitemapUrl.Priority == null
+                        ? null
+                        : new XElement(
+                            xmlns + "priority",
+                            sitemapUrl.Priority.Value.ToString("F1", CultureInfo.InvariantCulture)
+                            )
+                    );
                 root.Add(sitemapUrlElement);
             }
 
@@ -70,7 +79,5 @@ namespace Blongo.Controllers
 
             return Content(sitemap.ToString(), "text/xml", Encoding.UTF8);
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

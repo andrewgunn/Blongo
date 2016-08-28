@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Area("admin")]
     [Authorize]
     [Route("admin/logout", Name = "AdminLogout")]
@@ -28,10 +28,7 @@ namespace Blongo.Areas.Admin.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToRoute("AdminListPosts");
-            }
+            return RedirectToRoute("AdminListPosts");
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Blongo.Models.Sidebar
+﻿namespace Blongo.Models.Sidebar
 {
+    using System;
+
     public class Author
     {
         public Author(string name, Uri websiteUrl, string emailAddress, string gitHubUsername, string twitterUsername)
@@ -15,7 +15,7 @@ namespace Blongo.Models.Sidebar
 
         public string EmailAddress { get; }
 
-        public string GitHubUsername{ get; }
+        public string GitHubUsername { get; }
 
         public string Name { get; }
 

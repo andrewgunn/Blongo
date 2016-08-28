@@ -1,11 +1,11 @@
-﻿using Blongo.Models.AsciiArt;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace Blongo.ViewComponents
+﻿namespace Blongo.ViewComponents
 {
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.AsciiArt;
+
     public class AsciiArt : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync()

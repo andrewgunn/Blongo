@@ -7,7 +7,7 @@ Licensed MIT
 /* global navigator */
 /* exported onloadCSS */
 function onloadCSS(ss, callback) {
-    ss.onload = function () {
+    ss.onload = function() {
         ss.onload = null;
         if (callback) {
             callback.call(ss);

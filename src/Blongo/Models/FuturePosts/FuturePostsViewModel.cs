@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Blongo.Models.FuturePosts
+﻿namespace Blongo.Models.FuturePosts
 {
+    using System.Collections.Generic;
+
     public class FuturePostsViewModel
     {
         public FuturePostsViewModel(IReadOnlyCollection<Post> posts)

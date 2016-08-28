@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.UploadImage
+﻿namespace Blongo.Areas.Admin.Models.UploadImage
 {
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Http;
+
     public class UploadImageModel
     {
         [Display(Name = "File name")]

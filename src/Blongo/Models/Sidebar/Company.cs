@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Blongo.Models.Sidebar
+﻿namespace Blongo.Models.Sidebar
 {
+    using System;
+
     public class Company
     {
         public Company(string name, Uri websiteUrl)

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace RealFaviconGeneratorSdk
+﻿namespace RealFaviconGeneratorSdk
 {
+    using System;
+
     public class RealFaviconGeneratorApiKeyCannotBeNullOrWhitespaceException : Exception
     {
         public RealFaviconGeneratorApiKeyCannotBeNullOrWhitespaceException(string apiKey)

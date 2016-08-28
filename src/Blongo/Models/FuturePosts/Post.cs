@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
-using System;
-
-namespace Blongo.Models.FuturePosts
+﻿namespace Blongo.Models.FuturePosts
 {
+    using System;
+    using MongoDB.Bson;
+
     public class Post
     {
         public Post(ObjectId id, string title, DateTime publishedAt)

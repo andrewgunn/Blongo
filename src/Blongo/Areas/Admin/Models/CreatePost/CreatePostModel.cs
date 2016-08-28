@@ -1,8 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.CreatePost
+﻿namespace Blongo.Areas.Admin.Models.CreatePost
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class CreatePostModel
     {
         [Display(Name = "Body")]

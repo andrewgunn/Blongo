@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-
-namespace Blongo.TagHelpers
+﻿namespace Blongo.TagHelpers
 {
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.AspNetCore.Razor.TagHelpers;
+
     [HtmlTargetElement("markdownbuttonbar")]
     public class MarkdownButtonBarTagHelper : TagHelper
     {

@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Conventions;
-
-namespace Blongo.Data
+﻿namespace Blongo.Data
 {
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.Conventions;
+
     public static class MongoDbConfig
     {
         public static void RegisterCamelCaseElementNameConvention()

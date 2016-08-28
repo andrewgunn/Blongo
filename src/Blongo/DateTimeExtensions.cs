@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Blongo
+﻿namespace Blongo
 {
+    using System;
+
     public static class DateTimeExtensions
     {
         public static string RelativeTo(this DateTime extended, DateTime now)
@@ -12,40 +12,40 @@ namespace Blongo
             var agoFromNow = isInThePast ? "ago" : "from now";
 
             const int second = 1;
-            const int minute = 60 * second;
-            const int hour = 60 * minute;
+            const int minute = 60*second;
+            const int hour = 60*minute;
 
-            if (deltaSeconds < 1 * second)
+            if (deltaSeconds < 1*second)
             {
                 return "just now";
             }
 
-            if (deltaSeconds == 1 * second)
+            if (deltaSeconds == 1*second)
             {
                 return $"1 sec {agoFromNow}";
             }
 
-            if (deltaSeconds < 1 * minute)
+            if (deltaSeconds < 1*minute)
             {
                 return $"{delta.Seconds} secs {agoFromNow}";
             }
 
-            if (deltaSeconds == 1 * minute)
+            if (deltaSeconds == 1*minute)
             {
                 return $"1 min {agoFromNow}";
             }
 
-            if (deltaSeconds < 1 * hour)
+            if (deltaSeconds < 1*hour)
             {
                 return $"{Math.Min(59, Math.Ceiling(delta.TotalMinutes))} mins {agoFromNow}";
             }
 
-            if (deltaSeconds == 1 * hour)
+            if (deltaSeconds == 1*hour)
             {
                 return $"1 hr {agoFromNow}";
             }
 
-            if (deltaSeconds <= 3 * hour)
+            if (deltaSeconds <= 3*hour)
             {
                 return $"{Math.Min(59, Math.Ceiling(delta.TotalHours))} hrs {agoFromNow}";
             }

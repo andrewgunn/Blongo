@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.StaticFiles;
-using System.Threading.Tasks;
-
-namespace Blongo.Controllers
+﻿namespace Blongo.Controllers
 {
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.StaticFiles;
+
     [ResponseCache(Duration = int.MaxValue)]
     [Route("atom-icon-48x48.png", Name = "AtomIcon")]
     public class AtomIconController : Controller
     {
+        private readonly AzureBlobStorage _azureBlobStorage;
+
         public AtomIconController(AzureBlobStorage azureBlobStorage)
         {
             _azureBlobStorage = azureBlobStorage;
@@ -41,7 +43,5 @@ namespace Blongo.Controllers
 
             return new EmptyResult();
         }
-
-        private readonly AzureBlobStorage _azureBlobStorage;
     }
 }

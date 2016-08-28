@@ -1,4 +1,4 @@
-﻿namespace Blongo.Models. BlogScripts
+﻿namespace Blongo.Models.BlogScripts
 {
     public class BlogScriptsViewModel
     {

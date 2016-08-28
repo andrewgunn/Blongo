@@ -1,12 +1,13 @@
-﻿using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-
-namespace Blongo.Models.ViewPost
+﻿namespace Blongo.Models.ViewPost
 {
+    using System;
+    using System.Collections.Generic;
+    using MongoDB.Bson;
+
     public class Post
     {
-        public Post(ObjectId id, string title, string description, string body, IReadOnlyCollection<Tag> tags, int commentCount, DateTime publishedAt, string urlSlug, DateTime createdAt, bool isPublished)
+        public Post(ObjectId id, string title, string description, string body, IReadOnlyCollection<Tag> tags,
+            int commentCount, DateTime publishedAt, string urlSlug, DateTime createdAt, bool isPublished)
         {
             Id = id;
             Title = title;

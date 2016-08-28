@@ -1,8 +1,8 @@
-﻿using FluentAssertions;
-using System.Collections.Specialized;
-
-namespace AkismetSdk.Tests
+﻿namespace AkismetSdk.Tests
 {
+    using System.Collections.Specialized;
+    using FluentAssertions;
+
     public static class FormDataExtensions
     {
         public static void ShouldBeEquivalentTo(this NameValueCollection formData, Comment comment)

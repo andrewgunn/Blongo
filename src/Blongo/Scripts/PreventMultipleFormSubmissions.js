@@ -1,15 +1,18 @@
-﻿'use strict';
+﻿"use strict";
 
-(function () {
-    $(document).on('submit', 'form', function (event) {
-        var $form = $(event.currentTarget);
+(function() {
+    $(document)
+        .on("submit",
+            "form",
+            function(event) {
+                var $form = $(event.currentTarget);
 
-        if ($form.data('submitted')) {
-            event.preventDefault();
-            
-            return;
-        }
+                if ($form.data("submitted")) {
+                    event.preventDefault();
 
-        $form.data('submitted', true);
-    });
+                    return;
+                }
+
+                $form.data("submitted", true);
+            });
 })();

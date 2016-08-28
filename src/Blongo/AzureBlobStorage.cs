@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace Blongo
+﻿namespace Blongo
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.StaticFiles;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
+
     public class AzureBlobStorage
     {
+        private readonly CloudStorageAccount _cloudStorageAccount;
+
         public AzureBlobStorage(string connectionString)
         {
             _cloudStorageAccount = CloudStorageAccount.Parse(connectionString);
@@ -45,7 +47,7 @@ namespace Blongo
                 return new IListBlobItem[0];
             }
 
-            return blobContainer.ListBlobs(prefix: blobName);
+            return blobContainer.ListBlobs(blobName);
         }
 
         public async Task Purge(string containerName)
@@ -79,7 +81,5 @@ namespace Blongo
 
             return blob;
         }
-
-        private readonly CloudStorageAccount _cloudStorageAccount;
     }
 }

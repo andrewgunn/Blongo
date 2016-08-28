@@ -1,16 +1,19 @@
-﻿using Blongo.Areas.Admin.Models.EditSettings;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.EditSettings;
+    using MongoDB.Driver;
+
     [Area("admin")]
     [Authorize]
     [Route("admin/settings", Name = "AdminEditSettings")]
     public class EditSettingsController : Controller
     {
+        private readonly MongoClient _mongoClient;
+
         public EditSettingsController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
@@ -19,9 +22,9 @@ namespace Blongo.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.Blog>(Data.CollectionNames.Blogs);
-            var model = await collection.Find(Builders<Data.Blog>.Filter.Empty)
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<Blog>(CollectionNames.Blogs);
+            var model = await collection.Find(Builders<Blog>.Filter.Empty)
                 .Project(b => new EditSettingsModel
                 {
                     Name = b.Name,
@@ -51,33 +54,31 @@ namespace Blongo.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.Blog>(Data.CollectionNames.Blogs);
-            var update = Builders<Data.Blog>.Update
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<Blog>(CollectionNames.Blogs);
+            var update = Builders<Blog>.Update
                 .Set(b => b.Name, model.Name)
                 .Set(b => b.Description, model.Description)
-                .Set(b => b.Company, new Data.Company
+                .Set(b => b.Company, new Company
                 {
                     Name = model.CompanyName,
                     WebsiteUrl = model.CompanyWebsiteUrl
                 })
                 .Set(b => b.FeedUrl, model.FeedUrl)
                 .Set(b => b.AzureStorageConnectionString, model.AzureStorageConnectionString)
-                .Set(b => b.SendGridSettings, new Data.SendGridSettings
+                .Set(b => b.SendGridSettings, new SendGridSettings
                 {
                     FromEmailAddress = model.SendGridFromEmailAddress,
                     Username = model.SendGridUsername,
-                    Password = model.SendGridPassword,
+                    Password = model.SendGridPassword
                 })
                 .Set(b => b.AkismetApiKey, model.AkismetApiKey)
                 .Set(b => b.RealFaviconGeneratorApiKey, model.RealFaviconGeneratorApiKey)
                 .Set(b => b.Styles, model.Styles)
                 .Set(b => b.Scripts, model.Scripts);
-            await collection.UpdateOneAsync(Builders<Data.Blog>.Filter.Empty, update, new UpdateOptions { IsUpsert = true });
+            await collection.UpdateOneAsync(Builders<Blog>.Filter.Empty, update, new UpdateOptions {IsUpsert = true});
 
             return RedirectToRoute("AdminListPosts");
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

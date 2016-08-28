@@ -1,7 +1,7 @@
-﻿using MongoDB.Bson;
-
-namespace Blongo.Areas.Admin.Models.ListComments
+﻿namespace Blongo.Areas.Admin.Models.ListComments
 {
+    using MongoDB.Bson;
+
     public class SelectedComment
     {
         public SelectedComment(ObjectId id, ObjectId postId, string body, bool isSpam, string commenterWebsiteUrl)

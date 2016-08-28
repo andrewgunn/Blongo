@@ -1,22 +1,25 @@
-﻿using Blongo.Areas.Admin.Models.SendResetPasswordEmail;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using SendGrid;
-using System;
-using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System;
+    using System.Net.Mail;
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.SendResetPasswordEmail;
+    using MongoDB.Driver;
+    using SendGrid;
+
     [Area("admin")]
     [Route("admin/forgotpassword/{emailAddress?}", Name = "AdminSendResetPasswordEmail")]
     public class SendResetPasswordEmailController : Controller
     {
-        public SendResetPasswordEmailController(SendGridSettings sendGridSettings, MongoClient mongoClient)
+        private readonly MongoClient _mongoClient;
+        private readonly ISendGridShim _sendGrid;
+
+        public SendResetPasswordEmailController(MongoClient mongoClient, ISendGridShim sendGrid)
         {
             _mongoClient = mongoClient;
-            _sendGridSettings = sendGridSettings;
+            _sendGrid = sendGrid;
         }
 
         [HttpGet]
@@ -38,16 +41,17 @@ namespace Blongo.Areas.Admin.Controllers
                 return RedirectToLocal(returnUrl);
             }
 
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var usersCollection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var user = await usersCollection.Find(Builders<Data.User>.Filter.Where(p => p.EmailAddress == model.EmailAddress))
-                .Project(u => new
-                {
-                    u.Id,
-                    u.Name,
-                    u.EmailAddress
-                })
-                .SingleOrDefaultAsync();
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var usersCollection = database.GetCollection<User>(CollectionNames.Users);
+            var user =
+                await usersCollection.Find(Builders<User>.Filter.Where(p => p.EmailAddress == model.EmailAddress))
+                    .Project(u => new
+                    {
+                        u.Id,
+                        u.Name,
+                        u.EmailAddress
+                    })
+                    .SingleOrDefaultAsync();
 
             if (user == null)
             {
@@ -56,9 +60,10 @@ namespace Blongo.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var resetPasswordLinksCollection = database.GetCollection<Data.ResetPasswordLink>(Data.CollectionNames.ResetPasswordLinks);
+            var resetPasswordLinksCollection =
+                database.GetCollection<ResetPasswordLink>(CollectionNames.ResetPasswordLinks);
 
-            var resetPasswordLink = new Data.ResetPasswordLink
+            var resetPasswordLink = new ResetPasswordLink
             {
                 ExpiresAt = DateTime.UtcNow.AddMinutes(5),
                 UserId = user.Id
@@ -66,21 +71,14 @@ namespace Blongo.Areas.Admin.Controllers
 
             await resetPasswordLinksCollection.InsertOneAsync(resetPasswordLink);
 
-            var resetPasswordUrl = Url.RouteUrl("AdminResetPassword", new { id = resetPasswordLink.Id, returnUrl }, HttpContext.Request.Scheme, HttpContext.Request.Host.Value);
+            var resetPasswordUrl = Url.RouteUrl("AdminResetPassword", new {id = resetPasswordLink.Id, returnUrl},
+                HttpContext.Request.Scheme, HttpContext.Request.Host.Value);
 
-            var message = new SendGridMessage();
-            message.From = new MailAddress(_sendGridSettings.FromEmailAddress);
-            message.AddTo($"{user.Name} <{user.EmailAddress}>");
-            message.Subject = "Forgotten your Blongo password?";
-            message.Html = $"<a href=\"{resetPasswordUrl}\">{resetPasswordUrl}</a>";
-            message.EnableClickTracking(true);
+            await
+                _sendGrid.SendEmailAsync(new MailAddress(user.EmailAddress), "Forgotten your Blongo password?",
+                    $"<a href=\"{resetPasswordUrl}\">{resetPasswordUrl}</a>");
 
-            var credentials = new NetworkCredential(_sendGridSettings.Username, _sendGridSettings.Password);
-
-            var web = new Web(credentials);
-            await web.DeliverAsync(message);
-
-            return RedirectToRoute("AdminResetPasswordInstructions", new { id = resetPasswordLink.Id });
+            return RedirectToRoute("AdminResetPasswordInstructions", new {id = resetPasswordLink.Id});
         }
 
         private IActionResult RedirectToLocal(string returnUrl)
@@ -89,13 +87,7 @@ namespace Blongo.Areas.Admin.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToRoute("AdminListPosts");
-            }
+            return RedirectToRoute("AdminListPosts");
         }
-
-        private readonly MongoClient _mongoClient;
-        private readonly SendGridSettings _sendGridSettings;
     }
 }

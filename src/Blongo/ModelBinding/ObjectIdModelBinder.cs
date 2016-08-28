@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using MongoDB.Bson;
-using System;
-using System.Threading.Tasks;
-
-namespace Blongo.ModelBinding
+﻿namespace Blongo.ModelBinding
 {
+    using System;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using MongoDB.Bson;
+
     public class ObjectIdModelBinder : IModelBinder
     {
-
         Task IModelBinder.BindModelAsync(ModelBindingContext bindingContext)
         {
             var modelType = bindingContext.ModelType;
@@ -34,7 +33,7 @@ namespace Blongo.ModelBinding
             try
             {
                 var model = ObjectId.Parse(valueProviderResult.ToString());
-             
+
                 bindingContext.Result = ModelBindingResult.Success(model);
 
                 return Task.CompletedTask;

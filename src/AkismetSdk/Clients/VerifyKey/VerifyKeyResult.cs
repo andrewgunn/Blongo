@@ -4,7 +4,7 @@
     {
         public VerifyKeyResult(bool isValid)
         {
-           IsValid = isValid;
+            IsValid = isValid;
         }
 
         public bool IsValid { get; }

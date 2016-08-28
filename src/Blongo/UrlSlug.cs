@@ -1,14 +1,16 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
-
-namespace Blongo
+﻿namespace Blongo
 {
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     public class UrlSlug
     {
         public UrlSlug(string input)
         {
             Value = ConvertToUrlSlug(input);
         }
+
+        public string Value { get; }
 
         public static string ConvertToUrlSlug(string value)
         {
@@ -31,11 +33,9 @@ namespace Blongo
 
         private static string RemoveAccents(string value)
         {
-            byte[] bytes = Encoding.GetEncoding("Cyrillic").GetBytes(value);
+            var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(value);
 
             return Encoding.ASCII.GetString(bytes);
         }
-
-        public string Value { get; }
     }
 }

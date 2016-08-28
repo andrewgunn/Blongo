@@ -1,16 +1,19 @@
-﻿using Blongo.Areas.Admin.Models.Login;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.Login;
+    using MongoDB.Driver;
+
     [Area("admin")]
-    [Route("admin/login", Name = "AdminLogin")] 
+    [Route("admin/login", Name = "AdminLogin")]
     public class LoginController : Controller
     {
+        private readonly MongoClient _mongoClient;
+
         public LoginController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
@@ -24,13 +27,13 @@ namespace Blongo.Areas.Admin.Controllers
                 return RedirectToLocal(returnUrl);
             }
 
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var userCount = await collection.CountAsync(Builders<Data.User>.Filter.Empty);
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<User>(CollectionNames.Users);
+            var userCount = await collection.CountAsync(Builders<User>.Filter.Empty);
 
             if (userCount == 0)
             {
-                return new RedirectToRouteResult("AdminCreateFirstUser", new { returnUrl });
+                return new RedirectToRouteResult("AdminCreateFirstUser", new {returnUrl});
             }
 
             var model = new LoginModel();
@@ -46,9 +49,9 @@ namespace Blongo.Areas.Admin.Controllers
                 return RedirectToLocal(returnUrl);
             }
 
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var user = await collection.Find(Builders<Data.User>.Filter.Where(u => u.EmailAddress == model.EmailAddress))
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<User>(CollectionNames.Users);
+            var user = await collection.Find(Builders<User>.Filter.Where(u => u.EmailAddress == model.EmailAddress))
                 .SingleOrDefaultAsync();
 
             if (user == null)
@@ -83,12 +86,7 @@ namespace Blongo.Areas.Admin.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToRoute("AdminListPosts");
-            }
+            return RedirectToRoute("AdminListPosts");
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
-using System;
-
-namespace Blongo.Models.ViewPost
+﻿namespace Blongo.Models.ViewPost
 {
+    using System;
+    using MongoDB.Bson;
+
     public class Comment
     {
         public Comment(ObjectId id, ObjectId postId, string body, Commenter commenter, DateTime createdAt)

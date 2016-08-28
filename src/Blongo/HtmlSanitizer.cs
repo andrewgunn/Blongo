@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace Blongo
+﻿namespace Blongo
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+
     public class HtmlSanitizer
     {
+        private static readonly Regex _aTag;
+        private static readonly Regex _basicTags;
+        private static readonly Regex _closingTag;
+        private static readonly Regex _imgTag;
+        private static readonly Regex _openingTag;
+        private static readonly Regex _tag;
+        private static readonly Regex _tagName;
+
         static HtmlSanitizer()
         {
             _openingTag = new Regex("<[^>]*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -16,13 +22,22 @@ namespace Blongo
             _tagName = new Regex(@"<\/?(\w+).*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             // Tags that can be opened/closed & tags that stand alone
-            _basicTags = new Regex(@"^(<\/?(b|blockquote|code|del|dd|dl|dt|em|h1|h2|h3|i|kbd|li|ol|p|pre|s|sup|sub|strong|strike|ul)>|<(br|hr)\s?\/?>)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            _basicTags =
+                new Regex(
+                    @"^(<\/?(b|blockquote|code|del|dd|dl|dt|em|h1|h2|h3|i|kbd|li|ol|p|pre|s|sup|sub|strong|strike|ul)>|<(br|hr)\s?\/?>)$",
+                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             // <a href="{url}" title?>...</a>
-            _aTag = new Regex(@"^(<a\shref=""((https?|ftp):\/\/|\/)[-A-Za-z0-9+&@#\/%?=~_|!:,.;\(\)]+""(\stitle=""[^""<>]+"")?\s?>|<\/a>)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            _aTag =
+                new Regex(
+                    @"^(<a\shref=""((https?|ftp):\/\/|\/)[-A-Za-z0-9+&@#\/%?=~_|!:,.;\(\)]+""(\stitle=""[^""<>]+"")?\s?>|<\/a>)$",
+                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             // <img src="{url}" width? height? alt? title?/>
-            _imgTag = new Regex(@"^(<img\ssrc=""(https?:\/\/|\/)[-A-Za-z0-9+&@#\/%?=~_|!:,.;\(\)]+""(\swidth=""\d{1,3}"")?(\sheight=""\d{1,3}"")?(\salt=""[^""<>]*"")?(\stitle=""[^""<>]*"")?\s?\/?>)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            _imgTag =
+                new Regex(
+                    @"^(<img\ssrc=""(https?:\/\/|\/)[-A-Za-z0-9+&@#\/%?=~_|!:,.;\(\)]+""(\swidth=""\d{1,3}"")?(\sheight=""\d{1,3}"")?(\salt=""[^""<>]*"")?(\stitle=""[^""<>]*"")?\s?\/?>)$",
+                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         public HtmlSanitizer(string html)
@@ -31,14 +46,18 @@ namespace Blongo
             SanitizedHtml = SanitizeHtml(html);
         }
 
+        public string Html { get; }
+
+        public string SanitizedHtml { get; }
+
         private static string SanitizeHtml(string html)
         {
-            if(string.IsNullOrWhiteSpace(html))
+            if (string.IsNullOrWhiteSpace(html))
             {
                 return html;
             }
 
-            var sanitizedHtml = _openingTag.Replace(html, delegate (Match match)
+            var sanitizedHtml = _openingTag.Replace(html, delegate(Match match)
             {
                 var tag = match.Value;
 
@@ -84,10 +103,13 @@ namespace Blongo
 
                 var pairedTagIndex = -1;
 
-                if (!_closingTag.IsMatch(tag)) {
+                if (!_closingTag.IsMatch(tag))
+                {
                     // This is an opening tag search forwards (next tags), look for closing tags
-                    for (var nextTagIndex = tagIndex + 1; nextTagIndex < tagCount; nextTagIndex++) {
-                        if (!tagsPaired.Contains(nextTagIndex) && tags[nextTagIndex].Value == $"</{tagName}>") {
+                    for (var nextTagIndex = tagIndex + 1; nextTagIndex < tagCount; nextTagIndex++)
+                    {
+                        if (!tagsPaired.Contains(nextTagIndex) && tags[nextTagIndex].Value == $"</{tagName}>")
+                        {
                             pairedTagIndex = nextTagIndex;
                             break;
                         }
@@ -112,7 +134,7 @@ namespace Blongo
             // Delete all orphaned tags from the string
             var removeTagIndex = 0;
 
-            html = _tag.Replace(html, delegate (Match m)
+            html = _tag.Replace(html, delegate(Match m)
             {
                 var removeTag = tagsToRemove.Contains(removeTagIndex);
 
@@ -124,17 +146,5 @@ namespace Blongo
 
             return html;
         }
-
-        public string Html { get; }
-
-        public string SanitizedHtml { get; }
-
-        private static readonly Regex _aTag;
-        private static readonly Regex _basicTags;
-        private static readonly Regex _closingTag;
-        private static readonly Regex _imgTag;
-        private static readonly Regex _openingTag;
-        private static readonly Regex _tag;
-        private static readonly Regex _tagName;
     }
 }

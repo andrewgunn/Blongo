@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Blongo.Areas.Admin.Models.ListImages
+﻿namespace Blongo.Areas.Admin.Models.ListImages
 {
     public class Paging
     {

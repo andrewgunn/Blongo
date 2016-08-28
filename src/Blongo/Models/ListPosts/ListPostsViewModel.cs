@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Blongo.Models.ListPosts
+﻿namespace Blongo.Models.ListPosts
 {
+    using System.Collections.Generic;
+
     public class ListPostsViewModel
     {
         public ListPostsViewModel(IReadOnlyCollection<Post> posts, Paging paging)

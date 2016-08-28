@@ -1,5 +1,5 @@
-﻿'use strict';
+﻿"use strict";
 
-(function (highlight) {
+(function(highlight) {
     highlight.initHighlightingOnLoad();
 })(window.hljs);

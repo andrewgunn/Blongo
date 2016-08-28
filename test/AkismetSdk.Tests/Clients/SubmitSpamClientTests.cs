@@ -1,14 +1,14 @@
-﻿using AkismetSdk.Clients.SubmitSpam;
-using FluentAssertions;
-using NUnit.Framework;
-using System;
-using System.Collections.Specialized;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-
-namespace AkismetSdk.Tests.Clients
+﻿namespace AkismetSdk.Tests.Clients
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using AkismetSdk.Clients.SubmitSpam;
+    using FluentAssertions;
+    using NUnit.Framework;
+
     public class SubmitSpamClientTests
     {
         [Test]
@@ -33,7 +33,8 @@ namespace AkismetSdk.Tests.Clients
             var akismetSettings = new AkismetSettings(akismetApiKey);
             var client = new SubmitSpamClient(akismetSettings, httpClient);
 
-            var comment = new Comment(new Uri("http://blog.andrewgunn.co.uk/"), "127.0.0.1", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36");
+            var comment = new Comment(new Uri("http://blog.andrewgunn.co.uk/"), "127.0.0.1",
+                "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36");
             comment.CommentType = CommentType.Comment;
             comment.Name = "Andrew Gunn";
             comment.EmailAddress = "hello@andrewgunn.co.uk";
@@ -43,7 +44,7 @@ namespace AkismetSdk.Tests.Clients
             comment.Referrer = "https://www.google.co.uk/";
             comment.CreatedAt = new DateTime(9999, 12, 31, 23, 59, 59);
             comment.PostModifiedAt = new DateTime(9999, 12, 31, 23, 59, 59);
-            comment.Languages = new[] { "en", "en-GB" };
+            comment.Languages = new[] {"en", "en-GB"};
             comment.Encoding = "UTF-8";
             comment.UserRole = "user";
             comment.IsTestMode = true;

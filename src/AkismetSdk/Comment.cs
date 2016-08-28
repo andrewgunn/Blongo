@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AkismetSdk
+﻿namespace AkismetSdk
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Comment
     {
         public Comment(Uri blogUri, string ipAddress, string userAgent)

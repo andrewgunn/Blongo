@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Blongo.Areas.Admin.Models.ListComments
+﻿namespace Blongo.Areas.Admin.Models.ListComments
 {
     public class Paging
     {

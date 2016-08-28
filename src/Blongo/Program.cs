@@ -1,16 +1,16 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-
-namespace Blongo
+﻿namespace Blongo
 {
+    using System.IO;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+
     public class Program
     {
         public static void Main(string[] args)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("kestrel.json", optional: true)
+                .AddJsonFile("kestrel.json", true)
                 .Build();
 
             var host = new WebHostBuilder()

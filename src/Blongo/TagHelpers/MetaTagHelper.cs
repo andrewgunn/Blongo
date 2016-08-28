@@ -1,14 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
-using System.Linq;
-
-namespace Blongo.TagHelpers
+﻿namespace Blongo.TagHelpers
 {
+    using System;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Microsoft.AspNetCore.Razor.TagHelpers;
+
     [HtmlTargetElement("meta", Attributes = ContentAttributeName)]
     public class MetaTagHelper : TagHelper
     {
+        private const string ContentAttributeName = "content";
+
+        [HtmlAttributeName(ContentAttributeName)]
+        public string Content { get; set; }
+
+        [HtmlAttributeNotBound]
+        [ViewContext]
+        public ViewContext ViewContext { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (!Content.StartsWith("/"))
@@ -30,7 +39,7 @@ namespace Blongo.TagHelpers
             }
 
 
-            UriBuilder uriBuilder = new UriBuilder();
+            var uriBuilder = new UriBuilder();
             uriBuilder.Scheme = scheme;
             uriBuilder.Host = host;
             uriBuilder.Port = port;
@@ -47,14 +56,5 @@ namespace Blongo.TagHelpers
 
             output.Attributes.SetAttribute("content", absoluteUri);
         }
-
-        [HtmlAttributeName(ContentAttributeName)    ]
-        public string Content { get; set; }
-
-        [HtmlAttributeNotBound]
-        [ViewContext]
-        public ViewContext ViewContext { get; set; }
-
-        private const string ContentAttributeName = "content";
     }
 }

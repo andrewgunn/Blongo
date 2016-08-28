@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace Blongo.Models.ViewPost
+﻿namespace Blongo.Models.ViewPost
 {
+    using System.Collections.Generic;
+
     public class ViewPostViewModel
     {
-        public ViewPostViewModel(Post post, IReadOnlyCollection<Comment> comments, CreateCommentModel createCommentModel, SiblingPost previousPost, SiblingPost nextPost)
+        public ViewPostViewModel(Post post, IReadOnlyCollection<Comment> comments, CreateCommentModel createCommentModel,
+            SiblingPost previousPost, SiblingPost nextPost)
         {
             Post = post;
             Comments = comments;

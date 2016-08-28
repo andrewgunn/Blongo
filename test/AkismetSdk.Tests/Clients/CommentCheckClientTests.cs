@@ -1,14 +1,14 @@
-﻿using AkismetSdk.Clients.CommentCheck;
-using FluentAssertions;
-using NUnit.Framework;
-using System;
-using System.Collections.Specialized;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-
-namespace AkismetSdk.Tests.Clients
+﻿namespace AkismetSdk.Tests.Clients
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using AkismetSdk.Clients.CommentCheck;
+    using FluentAssertions;
+    using NUnit.Framework;
+
     public class CommentCheckClientTests
     {
         [Test]
@@ -43,7 +43,8 @@ namespace AkismetSdk.Tests.Clients
             var commentUri = "http://blog.andrewgunn.co.uk/post/123/test";
             var referrer = "https://www.google.co.uk/";
             var ipAddress = "127.0.0.1";
-            var userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36";
+            var userAgent =
+                "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36";
             var createdAt = "9999-12-31T23:59:59";
             var postModifiedAt = "9999-12-31T23:59:59";
             var userRole = "user";
@@ -65,7 +66,8 @@ namespace AkismetSdk.Tests.Clients
             comment.UserRole = userRole;
             comment.IsTestMode = bool.Parse(isTestMode);
 
-            var result = client.PostAsync(comment, CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
+            var result =
+                client.PostAsync(comment, CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
 
             result.IsSpam.Should().BeTrue();
 

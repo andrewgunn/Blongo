@@ -1,11 +1,7 @@
-﻿using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Blongo.Models.ViewPost
+﻿namespace Blongo.Models.ViewPost
 {
+    using MongoDB.Bson;
+
     public class SiblingPost
     {
         public SiblingPost(ObjectId id, string title, string urlSlug)

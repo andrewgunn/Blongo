@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.ResetPassword
+﻿namespace Blongo.Areas.Admin.Models.ResetPassword
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class ResetPasswordModel
     {
         [Display(Name = "Password")]

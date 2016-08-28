@@ -1,8 +1,8 @@
-﻿'use strict';
+﻿"use strict";
 
-(function (anchors) {
+(function(anchors) {
     anchors.options = {
-        visible: 'touch'
+        visible: "touch"
     };
-    anchors.add('.post-details h3, .post-comment h4');
+    anchors.add(".post-details h3, .post-comment h4");
 })(window.anchors);

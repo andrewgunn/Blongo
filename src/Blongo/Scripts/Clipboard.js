@@ -1,5 +1,5 @@
-﻿'use strict';
+﻿"use strict";
 
-(function (Clipboard) {
-    new Clipboard('.btn');
+(function(Clipboard) {
+    new Clipboard(".btn");
 })(window.Clipboard);

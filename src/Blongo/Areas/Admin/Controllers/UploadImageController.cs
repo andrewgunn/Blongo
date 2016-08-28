@@ -1,17 +1,19 @@
-﻿using Blongo.Areas.Admin.Models.UploadImage;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System.Drawing;
+    using System.IO;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.UploadImage;
+
     [Area("admin")]
     [Authorize]
     [Route("admin/image/upload", Name = "AdminUploadImage")]
     public class UploadImageController : Controller
     {
+        private readonly AzureBlobStorage _azureBlobStorage;
+
         public UploadImageController(AzureBlobStorage azureBlobStorage)
         {
             _azureBlobStorage = azureBlobStorage;
@@ -34,7 +36,7 @@ namespace Blongo.Areas.Admin.Controllers
             }
 
             using (var imageStream = model.Image.OpenReadStream())
-            using (var memoryStream = new MemoryStream((int)model.Image.Length))
+            using (var memoryStream = new MemoryStream((int) model.Image.Length))
             {
                 var image = Image.FromStream(imageStream);
 
@@ -55,7 +57,5 @@ namespace Blongo.Areas.Admin.Controllers
 
             return RedirectToRoute("AdminListImages");
         }
-
-        private readonly AzureBlobStorage _azureBlobStorage;
     }
 }

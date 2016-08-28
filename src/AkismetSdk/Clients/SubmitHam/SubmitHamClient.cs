@@ -1,11 +1,14 @@
-﻿using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace AkismetSdk.Clients.SubmitHam
+﻿namespace AkismetSdk.Clients.SubmitHam
 {
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class SubmitHamClient
     {
+        private readonly AkismetSettings _akismetSettings;
+        private readonly HttpClient _httpClient;
+
         public SubmitHamClient(AkismetSettings akismetSettings, HttpClient httpClient)
         {
             _akismetSettings = akismetSettings;
@@ -28,8 +31,5 @@ namespace AkismetSdk.Clients.SubmitHam
                 response.EnsureSuccessStatusCode();
             }
         }
-
-        private readonly AkismetSettings _akismetSettings;
-        private readonly HttpClient _httpClient;
     }
 }

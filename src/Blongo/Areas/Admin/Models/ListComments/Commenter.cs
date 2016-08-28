@@ -4,28 +4,15 @@
     {
         public Commenter(string name, string emailAddress, string websiteUrl)
         {
-            _name = name;
-            _emailAddress = emailAddress;
-            _websiteUrl = websiteUrl;
+            Name = name;
+            EmailAddress = emailAddress;
+            WebsiteUrl = websiteUrl;
         }
 
-        public string EmailAddress
-        {
-            get { return _emailAddress; }
-        }
+        public string EmailAddress { get; }
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name { get; }
 
-        public string WebsiteUrl
-        {
-            get { return _websiteUrl; }
-        }
-
-        private readonly string _emailAddress;
-        private readonly string _name;
-        private readonly string _websiteUrl;
+        public string WebsiteUrl { get; }
     }
 }

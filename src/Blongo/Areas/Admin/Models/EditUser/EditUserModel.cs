@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.EditUser
+﻿namespace Blongo.Areas.Admin.Models.EditUser
 {
+    using System.ComponentModel.DataAnnotations;
+    using MongoDB.Bson;
+
     public class EditUserModel
     {
         [Display(Name = "Email address")]

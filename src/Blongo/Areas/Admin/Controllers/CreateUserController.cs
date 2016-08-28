@@ -1,17 +1,20 @@
-﻿using Blongo.Areas.Admin.Models.CreateUser;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using System;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.CreateUser;
+    using MongoDB.Driver;
+
     [Area("admin")]
     [Authorize]
     [Route("admin/users/create", Name = "AdminCreateUser")]
     public class CreateUserController : Controller
     {
+        private readonly MongoClient _mongoClient;
+
         public CreateUserController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
@@ -33,10 +36,10 @@ namespace Blongo.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.User>("users");
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<User>("users");
 
-            if (await collection.CountAsync(Builders<Data.User>.Filter.Where(u => u.EmailAddress == model.EmailAddress)) > 0)
+            if (await collection.CountAsync(Builders<User>.Filter.Where(u => u.EmailAddress == model.EmailAddress)) > 0)
             {
                 ModelState.AddModelError(nameof(model.EmailAddress), "There is already a user with that email address");
 
@@ -46,7 +49,7 @@ namespace Blongo.Areas.Admin.Controllers
             var passwordSalt = Guid.NewGuid().ToString();
             var password = new Password(model.Password, passwordSalt);
 
-            await collection.InsertOneAsync(new Data.User
+            await collection.InsertOneAsync(new User
             {
                 Name = model.Name,
                 EmailAddress = model.EmailAddress,
@@ -64,12 +67,7 @@ namespace Blongo.Areas.Admin.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToRoute("AdminListUsers");
-            }
+            return RedirectToRoute("AdminListUsers");
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

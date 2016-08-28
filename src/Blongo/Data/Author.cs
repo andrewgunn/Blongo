@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Blongo.Data
+﻿namespace Blongo.Data
 {
+    using System;
+
     public class Author
     {
         public string EmailAddress { get; set; }

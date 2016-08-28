@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.Login
+﻿namespace Blongo.Areas.Admin.Models.Login
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class LoginModel
     {
         [Display(Name = "Email address")]

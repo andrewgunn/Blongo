@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Blongo.Models.ListPosts
+﻿namespace Blongo.Models.ListPosts
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class TagExtensions
     {
         public static IReadOnlyCollection<Tag> ToTagViewModels(this IReadOnlyCollection<Data.Tag> tags)

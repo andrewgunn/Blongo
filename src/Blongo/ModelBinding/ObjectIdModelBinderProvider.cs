@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
-
-namespace Blongo.ModelBinding
+﻿namespace Blongo.ModelBinding
 {
+    using System;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+
     public class ObjectIdModelBinderProvider : IModelBinderProvider
     {
         public IModelBinder GetBinder(ModelBinderProviderContext context)

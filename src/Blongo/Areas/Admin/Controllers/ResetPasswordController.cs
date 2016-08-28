@@ -1,19 +1,22 @@
-﻿using Blongo.Areas.Admin.Models.ResetPassword;
-using Blongo.ModelBinding;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Mvc;
+    using ModelBinding;
+    using Models.ResetPassword;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+
     [Area("admin")]
     [Route("admin/resetpassword/{id:objectId}", Name = "AdminResetPassword")]
     public class ResetPasswordController : Controller
     {
+        private readonly MongoClient _mongoClient;
+
         public ResetPasswordController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
@@ -22,11 +25,13 @@ namespace Blongo.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id)
         {
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var resetPasswordLinksCollection = database.GetCollection<Data.ResetPasswordLink>(Data.CollectionNames.ResetPasswordLinks);
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var resetPasswordLinksCollection =
+                database.GetCollection<ResetPasswordLink>(CollectionNames.ResetPasswordLinks);
 
-            var resetPasswordLink = await resetPasswordLinksCollection.Find(Builders<Data.ResetPasswordLink>.Filter.Where(rpl => rpl.Id == id))
-                .SingleOrDefaultAsync();
+            var resetPasswordLink =
+                await resetPasswordLinksCollection.Find(Builders<ResetPasswordLink>.Filter.Where(rpl => rpl.Id == id))
+                    .SingleOrDefaultAsync();
 
             if (resetPasswordLink == null || resetPasswordLink.ExpiresAt < DateTime.UtcNow)
             {
@@ -39,12 +44,15 @@ namespace Blongo.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id, ResetPasswordModel model, string returnUrl = null)
+        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id,
+            ResetPasswordModel model, string returnUrl = null)
         {
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var resetPasswordLinksCollection = database.GetCollection<Data.ResetPasswordLink>(Data.CollectionNames.ResetPasswordLinks);
-            var resetPasswordLink = await resetPasswordLinksCollection.Find(Builders<Data.ResetPasswordLink>.Filter.Where(rpl => rpl.Id == id))
-                .SingleOrDefaultAsync();
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var resetPasswordLinksCollection =
+                database.GetCollection<ResetPasswordLink>(CollectionNames.ResetPasswordLinks);
+            var resetPasswordLink =
+                await resetPasswordLinksCollection.Find(Builders<ResetPasswordLink>.Filter.Where(rpl => rpl.Id == id))
+                    .SingleOrDefaultAsync();
 
             if (resetPasswordLink == null || resetPasswordLink.ExpiresAt < DateTime.UtcNow)
             {
@@ -56,23 +64,25 @@ namespace Blongo.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var usersCollection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var user = await usersCollection.Find(Builders<Data.User>.Filter.Where(u => u.Id == resetPasswordLink.UserId))
-               .Project(u => new
-               {
-                   u.EmailAddress,
-                   u.PasswordSalt,
-                   u.Role
-               })
-               .SingleOrDefaultAsync();
+            var usersCollection = database.GetCollection<User>(CollectionNames.Users);
+            var user = await usersCollection.Find(Builders<User>.Filter.Where(u => u.Id == resetPasswordLink.UserId))
+                .Project(u => new
+                {
+                    u.EmailAddress,
+                    u.PasswordSalt,
+                    u.Role
+                })
+                .SingleOrDefaultAsync();
 
             var password = new Password(model.Password, user.PasswordSalt);
 
-            var update = Builders<Data.User>.Update
+            var update = Builders<User>.Update
                 .Set(u => u.HashedPassword, password.HashedPassword);
-            await usersCollection.UpdateOneAsync(Builders<Data.User>.Filter.Where(u => u.Id == id), update);
+            await usersCollection.UpdateOneAsync(Builders<User>.Filter.Where(u => u.Id == id), update);
 
-            await resetPasswordLinksCollection.DeleteOneAsync(Builders<Data.ResetPasswordLink>.Filter.Where(rpl => rpl.Id == resetPasswordLink.Id));
+            await
+                resetPasswordLinksCollection.DeleteOneAsync(
+                    Builders<ResetPasswordLink>.Filter.Where(rpl => rpl.Id == resetPasswordLink.Id));
 
             var claims = new List<Claim>
             {
@@ -92,12 +102,7 @@ namespace Blongo.Areas.Admin.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToRoute("AdminListPosts", new { id = "" });
-            }
+            return RedirectToRoute("AdminListPosts", new {id = ""});
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

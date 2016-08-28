@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Text;
-
-namespace Blongo.Controllers
+﻿namespace Blongo.Controllers
 {
+    using System.Text;
+    using Microsoft.AspNetCore.Mvc;
+
     [ResponseCache(Duration = 86400)]
     [Route("robots.txt", Name = "Robots")]
     public class RobotsController : Controller

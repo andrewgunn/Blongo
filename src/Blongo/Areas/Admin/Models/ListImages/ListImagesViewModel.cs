@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Blongo.Areas.Admin.Models.ListImages
+﻿namespace Blongo.Areas.Admin.Models.ListImages
 {
+    using System;
+    using System.Collections.Generic;
+
     public class ListImagesViewModel
     {
         public ListImagesViewModel(IReadOnlyCollection<Uri> imageUrls, Paging paging)

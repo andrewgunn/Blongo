@@ -1,7 +1,7 @@
-﻿using MongoDB.Bson;
-
-namespace Blongo.Areas.Admin.Models.ListUsers
+﻿namespace Blongo.Areas.Admin.Models.ListUsers
 {
+    using MongoDB.Bson;
+
     public class User
     {
         public User(ObjectId id, string role, string name, string emailAddress)

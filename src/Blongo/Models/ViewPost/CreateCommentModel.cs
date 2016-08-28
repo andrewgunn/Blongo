@@ -1,8 +1,7 @@
-﻿using MongoDB.Bson;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Models.ViewPost
+﻿namespace Blongo.Models.ViewPost
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class CreateCommentModel
     {
         [Display(Name = "Comments")]
@@ -11,7 +10,8 @@ namespace Blongo.Models.ViewPost
         public string Body { get; set; }
 
         [Display(Name = "Email address")]
-        [RegularExpression(@"^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$", ErrorMessage = "Please enter a valid email address")]
+        [RegularExpression(@"^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$",
+            ErrorMessage = "Please enter a valid email address")]
         [Required(ErrorMessage = "Please enter your email address")]
         public string EmailAddress { get; set; }
 
@@ -20,7 +20,8 @@ namespace Blongo.Models.ViewPost
         public string Name { get; set; }
 
         [Display(Name = "Website URL")]
-        [RegularExpression(@"^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$", ErrorMessage = "Please enter a valid website URL")]
+        [RegularExpression(@"^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$",
+            ErrorMessage = "Please enter a valid website URL")]
         public string WebsiteUrl { get; set; }
     }
 }

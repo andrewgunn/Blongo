@@ -1,12 +1,16 @@
-﻿using Blongo.Models.TopNavbar;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using System.Threading.Tasks;
-
-namespace Blongo.ViewComponents
+﻿namespace Blongo.ViewComponents
 {
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.TopNavbar;
+    using MongoDB.Driver;
+    using User = Data.User;
+
     public class TopNavbar : ViewComponent
     {
+        private readonly MongoClient _mongoClient;
+
         public TopNavbar(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
@@ -20,17 +24,15 @@ namespace Blongo.ViewComponents
             }
 
             var emailAddress = HttpContext.User.Identity.Name;
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var user = await collection.Find(Builders<Data.User>.Filter.Where(u => u.EmailAddress == emailAddress))
-                .Project(u => new User(u.Name, u.EmailAddress))
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<User>(CollectionNames.Users);
+            var user = await collection.Find(Builders<User>.Filter.Where(u => u.EmailAddress == emailAddress))
+                .Project(u => new Models.TopNavbar.User(u.Name, u.EmailAddress))
                 .SingleOrDefaultAsync();
 
             var viewModel = new TopNavbarViewModel(user);
 
             return View(viewModel);
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

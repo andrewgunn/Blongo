@@ -1,14 +1,15 @@
-﻿using Blongo.Models.BlogStyles;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
-using System.Threading.Tasks;
-
-namespace Blongo.ViewComponents
+﻿namespace Blongo.ViewComponents
 {
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.BlogStyles;
+    using MongoDB.Driver;
+
     public class BlogStyles : ViewComponent
     {
+        private readonly MongoClient _mongoClient;
+
         public BlogStyles(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
@@ -16,9 +17,9 @@ namespace Blongo.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.Blog>(Data.CollectionNames.Blogs);
-            var blog = await collection.Find(Builders<Data.Blog>.Filter.Empty)
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<Blog>(CollectionNames.Blogs);
+            var blog = await collection.Find(Builders<Blog>.Filter.Empty)
                 .Project(b => new
                 {
                     b.Styles
@@ -34,7 +35,5 @@ namespace Blongo.ViewComponents
 
             return View(viewModel);
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

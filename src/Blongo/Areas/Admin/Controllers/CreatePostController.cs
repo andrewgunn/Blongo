@@ -1,19 +1,23 @@
-﻿using Blongo.Areas.Admin.Models.CreatePost;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.CreatePost;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+    using Tag = Data.Tag;
+
     [Area("admin")]
     [Authorize]
     [Route("admin/posts/create", Name = "AdminCreatePost")]
     public class CreatePostController : Controller
     {
+        private readonly MongoClient _mongoClient;
+
         public CreatePostController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
@@ -38,16 +42,16 @@ namespace Blongo.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.Post>(Data.CollectionNames.Posts);
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<Post>(CollectionNames.Posts);
 
-            var post = new Data.Post
+            var post = new Post
             {
                 Title = model.Title,
                 Description = model.Description,
                 Tags = model.Tags.Where(t => !string.IsNullOrWhiteSpace(t))
                     .Distinct()
-                    .Select(t => new Data.Tag
+                    .Select(t => new Tag
                     {
                         Value = t,
                         UrlSlug = new UrlSlug(t).Value
@@ -56,7 +60,10 @@ namespace Blongo.Areas.Admin.Controllers
                 Body = model.Body,
                 Scripts = model.Scripts,
                 Styles = model.Styles,
-                PublishedAt = new DateTime(model.PublishedAt.Value.Year, model.PublishedAt.Value.Month, model.PublishedAt.Value.Day, model.PublishedAt.Value.Hour, model.PublishedAt.Value.Minute, model.PublishedAt.Value.Second, DateTimeKind.Utc),
+                PublishedAt =
+                    new DateTime(model.PublishedAt.Value.Year, model.PublishedAt.Value.Month,
+                        model.PublishedAt.Value.Day, model.PublishedAt.Value.Hour, model.PublishedAt.Value.Minute,
+                        model.PublishedAt.Value.Second, DateTimeKind.Utc),
                 UrlSlug = new UrlSlug(model.Title).Value,
                 IsPublished = model.IsPublished
             };
@@ -72,12 +79,7 @@ namespace Blongo.Areas.Admin.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToRoute("AdminListPosts", new { id = postId });
-            }
+            return RedirectToRoute("AdminListPosts", new {id = postId});
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

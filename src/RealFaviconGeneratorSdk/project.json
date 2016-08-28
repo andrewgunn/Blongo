@@ -1,16 +1,16 @@
 ﻿{
-    "version": "0.1.0",
+  "version": "0.1.0",
 
-    "dependencies": {
-        "Microsoft.Net.Http": "2.2.22",
-        "Newtonsoft.Json": "8.0.3"
-    },
+  "dependencies": {
+    "Microsoft.Net.Http": "2.2.22",
+    "Newtonsoft.Json": "8.0.3"
+  },
 
-    "frameworks": {
-        "net461": {
-            "frameworkAssemblies": {
-                "System.Drawing": "4.0.0.0"
-            }
-        }
+  "frameworks": {
+    "net461": {
+      "frameworkAssemblies": {
+        "System.Drawing": "4.0.0.0"
+      }
     }
+  }
 }

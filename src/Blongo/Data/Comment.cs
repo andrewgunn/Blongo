@@ -1,9 +1,8 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
-
-namespace Blongo.Data
+﻿namespace Blongo.Data
 {
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.Attributes;
+
     public class Comment
     {
         public Comment()

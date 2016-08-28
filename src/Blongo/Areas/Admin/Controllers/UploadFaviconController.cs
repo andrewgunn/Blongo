@@ -1,22 +1,30 @@
-﻿using Blongo.Areas.Admin.Models.UploadFavicon;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using RealFaviconGeneratorSdk;
-using System;
-using System.Drawing;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System;
+    using System.Drawing;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.UploadFavicon;
+    using MongoDB.Driver;
+    using RealFaviconGeneratorSdk;
+
     [Area("admin")]
     [Authorize]
     [Route("admin/favicon/upload", Name = "AdminUploadFavicon")]
     public class UploadFaviconController : Controller
     {
-        public UploadFaviconController(RealFaviconGenerator realFaviconGenerator, HttpClient httpClient, AzureBlobStorage azureBlobStorage, MongoClient mongoClient)
+        private readonly AzureBlobStorage _azureBlobStorage;
+
+        private readonly HttpClient _httpClient;
+        private readonly MongoClient _mongoClient;
+        private readonly RealFaviconGenerator _realFaviconGenerator;
+
+        public UploadFaviconController(RealFaviconGenerator realFaviconGenerator, HttpClient httpClient,
+            AzureBlobStorage azureBlobStorage, MongoClient mongoClient)
         {
             _realFaviconGenerator = realFaviconGenerator;
             _httpClient = httpClient;
@@ -66,16 +74,18 @@ namespace Blongo.Areas.Admin.Controllers
 
                     using (var fileStream = await response.Content.ReadAsStreamAsync())
                     {
-                        await _azureBlobStorage.SaveBlobAsync(AzureBlobStorageContainers.Icons, fileStream, fileUrl.AbsolutePath.Split('/').Last());
+                        await
+                            _azureBlobStorage.SaveBlobAsync(AzureBlobStorageContainers.Icons, fileStream,
+                                fileUrl.AbsolutePath.Split('/').Last());
                     }
                 }
             }
 
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.Blog>(Data.CollectionNames.Blogs);
-            var update = Builders<Data.Blog>.Update
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<Blog>(CollectionNames.Blogs);
+            var update = Builders<Blog>.Update
                 .Set(b => b.FaviconsHtml, faviconResult.Html);
-            await collection.UpdateOneAsync(Builders<Data.Blog>.Filter.Empty, update, new UpdateOptions { IsUpsert = true });
+            await collection.UpdateOneAsync(Builders<Blog>.Filter.Empty, update, new UpdateOptions {IsUpsert = true});
 
             return RedirectToRoute("AdminListPosts");
         }
@@ -89,10 +99,5 @@ namespace Blongo.Areas.Admin.Controllers
 
             return new UrlSlug(guidString).Value;
         }
-
-        private readonly HttpClient _httpClient;
-        private readonly AzureBlobStorage _azureBlobStorage;
-        private readonly MongoClient _mongoClient;
-        private readonly RealFaviconGenerator _realFaviconGenerator;
     }
 }

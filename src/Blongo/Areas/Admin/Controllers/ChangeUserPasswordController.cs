@@ -1,29 +1,33 @@
-﻿using Blongo.Areas.Admin.Models.ChangeUserPassword;
-using Blongo.ModelBinding;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using ModelBinding;
+    using Models.ChangeUserPassword;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+
     [Area("admin")]
     [Authorize(Roles = UserRoles.Administrator)]
     [Route("admin/users/changepassword/{id:objectId}", Name = "AdminChangeUserPassword")]
     public class ChangeUserPasswordController : Controller
     {
+        private readonly MongoClient _mongoClient;
+
         public ChangeUserPasswordController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id, string returnUrl = null)
+        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id,
+            string returnUrl = null)
         {
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var userCount = await collection.CountAsync(Builders<Data.User>.Filter.Where(u => u.Id == id));
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<User>(CollectionNames.Users);
+            var userCount = await collection.CountAsync(Builders<User>.Filter.Where(u => u.Id == id));
 
             if (userCount == 0)
             {
@@ -36,16 +40,17 @@ namespace Blongo.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id, ChangeUserPasswordModel model, string returnUrl = null)
+        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id,
+            ChangeUserPasswordModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var user = await collection.Find(Builders<Data.User>.Filter.Where(u => u.Id == id))
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<User>(CollectionNames.Users);
+            var user = await collection.Find(Builders<User>.Filter.Where(u => u.Id == id))
                 .Project(u => new
                 {
                     u.PasswordSalt
@@ -54,9 +59,9 @@ namespace Blongo.Areas.Admin.Controllers
 
             var password = new Password(model.Password, user.PasswordSalt);
 
-            var update = Builders<Data.User>.Update
+            var update = Builders<User>.Update
                 .Set(u => u.HashedPassword, password.HashedPassword);
-            await collection.UpdateOneAsync(Builders<Data.User>.Filter.Where(u => u.Id == id), update);
+            await collection.UpdateOneAsync(Builders<User>.Filter.Where(u => u.Id == id), update);
 
             return RedirectToLocal(returnUrl);
         }
@@ -67,12 +72,7 @@ namespace Blongo.Areas.Admin.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToRoute("AdminListUsers", new { id = "" });
-            }
+            return RedirectToRoute("AdminListUsers", new {id = ""});
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

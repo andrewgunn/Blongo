@@ -1,9 +1,9 @@
-﻿using MongoDB.Bson;
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.EditPost
+﻿namespace Blongo.Areas.Admin.Models.EditPost
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using MongoDB.Bson;
+
     public class EditPostModel
     {
         [Display(Name = "Body")]

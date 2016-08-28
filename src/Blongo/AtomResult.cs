@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using System.ServiceModel.Syndication;
-using System.Text;
-using System.Xml;
-
-namespace Blongo
+﻿namespace Blongo
 {
+    using System.ServiceModel.Syndication;
+    using System.Text;
+    using System.Xml;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+
     public sealed class AtomResult : ActionResult
     {
+        private readonly SyndicationFeed _syndicationFeed;
+
         public AtomResult(SyndicationFeed syndicationFeed)
         {
             _syndicationFeed = syndicationFeed;
@@ -23,7 +25,8 @@ namespace Blongo
                 Encoding = Encoding.UTF8
             };
 
-            var hostingEnvironment = (IHostingEnvironment)context.HttpContext.RequestServices.GetService(typeof(IHostingEnvironment));
+            var hostingEnvironment =
+                (IHostingEnvironment) context.HttpContext.RequestServices.GetService(typeof(IHostingEnvironment));
 
             if (hostingEnvironment.IsDevelopment())
             {
@@ -35,7 +38,5 @@ namespace Blongo
                 atom10FeedFormatter.WriteTo(xmlWriter);
             }
         }
-
-        private readonly SyndicationFeed _syndicationFeed;
     }
 }

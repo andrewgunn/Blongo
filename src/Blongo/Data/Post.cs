@@ -1,10 +1,10 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-
-namespace Blongo.Data
+﻿namespace Blongo.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.Attributes;
+
     public class Post
     {
         public Post()
@@ -25,7 +25,7 @@ namespace Blongo.Data
 
         public DateTime? LastUpdatedAt { get; set; }
 
-        public DateTime PublishedAt{ get; set; }
+        public DateTime PublishedAt { get; set; }
 
         public string Scripts { get; set; }
 

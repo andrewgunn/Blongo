@@ -1,11 +1,14 @@
-﻿using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace AkismetSdk.Clients.CommentCheck
+﻿namespace AkismetSdk.Clients.CommentCheck
 {
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class CommentCheckClient
     {
+        private readonly AkismetSettings _akismetSettings;
+        private readonly HttpClient _httpClient;
+
         public CommentCheckClient(AkismetSettings akismetSettings, HttpClient httpClient)
         {
             _akismetSettings = akismetSettings;
@@ -33,8 +36,5 @@ namespace AkismetSdk.Clients.CommentCheck
                 return new CommentCheckResult(isSpam);
             }
         }
-
-        private readonly AkismetSettings _akismetSettings;
-        private readonly HttpClient _httpClient;
     }
 }

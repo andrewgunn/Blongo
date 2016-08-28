@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.SendResetPasswordEmail
+﻿namespace Blongo.Areas.Admin.Models.SendResetPasswordEmail
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class SendResetPasswordEmailModel
     {
         [Display(Name = "Email address")]

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Blongo.Areas.Admin.Models.ListUsers
+﻿namespace Blongo.Areas.Admin.Models.ListUsers
 {
+    using System.Collections.Generic;
+
     public class ListUsersViewModel
     {
         public ListUsersViewModel(IReadOnlyCollection<User> users, Paging paging)

@@ -1,11 +1,12 @@
-﻿using MongoDB.Bson;
-using System;
-
-namespace Blongo.Areas.Admin.Models.ListComments
+﻿namespace Blongo.Areas.Admin.Models.ListComments
 {
+    using System;
+    using MongoDB.Bson;
+
     public class Comment
     {
-        public Comment(ObjectId id, ObjectId postId, string body, Commenter commenter, bool? isAkismetSpam, bool isSpam, DateTime createdAt)
+        public Comment(ObjectId id, ObjectId postId, string body, Commenter commenter, bool? isAkismetSpam, bool isSpam,
+            DateTime createdAt)
         {
             Id = id;
             PostId = postId;

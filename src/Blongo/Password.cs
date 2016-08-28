@@ -1,9 +1,9 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace Blongo
+﻿namespace Blongo
 {
+    using System;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public class Password
     {
         public Password(string password, string passwordSalt)
@@ -11,6 +11,12 @@ namespace Blongo
             HashedPassword = GenerateHashedPassword(password, passwordSalt);
             PasswordSalt = PasswordSalt;
         }
+
+        public static string ConstantSalt { get; set; }
+
+        public string HashedPassword { get; }
+
+        public string PasswordSalt { get; }
 
         public static string GenerateHashedPassword(string password, string passwordSalt)
         {
@@ -21,11 +27,5 @@ namespace Blongo
                 return Convert.ToBase64String(computedHash);
             }
         }
-
-        public static string ConstantSalt { get; set; }
-
-        public string HashedPassword { get; }
-
-        public string PasswordSalt { get; }
     }
 }

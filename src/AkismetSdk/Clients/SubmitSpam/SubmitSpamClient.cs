@@ -1,11 +1,14 @@
-﻿using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace AkismetSdk.Clients.SubmitSpam
+﻿namespace AkismetSdk.Clients.SubmitSpam
 {
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class SubmitSpamClient
     {
+        private readonly AkismetSettings _akismetSettings;
+        private readonly HttpClient _httpClient;
+
         public SubmitSpamClient(AkismetSettings akismetSettings, HttpClient httpClient)
         {
             _akismetSettings = akismetSettings;
@@ -28,8 +31,5 @@ namespace AkismetSdk.Clients.SubmitSpam
                 responseMessage.EnsureSuccessStatusCode();
             }
         }
-
-        private readonly AkismetSettings _akismetSettings;
-        private readonly HttpClient _httpClient;
     }
 }

@@ -1,8 +1,7 @@
-﻿using Blongo.Data;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.CreateUser
+﻿namespace Blongo.Areas.Admin.Models.CreateUser
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class CreateUserModel
     {
         [Display(Name = "Email address")]

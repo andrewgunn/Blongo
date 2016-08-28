@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.EditComment
+﻿namespace Blongo.Areas.Admin.Models.EditComment
 {
+    using System.ComponentModel.DataAnnotations;
+    using MongoDB.Bson;
+
     public class EditCommentModel
     {
         [Display(Name = "Body")]

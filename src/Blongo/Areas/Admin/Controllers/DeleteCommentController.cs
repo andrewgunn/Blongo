@@ -1,38 +1,44 @@
-﻿using Blongo.ModelBinding;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using ModelBinding;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+
     [Area("admin")]
     [Authorize]
     [Route("admin/comments/delete/{id:objectId}", Name = "AdminDeleteComment")]
     public class DeleteCommentController : Controller
     {
+        private readonly MongoClient _mongoClient;
+
         public DeleteCommentController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id, string returnUrl = null)
+        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id,
+            string returnUrl = null)
         {
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
 
-            var commentsCollection = database.GetCollection<Data.Comment>(Data.CollectionNames.Comments);
-            var comment = await commentsCollection.Find(Builders<Data.Comment>.Filter.Where(c => c.Id == id))
+            var commentsCollection = database.GetCollection<Comment>(CollectionNames.Comments);
+            var comment = await commentsCollection.Find(Builders<Comment>.Filter.Where(c => c.Id == id))
                 .Project(c => new
                 {
-                    PostId = c.PostId
+                    c.PostId
                 })
                 .SingleOrDefaultAsync();
-            await commentsCollection.DeleteOneAsync(Builders<Data.Comment>.Filter.Where(c => c.Id == id));
+            await commentsCollection.DeleteOneAsync(Builders<Comment>.Filter.Where(c => c.Id == id));
 
-            var postsCollection = database.GetCollection<Data.Post>(Data.CollectionNames.Posts);
-            await postsCollection.UpdateOneAsync(Builders<Data.Post>.Filter.Where(p => p.Id == comment.PostId), Builders<Data.Post>.Update.Inc(p => p.CommentCount, -1));
+            var postsCollection = database.GetCollection<Post>(CollectionNames.Posts);
+            await
+                postsCollection.UpdateOneAsync(Builders<Post>.Filter.Where(p => p.Id == comment.PostId),
+                    Builders<Post>.Update.Inc(p => p.CommentCount, -1));
 
             return RedirectToLocal(returnUrl);
         }
@@ -43,12 +49,7 @@ namespace Blongo.Areas.Admin.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToRoute("AdminListComments", new { id = "" });
-            }
+            return RedirectToRoute("AdminListComments", new {id = ""});
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

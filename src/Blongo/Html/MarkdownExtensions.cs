@@ -1,9 +1,9 @@
-﻿using MarkdownSharp;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace Blongo.Html
+﻿namespace Blongo.Html
 {
+    using MarkdownSharp;
+    using Microsoft.AspNetCore.Html;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
     public static class MarkdownExtensions
     {
         public static IHtmlContent Markdown(this IHtmlHelper htmlHelper, string text)

@@ -1,38 +1,42 @@
-﻿using Blongo.Areas.Admin.Models.EditUser;
-using Blongo.ModelBinding;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using ModelBinding;
+    using Models.EditUser;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+
     [Area("admin")]
     [Authorize(Roles = UserRoles.Administrator)]
     [Route("admin/users/edit/{id:objectId}", Name = "AdminEditUser")]
     public class EditUserController : Controller
     {
+        private readonly MongoClient _mongoClient;
+
         public EditUserController(MongoClient mongoClient)
         {
             _mongoClient = mongoClient;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id, string returnUrl = null)
+        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id,
+            string returnUrl = null)
         {
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var model = await collection.Find(Builders<Data.User>.Filter.Where(u => u.Id == id))
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<User>(CollectionNames.Users);
+            var model = await collection.Find(Builders<User>.Filter.Where(u => u.Id == id))
                 .Project(u => new EditUserModel
                 {
                     Id = u.Id,
                     Role = u.EmailAddress != User.Identity.Name ? u.Role : null,
                     Name = u.Name,
-                    EmailAddress = u.EmailAddress,
+                    EmailAddress = u.EmailAddress
                 })
                 .SingleOrDefaultAsync();
 
@@ -45,7 +49,8 @@ namespace Blongo.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id, EditUserModel model, string returnUrl = null)
+        public async Task<IActionResult> Index([ModelBinder(BinderType = typeof(ObjectIdModelBinder))] ObjectId id,
+            EditUserModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -54,9 +59,9 @@ namespace Blongo.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var database = _mongoClient.GetDatabase(Data.DatabaseNames.Blongo);
-            var collection = database.GetCollection<Data.User>(Data.CollectionNames.Users);
-            var update = Builders<Data.User>.Update
+            var database = _mongoClient.GetDatabase(DatabaseNames.Blongo);
+            var collection = database.GetCollection<User>(CollectionNames.Users);
+            var update = Builders<User>.Update
                 .Set(u => u.Name, model.Name)
                 .Set(u => u.EmailAddress, model.EmailAddress);
 
@@ -71,7 +76,10 @@ namespace Blongo.Areas.Admin.Controllers
 
             claims.Add(new Claim(ClaimTypes.Name, model.EmailAddress));
 
-            if (User.IsInRole(UserRoles.Administrator) && await collection.CountAsync(Builders<Data.User>.Filter.Where(u => u.Id == id && u.EmailAddress == User.Identity.Name)) == 0)
+            if (User.IsInRole(UserRoles.Administrator) &&
+                await
+                    collection.CountAsync(
+                        Builders<User>.Filter.Where(u => u.Id == id && u.EmailAddress == User.Identity.Name)) == 0)
             {
                 if (string.IsNullOrEmpty(model.Role))
                 {
@@ -94,7 +102,7 @@ namespace Blongo.Areas.Admin.Controllers
                 claims.Add(new Claim(ClaimTypes.Role, model.Role));
             }
 
-            await collection.UpdateOneAsync(Builders<Data.User>.Filter.Where(u => u.Id == id), update);
+            await collection.UpdateOneAsync(Builders<User>.Filter.Where(u => u.Id == id), update);
 
             var claimsIdentity = new ClaimsIdentity(claims, "local", ClaimTypes.Name, ClaimTypes.Role);
             await HttpContext.Authentication.SignInAsync("Cookies", new ClaimsPrincipal(claimsIdentity));
@@ -108,12 +116,7 @@ namespace Blongo.Areas.Admin.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToRoute("AdminListUsers", new { id = "" });
-            }
+            return RedirectToRoute("AdminListUsers", new {id = ""});
         }
-
-        private readonly MongoClient _mongoClient;
     }
 }

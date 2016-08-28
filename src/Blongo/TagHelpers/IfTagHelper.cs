@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
-
-namespace Blongo.TagHelpers
+﻿namespace Blongo.TagHelpers
 {
+    using Microsoft.AspNetCore.Razor.TagHelpers;
+
     [HtmlTargetElement(Attributes = ConditionAttributeName)]
     public class IfTagHelper : TagHelper
     {
+        private const string ConditionAttributeName = "asp-if";
+
+        [HtmlAttributeName(ConditionAttributeName)]
+        public bool Condition { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (!Condition)
@@ -12,10 +17,5 @@ namespace Blongo.TagHelpers
                 output.SuppressOutput();
             }
         }
-
-        [HtmlAttributeName(ConditionAttributeName)]
-        public bool Condition { get; set; }
-
-        private const string ConditionAttributeName = "asp-if";
     }
 }

@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using MongoDB.Bson;
-using System.Collections.Generic;
-using System;
-
-namespace Blongo.Routing
+﻿namespace Blongo.Routing
 {
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Routing;
+    using MongoDB.Bson;
+
     public class ObjectIdRouteConstraint : IRouteConstraint
     {
-        public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
+        public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values,
+            RouteDirection routeDirection)
         {
             object value;
 

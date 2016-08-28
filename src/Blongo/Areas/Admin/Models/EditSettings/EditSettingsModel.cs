@@ -1,8 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.EditSettings
+﻿namespace Blongo.Areas.Admin.Models.EditSettings
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class EditSettingsModel
     {
         [Display(Name = "Akismet API Key")]

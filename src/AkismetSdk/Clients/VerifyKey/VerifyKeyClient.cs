@@ -1,13 +1,16 @@
-﻿using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
-
-namespace AkismetSdk.Clients.VerifyKey
+﻿namespace AkismetSdk.Clients.VerifyKey
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class VerifyKeyClient
     {
+        private readonly AkismetSettings _akismetSettings;
+        private readonly HttpClient _httpClient;
+
         public VerifyKeyClient(AkismetSettings akismetSettings, HttpClient httpClient)
         {
             _akismetSettings = akismetSettings;
@@ -38,8 +41,5 @@ namespace AkismetSdk.Clients.VerifyKey
                 return responseContent == "valid";
             }
         }
-
-        private readonly AkismetSettings _akismetSettings;
-        private readonly HttpClient _httpClient;
     }
 }

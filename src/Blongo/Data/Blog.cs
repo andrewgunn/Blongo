@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace Blongo.Data
+﻿namespace Blongo.Data
 {
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.Attributes;
+
     public class Blog
     {
         public string AkismetApiKey { get; set; }

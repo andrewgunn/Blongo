@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Blongo
+﻿namespace Blongo
 {
+    using System;
+
     public class SitemapUrl
     {
         public SitemapChangeFrequency? ChangeFrequency { get; set; }

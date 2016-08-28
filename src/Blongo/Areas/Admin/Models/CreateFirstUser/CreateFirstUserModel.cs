@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.CreateFirstUser
+﻿namespace Blongo.Areas.Admin.Models.CreateFirstUser
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class CreateFirstUserModel
     {
         [Display(Name = "Email address")]

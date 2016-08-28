@@ -1,13 +1,13 @@
-﻿using AkismetSdk.Clients.VerifyKey;
-using FluentAssertions;
-using NUnit.Framework;
-using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-
-namespace AkismetSdk.Tests.Clients
+﻿namespace AkismetSdk.Tests.Clients
 {
+    using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using AkismetSdk.Clients.VerifyKey;
+    using FluentAssertions;
+    using NUnit.Framework;
+
     public class VerifyKeyClientTests
     {
         [Test]
@@ -34,7 +34,8 @@ namespace AkismetSdk.Tests.Clients
 
             var blogUri = new Uri("http://blog.andrewgunn.co.uk");
 
-            var result = client.PostAsync(blogUri, CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
+            var result =
+                client.PostAsync(blogUri, CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
 
             requestUri.AbsoluteUri.Should().Be("https://rest.akismet.com/1.1/verify-key");
 

@@ -1,8 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.EditAuthor
+﻿namespace Blongo.Areas.Admin.Models.EditAuthor
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class EditAuthorModel
     {
         [Display(Name = "Email address")]

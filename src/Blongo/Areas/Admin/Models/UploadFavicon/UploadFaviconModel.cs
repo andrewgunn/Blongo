@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-
-namespace Blongo.Areas.Admin.Models.UploadFavicon
+﻿namespace Blongo.Areas.Admin.Models.UploadFavicon
 {
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Http;
+
     public class UploadFaviconModel
     {
         [Required(ErrorMessage = "Please select an image to upload")]

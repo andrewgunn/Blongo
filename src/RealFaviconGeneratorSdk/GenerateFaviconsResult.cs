@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace RealFaviconGeneratorSdk
+﻿namespace RealFaviconGeneratorSdk
 {
+    using System;
+    using System.Collections.Generic;
+
     public class GenerateFaviconsResult
     {
         public GenerateFaviconsResult(IEnumerable<Uri> fileUrls, string html)

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.StaticFiles;
-using System.Threading.Tasks;
-
-namespace Blongo.Controllers
+﻿namespace Blongo.Controllers
 {
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.StaticFiles;
+
     [ResponseCache(Duration = int.MaxValue)]
     [Route("android-chrome-36x36.png", Name = "AndroidChromex144")]
     [Route("android-chrome-48x48.png", Name = "AndroidChrome48x48")]
@@ -36,6 +36,8 @@ namespace Blongo.Controllers
     [Route("safari-pinned-tab.svg", Name = "SafariPinnedTab")]
     public class FaviconController : Controller
     {
+        private readonly AzureBlobStorage _azureBlobStorage;
+
         public FaviconController(AzureBlobStorage azureBlobStorage)
         {
             _azureBlobStorage = azureBlobStorage;
@@ -45,7 +47,7 @@ namespace Blongo.Controllers
         public async Task<IActionResult> Index()
         {
             var fileName = Request.Path.Value.Substring(1);
-            
+
             try
             {
                 var iconBlob = await _azureBlobStorage.GetBlobAsync(AzureBlobStorageContainers.Icons, fileName);
@@ -69,7 +71,5 @@ namespace Blongo.Controllers
 
             return new EmptyResult();
         }
-
-        private readonly AzureBlobStorage _azureBlobStorage;
     }
 }

@@ -1,17 +1,19 @@
-﻿using Blongo.Areas.Admin.Models.ListImages;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Blongo.Areas.Admin.Controllers
+﻿namespace Blongo.Areas.Admin.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.ListImages;
+
     [Area("admin")]
     [Authorize]
     [Route("admin/images/{fileName?}", Name = "AdminListImages")]
     public class ListImagesController : Controller
     {
+        private readonly AzureBlobStorage _azureBlobStorage;
+
         public ListImagesController(AzureBlobStorage azureBlobStorage)
         {
             _azureBlobStorage = azureBlobStorage;
@@ -28,11 +30,11 @@ namespace Blongo.Areas.Admin.Controllers
             const int pageSize = 10;
             var imageBlobs = await _azureBlobStorage.GetBlobsAsync(AzureBlobStorageContainers.Images, fileName);
             var totalCount = imageBlobs.Count();
-            var maximumPageNumber = Math.Max(1, (int)Math.Ceiling((double)totalCount / pageSize));
+            var maximumPageNumber = Math.Max(1, (int) Math.Ceiling((double) totalCount/pageSize));
 
             if (totalCount > 0)
             {
-                imageBlobs = imageBlobs.Skip((pageNumber - 1) * pageSize)
+                imageBlobs = imageBlobs.Skip((pageNumber - 1)*pageSize)
                     .Take(pageSize)
                     .ToList();
             }
@@ -42,7 +44,5 @@ namespace Blongo.Areas.Admin.Controllers
 
             return View(model);
         }
-
-        private readonly AzureBlobStorage _azureBlobStorage;
     }
 }

@@ -1,9 +1,8 @@
-﻿using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-
-namespace Blongo.Data
+﻿namespace Blongo.Data
 {
+    using System.Collections.Generic;
+    using MongoDB.Bson;
+
     public class User
     {
         public string EmailAddress { get; set; }
